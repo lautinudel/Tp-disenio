@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+package Interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -32,6 +32,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de reserva de aulas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -54,14 +55,14 @@ public class JFramePrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         
         JFramePrincipal ventana = new JFramePrincipal();
-        ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        ventana.setLayout(new FlowLayout());
+        //ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        ventana.setLayout(new BorderLayout());
         
         //Panel de inicio de sesion
         IniciarSesion panelRegistro = new IniciarSesion();
         ventana.add(panelRegistro, BorderLayout.CENTER);
-        ventana.setSize(800,600); 
-        ventana.setLocationRelativeTo (null);
+        ventana.setSize(400,400); 
+        ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
         
         
