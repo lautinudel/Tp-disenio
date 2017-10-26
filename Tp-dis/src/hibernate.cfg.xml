@@ -46,6 +46,20 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://sql10.freesqldatabase.com:3306/sql10200415?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">sql10200415</property>
     <property name="hibernate.connection.password">3sTPngteLW</property>
-    <mapping resource="hibernate.hbm.xml"/>
+    <mapping resource="Modelo/Administrador.hbm.xml"/>
+    <mapping resource="Modelo/Docente.hbm.xml"/>
+    <mapping resource="Modelo/DiaReservaEsporadica.hbm.xml"/>
+    <mapping resource="Modelo/PoliticaClave.hbm.xml"/>
+    <mapping resource="Modelo/ClaveAdministrador.hbm.xml"/>
+    <mapping resource="Modelo/AulaSinRecursosAdicionales.hbm.xml"/>
+    <mapping resource="Modelo/ReservaEsporadica.hbm.xml"/>
+    <mapping resource="Modelo/Bedel.hbm.xml"/>
+    <mapping resource="Modelo/ActividadUniversitaria.hbm.xml"/>
+    <mapping resource="Modelo/ReservaPeriodica.hbm.xml"/>
+    <mapping resource="Modelo/AulaMultimedio.hbm.xml"/>
+    <mapping resource="Modelo/AulaInformatica.hbm.xml"/>
+    <mapping resource="Modelo/DiaReservaPeriodica.hbm.xml"/>
+    <mapping resource="Modelo/Aula.hbm.xml"/>
+    <mapping resource="Modelo/ClaveBedel.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

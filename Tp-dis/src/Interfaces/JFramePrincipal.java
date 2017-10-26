@@ -64,7 +64,12 @@ public class JFramePrincipal extends javax.swing.JFrame {
         ventana.setSize(400,400); 
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);*/
-        
+        //Panel de inicio de registro
+        RegistrarBedel panelRegistro = new RegistrarBedel();
+        ventana.add(panelRegistro, BorderLayout.CENTER);
+        ventana.setSize(500,500); 
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
         
         
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

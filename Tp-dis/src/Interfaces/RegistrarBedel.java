@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package Interfaces;
-
+import Modelo.*;
+import Persistencia.BedelDAO;
 /**
  *
  * @author L. Nudel
@@ -69,6 +70,11 @@ public class RegistrarBedel extends javax.swing.JPanel {
         jButtonSalir.setText("Salir");
 
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         jButtonAtras.setText("Atras");
 
@@ -155,6 +161,16 @@ public class RegistrarBedel extends javax.swing.JPanel {
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNombreActionPerformed
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        
+        Bedel b = new Bedel("pepeargento", "argento", "Jose", "Tarde");
+        BedelDAO bd = new BedelDAO();
+        bd.guardarBedel(b);
+        
+        
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

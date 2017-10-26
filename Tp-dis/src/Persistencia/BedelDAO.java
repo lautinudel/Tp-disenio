@@ -5,7 +5,12 @@
  */
 package Persistencia;
 
-import Entidades.Bedel;
+import Modelo.Bedel;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 
 /**
  *
@@ -19,9 +24,19 @@ public class BedelDAO {
         return r;
     }
     
-    public Boolean guardarBedel(Bedel b){
-        Boolean r=true;
+    public void guardarBedel(Bedel b) {
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
+      session.save(b);
+      tx.commit();
+      session.close();
+      JOptionPane.showMessageDialog(null,"Insertado Correctamente");
         
-        return r;
+        
+    }
+
+    public BedelDAO() {
     }
 }
