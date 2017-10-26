@@ -5,17 +5,30 @@
  */
 package Gestores;
 
+import Entidades.Clave;
+
 /**
  *
- * @author L. Nudel
+ * @author Temp
  */
-public class GestorPoliticas {
+public class GestorBedel {
     
-    
-    public Boolean validarPoliticas(String nombre, String apellido, 
+    public void registrarBedel(String nombre, String apellido, 
             String turno, String username, String pass, String passConfirmado){
+        
+    }
+    
+    public Boolean compararPassword(String pass, String passConfirmado){
         Boolean r=true;
         
         return r;
     }
+    
+    public Clave crearClave(String pass){
+        Clave c = new Clave();
+        
+        
+        return c;
+    }
+    
 }

@@ -3,17 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Gestores;
+package Persistencia;
+
+import Entidades.Bedel;
 
 /**
  *
- * @author L. Nudel
+ * @author Temp
  */
-public class GestorPoliticas {
+public class BedelDAO {
     
+    public Boolean verificarExistencia(String username){
+        Boolean r=true;
+        
+        return r;
+    }
     
-    public Boolean validarPoliticas(String nombre, String apellido, 
-            String turno, String username, String pass, String passConfirmado){
+    public Boolean guardarBedel(Bedel b){
         Boolean r=true;
         
         return r;

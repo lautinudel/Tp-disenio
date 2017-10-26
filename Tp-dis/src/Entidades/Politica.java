@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Gestores;
+package Entidades;
 
 /**
  *
- * @author L. Nudel
+ * @author Temp
  */
-public class GestorAutenticacion {
+public class Politica {
     
 }

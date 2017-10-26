@@ -59,11 +59,11 @@ public class JFramePrincipal extends javax.swing.JFrame {
         ventana.setLayout(new BorderLayout());
         
         //Panel de inicio de sesion
-        IniciarSesion panelRegistro = new IniciarSesion();
+        /*IniciarSesion panelRegistro = new IniciarSesion();*
         ventana.add(panelRegistro, BorderLayout.CENTER);
         ventana.setSize(400,400); 
         ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);
+        ventana.setVisible(true);*/
         
         
         
