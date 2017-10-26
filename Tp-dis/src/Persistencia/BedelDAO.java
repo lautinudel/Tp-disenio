@@ -18,9 +18,21 @@ import org.hibernate.Transaction;
  */
 public class BedelDAO {
     
+    public BedelDAO() {
+    }
+    
+    
     public Boolean verificarExistencia(String username){
         Boolean r=true;
-        
+        Bedel b=null;
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        b=(Bedel)session.get(Bedel.class, username);
+        tx.commit();
+        session.close();
+        if(b==null) r=false;
         return r;
     }
     
@@ -32,11 +44,12 @@ public class BedelDAO {
       session.save(b);
       tx.commit();
       session.close();
-      JOptionPane.showMessageDialog(null,"Insertado Correctamente");
+      
+      
+      JOptionPane.showMessageDialog(null,"Insertado Correctamente"); //mensaje por pantalla, se puede quitar
         
         
     }
 
-    public BedelDAO() {
-    }
+    
 }

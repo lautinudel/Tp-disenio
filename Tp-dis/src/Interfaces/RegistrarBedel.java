@@ -166,15 +166,15 @@ public class RegistrarBedel extends javax.swing.JPanel {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
-        GestorPoliticas g = new GestorPoliticas();
-        if (g.validarPoliticas("Jose","argento" ,"Tarde", "pepeargento", "moniar","moniar")){
+       // GestorPoliticas g = new GestorPoliticas();
+        //if (g.validarPoliticas("Jose","argento" ,"Tarde", "pepeargento", "moniar","moniar")){
             /*Bedel b = new Bedel("pepeargento", "argento", "Jose", "Tarde");
-            BedelDAO bd = new BedelDAO();
-            bd.guardarBedel(b);*/
-            JOptionPane.showMessageDialog(null,"Exito.");
-        }else{
-            JOptionPane.showMessageDialog(null,"La contraseña no cumple con la politica.");
-        }
+            BedelDAO bd = new BedelDAO();*/
+            
+           // JOptionPane.showMessageDialog(null,"Exito.");
+       // }else{
+           // JOptionPane.showMessageDialog(null,"La contraseña no cumple con la politica.");
+        //}
       
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
