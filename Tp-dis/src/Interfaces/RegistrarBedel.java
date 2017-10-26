@@ -6,6 +6,8 @@
 package Interfaces;
 import Modelo.*;
 import Persistencia.BedelDAO;
+import Gestores.GestorPoliticas;
+import javax.swing.JOptionPane;
 /**
  *
  * @author L. Nudel
@@ -164,11 +166,16 @@ public class RegistrarBedel extends javax.swing.JPanel {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
-        
-        Bedel b = new Bedel("pepeargento", "argento", "Jose", "Tarde");
-        BedelDAO bd = new BedelDAO();
-        bd.guardarBedel(b);
-        
+        GestorPoliticas g = new GestorPoliticas();
+        if (g.validarPoliticas("Jose","argento" ,"Tarde", "pepeargento", "moniar","moniar")){
+            /*Bedel b = new Bedel("pepeargento", "argento", "Jose", "Tarde");
+            BedelDAO bd = new BedelDAO();
+            bd.guardarBedel(b);*/
+            JOptionPane.showMessageDialog(null,"Exito.");
+        }else{
+            JOptionPane.showMessageDialog(null,"La contraseña no cumple con la politica.");
+        }
+      
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 

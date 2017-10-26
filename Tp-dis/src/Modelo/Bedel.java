@@ -29,6 +29,7 @@ public class Bedel  implements java.io.Serializable {
         this.apellido = apellido;
         this.nombre = nombre;
         this.turnoTabaja = turnoTabaja;
+        this.activo = 1;
     }
     public Bedel(String username, String apellido, String nombre, String turnoTabaja, Byte activo, Set reservaPeriodicas, Set claveBedels, Set reservaEsporadicas) {
        this.username = username;
