@@ -6,6 +6,8 @@
 package Gestores;
 
 import Modelo.*;
+import Persistencia.BedelDAO;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,22 +15,38 @@ import Modelo.*;
  */
 public class GestorBedel {
     
-    public void registrarBedel(String nombre, String apellido, 
+    public int registrarBedel(String nombre, String apellido, 
             String turno, String username, String pass, String passConfirmado){
-        
+   
+       GestorPoliticas g = new GestorPoliticas();
+       BedelDAO bedeldao = new BedelDAO();
+       
+       if(bedeldao.verificarExistencia(username)){
+           
+            if (g.validarPoliticas(nombre, apellido ,username, pass)){
+                
+                if(compararPassword(pass, passConfirmado)){
+                     //
+                     //CREAR LA INSTANCIA DE LA CLAVE, ASOCIARLA AL BEDEL Y GUARDARLA//
+                     //
+                    Bedel nuevo = new Bedel(username, nombre, apellido, turno); 
+                    bedeldao.guardarBedel(nuevo);
+                     
+                }else{
+                    return 2;
+                }
+            }else{
+               return 1;
+            }
+       }else{
+           return 3;
+       }
+       
+       return 0;
     }
     
     public Boolean compararPassword(String pass, String passConfirmado){
-        Boolean r=true;
-        
-        return r;
+        return pass.equals(passConfirmado);
     }
-    
-    public ClaveBedel crearClave(String pass){
-        ClaveBedel c = new ClaveBedel();
         
-        
-        return c;
-    }
-    
 }
