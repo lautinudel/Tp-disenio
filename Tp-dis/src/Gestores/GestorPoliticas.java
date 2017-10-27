@@ -21,7 +21,7 @@ public class GestorPoliticas {
     
     
     public Boolean validarPoliticas(String nombre, String apellido, 
-            String turno, String username, String pass, String passConfirmado){
+            String username, String pass){
         Boolean r=false;
         int id_politica = 1;
         PoliticaDAO p = new PoliticaDAO();

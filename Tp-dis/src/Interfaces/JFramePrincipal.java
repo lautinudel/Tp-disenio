@@ -7,6 +7,12 @@ package Interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 /**
@@ -56,21 +62,28 @@ public class JFramePrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         
         JFramePrincipal ventana = new JFramePrincipal();
-        //ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ventana.setLayout(new BorderLayout());
         
-        //Panel de inicio de sesion
-        /*IniciarSesion panelRegistro = new IniciarSesion();*
-        ventana.add(panelRegistro, BorderLayout.CENTER);
-        ventana.setSize(400,400); 
-        ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);*/
-        //Panel de inicio de registro
-        RegistrarBedel panelRegistro = new RegistrarBedel();
-        ventana.add(panelRegistro, BorderLayout.CENTER);
+               
+        //Menu Principal -- PROVISORIO
+        MenuPrincipalAdmin menu = new MenuPrincipalAdmin();
+        ventana.add(menu, BorderLayout.CENTER);
         ventana.setSize(500,500); 
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
+        
+        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            if (JOptionPane.showConfirmDialog(ventana, 
+                "Confirmación de cierre", "¿Está seguro de querer salir del programa?", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    System.exit(0);
+            }
+        }
+        });
         
         
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -105,4 +118,50 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void mensajeEmergente(String titulo, String mensaje){
+        JDialog dialogo = new JDialog(this, titulo);
+        JLabel etiqueta = new JLabel(mensaje);
+        JButton boton = new JButton("Aceptar");
+        dialogo.setLayout(new FlowLayout());
+        dialogo.getContentPane().add(etiqueta, BorderLayout.CENTER);
+        dialogo.getContentPane().add(boton, BorderLayout.CENTER);
+	dialogo.pack();
+        dialogo.setLocationRelativeTo (null);
+        dialogo.setVisible(true);
+        
+        boton.addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });
+    }
+    
+    public ArrayList<JButton> mensajeEmergenteConfirmacion (String titulo, String mensaje){
+        JDialog dialogo = new JDialog(this, titulo);
+        JLabel etiqueta = new JLabel(mensaje);
+        JButton botonSi = new JButton("SI");
+        JButton botonNo = new JButton("NO");
+        ArrayList<JButton> retorno = new ArrayList<>();
+        retorno.add(botonSi);
+        retorno.add(botonNo);
+        dialogo.setLayout(new FlowLayout());
+        dialogo.getContentPane().add(etiqueta, BorderLayout.CENTER);
+        dialogo.getContentPane().add(botonSi, BorderLayout.CENTER);
+        dialogo.getContentPane().add(botonNo, BorderLayout.CENTER);
+	dialogo.pack();
+        dialogo.setLocationRelativeTo (null);
+        dialogo.setVisible(true);
+                
+        /*botonSi.addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });
+        
+        botonNo.addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });*/
+        
+        return retorno;
+    }
 }
