@@ -46,7 +46,7 @@ public class BedelDAO {
       session.close();
       
       
-      JOptionPane.showMessageDialog(null,"Insertado Correctamente"); //mensaje por pantalla, se puede quitar
+      //JOptionPane.showMessageDialog(null,"Insertado Correctamente"); 
         
         
     }

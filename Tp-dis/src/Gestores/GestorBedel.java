@@ -5,7 +5,7 @@
  */
 package Gestores;
 
-import Entidades.Clave;
+import Modelo.*;
 
 /**
  *
@@ -24,8 +24,8 @@ public class GestorBedel {
         return r;
     }
     
-    public Clave crearClave(String pass){
-        Clave c = new Clave();
+    public ClaveBedel crearClave(String pass){
+        ClaveBedel c = new ClaveBedel();
         
         
         return c;
