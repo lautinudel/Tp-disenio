@@ -23,7 +23,7 @@ public class GestorBedel {
        
        if(bedeldao.verificarExistencia(username)){
            
-            if (g.validarPoliticas(nombre, apellido ,username, pass)){
+            if (g.validarPoliticas(pass)){
                 
                 if(compararPassword(pass, passConfirmado)){
                      //

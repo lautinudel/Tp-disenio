@@ -20,8 +20,7 @@ import org.hibernate.SessionFactory;
 public class GestorPoliticas {
     
     
-    public Boolean validarPoliticas(String nombre, String apellido, 
-            String username, String pass){
+    public Boolean validarPoliticas(String pass){
         Boolean r=false;
         int id_politica = 1;
         PoliticaDAO p = new PoliticaDAO();
