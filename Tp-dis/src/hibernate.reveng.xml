@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -39,27 +39,22 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://johnny.heliohost.org:3306/ayrtonco_tp_disenio?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">ayrtonco</property>
-    <property name="hibernate.connection.password">admin1234</property>
-    <mapping resource="Modelo/ClaveBedel.hbm.xml"/>
-    <mapping resource="Modelo/DiaReservaPeriodica.hbm.xml"/>
-    <mapping resource="Modelo/PoliticaClave.hbm.xml"/>
-    <mapping resource="Modelo/Docente.hbm.xml"/>
-    <mapping resource="Modelo/AulaMultimedio.hbm.xml"/>
-    <mapping resource="Modelo/Administrador.hbm.xml"/>
-    <mapping resource="Modelo/Bedel.hbm.xml"/>
-    <mapping resource="Modelo/AulaInformatica.hbm.xml"/>
-    <mapping resource="Modelo/ClaveAdministrador.hbm.xml"/>
-    <mapping resource="Modelo/ActividadUniversitaria.hbm.xml"/>
-    <mapping resource="Modelo/ReservaEsporadica.hbm.xml"/>
-    <mapping resource="Modelo/AulaSinRecursosAdicionales.hbm.xml"/>
-    <mapping resource="Modelo/Aula.hbm.xml"/>
-    <mapping resource="Modelo/DiaReservaEsporadica.hbm.xml"/>
-    <mapping resource="Modelo/ReservaPeriodica.hbm.xml"/>
-  </session-factory>
-</hibernate-configuration>
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="ayrtonco_tp_disenio"/>
+  <table-filter match-name="Dia ReservaPeriodica"/>
+  <table-filter match-name="Clave_Administrador"/>
+  <table-filter match-name="ReservaEsporadica"/>
+  <table-filter match-name="ActividadUniversitaria-Docente"/>
+  <table-filter match-name="AulaMultimedio"/>
+  <table-filter match-name="Bedel"/>
+  <table-filter match-name="AulaInformatica"/>
+  <table-filter match-name="Aula"/>
+  <table-filter match-name="Clave_Bedel"/>
+  <table-filter match-name="Administrador"/>
+  <table-filter match-name="PoliticaClave"/>
+  <table-filter match-name="ReservaPeriodica"/>
+  <table-filter match-name="AulaSinRecursosAdicionales"/>
+  <table-filter match-name="Docente"/>
+  <table-filter match-name="ActividadUniversitaria"/>
+  <table-filter match-name="DiaReservaEsporadica"/>
+</hibernate-reverse-engineering>

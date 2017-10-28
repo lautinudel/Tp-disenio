@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/10/2017 22:11:44 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.ClaveAdministrador" table="Clave_Administrador" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <composite-id name="id" class="Modelo.ClaveAdministradorId">
+            <key-property name="valor" type="string">
+                <column name="valor" length="32" />
+            </key-property>
+            <key-property name="fecha" type="date">
+                <column name="fecha" length="10" />
+            </key-property>
+            <key-property name="administradorUsername" type="string">
+                <column name="Administrador_username" length="32" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="administrador" class="Modelo.Administrador" update="false" insert="false" fetch="select">
+            <column name="Administrador_username" length="32" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

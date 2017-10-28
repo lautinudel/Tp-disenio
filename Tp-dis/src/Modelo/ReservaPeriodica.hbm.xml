@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/10/2017 22:11:44 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.ReservaPeriodica" table="ReservaPeriodica" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <id name="idReservaPeriodica" type="java.lang.Integer">
+            <column name="id_reservaPeriodica" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="actividadUniversitaria" class="Modelo.ActividadUniversitaria" fetch="select">
+            <column name="ActividadUniversitaria_idActividad" not-null="true" />
+        </many-to-one>
+        <many-to-one name="bedel" class="Modelo.Bedel" fetch="select">
+            <column name="Bedel_username" length="32" not-null="true" />
+        </many-to-one>
+        <many-to-one name="docente" class="Modelo.Docente" fetch="select">
+            <column name="Docente_dni" not-null="true" />
+            <column name="Docente_apellido" length="45" not-null="true" />
+        </many-to-one>
+        <property name="cantidadAlumnos" type="java.lang.Integer">
+            <column name="cantidadAlumnos" />
+        </property>
+        <property name="periodo" type="string">
+            <column name="periodo" length="19" />
+        </property>
+        <set name="diaReservaPeriodicas" table="`Dia ReservaPeriodica`" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ReservaPeriodica_id_reservaPeriodica" not-null="true" />
+            </key>
+            <one-to-many class="Modelo.DiaReservaPeriodica" />
+        </set>
+    </class>
+</hibernate-mapping>

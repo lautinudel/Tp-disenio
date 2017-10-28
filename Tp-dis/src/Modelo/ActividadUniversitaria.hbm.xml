@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/10/2017 22:11:44 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.ActividadUniversitaria" table="ActividadUniversitaria" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <id name="idActividad" type="java.lang.Integer">
+            <column name="idActividad" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="80" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="280" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="tipo" length="10" not-null="true" />
+        </property>
+        <property name="duracion" type="int">
+            <column name="duracion" not-null="true" />
+        </property>
+        <set name="docentes" table="`ActividadUniversitaria-Docente`" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="ActividadUniversitaria_idActividad" not-null="true" />
+            </key>
+            <many-to-many entity-name="Modelo.Docente">
+                <column name="Docente_dni" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="reservaEsporadicas" table="ReservaEsporadica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ActividadUniversitaria_idActividad" not-null="true" />
+            </key>
+            <one-to-many class="Modelo.ReservaEsporadica" />
+        </set>
+        <set name="reservaPeriodicas" table="ReservaPeriodica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ActividadUniversitaria_idActividad" not-null="true" />
+            </key>
+            <one-to-many class="Modelo.ReservaPeriodica" />
+        </set>
+    </class>
+</hibernate-mapping>

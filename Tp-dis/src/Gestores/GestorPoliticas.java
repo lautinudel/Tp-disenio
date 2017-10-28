@@ -26,7 +26,7 @@ public class GestorPoliticas {
         PoliticaDAO p = new PoliticaDAO();
         PoliticaClave politica = p.buscarPolitica(id_politica);
         /*Valido la contraseña*/
-        if (politica.getLongitudMin() <= pass.length() && politica.getLongitadMax() >= pass.length()){
+        if (politica.getLongitudMin() <= pass.length() && politica.getLongitudMax() >= pass.length()){
             switch (politica.getNumeros()){
 		case 0: if(!pass.matches("0-9")){
                             r=true;
@@ -43,7 +43,8 @@ public class GestorPoliticas {
                             return false;
 			}
             }
-            switch (politica.getLetras()){
+            //ESTE SWITCH TIRA ERROR
+            /*switch (politica.getLetras()){
 		case 0: if(!pass.matches("A-Z") || !pass.matches("a-z") ){
                             r=true;
                             break;
@@ -58,7 +59,7 @@ public class GestorPoliticas {
                             JOptionPane.showMessageDialog(null,"La contraseña debe tener letras");
                             return false;
                         }
-            }
+            }*/
             switch (politica.getMayusculas()){
 		case 0: if(!pass.matches("A-Z")){
                             r=true;
