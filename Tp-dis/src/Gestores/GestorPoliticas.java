@@ -28,14 +28,14 @@ public class GestorPoliticas {
         /*Valido la contraseña*/
         if (politica.getLongitudMin() <= pass.length() && politica.getLongitudMax() >= pass.length()){
             switch (politica.getNumeros()){
-		case 0: if(!pass.matches("0-9")){
+		case 0: if(!pass.matches("\\d"/*"[0-9]"*/)){
                             r=true;
                             break;
 			}else{
                             JOptionPane.showMessageDialog(null,"La contraseña no debe tener números");
                             return false;
 			}
-		case 1: if(pass.matches("0-9")){
+		case 1: if(pass.matches("\\d"/*"[0-9]"*/)){
                             r=true;
                             break;
 			}else{
@@ -43,32 +43,15 @@ public class GestorPoliticas {
                             return false;
 			}
             }
-            //ESTE SWITCH TIRA ERROR
-            /*switch (politica.getLetras()){
-		case 0: if(!pass.matches("A-Z") || !pass.matches("a-z") ){
-                            r=true;
-                            break;
-			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña no debe tener letras");
-                            return false;
-			}
-		case 1: if(!pass.matches("A-Z") || !pass.matches("a-z")){
-                            r=true;
-                            break;							
-			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña debe tener letras");
-                            return false;
-                        }
-            }*/
             switch (politica.getMayusculas()){
-		case 0: if(!pass.matches("A-Z")){
+		case 0: if(!pass.matches("\\p{Upper}"/*"[A-Z]"*/)){
                             r=true;
                             break;
 			}else{
                             JOptionPane.showMessageDialog(null,"La contraseña no debe tener mayusculas");
                             return false;
 			}
-		case 1: if(pass.matches("A-Z")){
+		case 1: if(pass.matches("\\p{Upper}"/*"[A-Z]"*/)){
                             r=true;
                             break;
 			}else{
@@ -77,14 +60,14 @@ public class GestorPoliticas {
 			}
             }
             switch (politica.getMinusculas()){
-		case 0: if(!pass.matches("a-z")){
+		case 0: if(!pass.matches("\\p{Lower}"/*"[a-z]"*/)){
                             r=true;
                             break;
 			}else{
                             JOptionPane.showMessageDialog(null,"La contraseña no debe tener minusculas");
                             return false;
 			}
-		case 1: if(pass.matches("a-z")){
+		case 1: if(pass.matches("\\p{Lower}"/*"[a-z]"*/)){
                             r=true;
                             break;
 			}else{
@@ -93,14 +76,14 @@ public class GestorPoliticas {
 			}
 		}
             switch (politica.getCararcteresEsp()){
-                case 0: if(!pass.matches("@#$%&*")){
+                case 0: if(!pass.matches("\\p{Punct}")){
                             r=true;
                             break;
 			}else{
                             JOptionPane.showMessageDialog(null,"La contraseña no debe tener caracteres especiales");
                             return false;
 			}
-		case 1: if(pass.matches(".@_-~#]+")){
+		case 1: if(pass.matches("\\p{Punct}")){
                             r=true;
                             break;
 			}else{
