@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 26/10/2017 14:37:38 by Hibernate Tools 4.3.1 -->
+<!-- Generated 27/10/2017 22:11:44 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Modelo.PoliticaClave" table="PoliticaClave" catalog="sql10200415" optimistic-lock="version">
+    <class name="Modelo.PoliticaClave" table="PoliticaClave" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
         <id name="idPolitica" type="int">
             <column name="idPolitica" />
             <generator class="assigned" />
@@ -14,14 +14,11 @@
         <property name="longitudMin" type="java.lang.Integer">
             <column name="longitud_min" />
         </property>
-        <property name="longitadMax" type="java.lang.Integer">
-            <column name="longitad_max" />
+        <property name="longitudMax" type="java.lang.Integer">
+            <column name="longitud_max" />
         </property>
         <property name="numeros" type="java.lang.Byte">
             <column name="numeros" />
-        </property>
-        <property name="letras" type="java.lang.Byte">
-            <column name="letras" />
         </property>
         <property name="cararcteresEsp" type="java.lang.Byte">
             <column name="cararcteres_esp" />

@@ -1,5 +1,5 @@
 package Modelo;
-// Generated 26/10/2017 14:37:37 by Hibernate Tools 4.3.1
+// Generated 27/10/2017 22:11:40 by Hibernate Tools 4.3.1
 
 
 
