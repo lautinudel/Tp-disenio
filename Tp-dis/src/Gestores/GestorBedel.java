@@ -7,7 +7,10 @@ package Gestores;
 
 import Modelo.*;
 import Persistencia.BedelDAO;
+import Persistencia.ClaveDao;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -20,17 +23,29 @@ public class GestorBedel {
    
        GestorPoliticas g = new GestorPoliticas();
        BedelDAO bedeldao = new BedelDAO();
+       ClaveDao clavedao = new ClaveDao();
+       switch (turno){
+           case 'Mañana': turnoTrabaja.MANIANA;break;
+       }
        
-       if(bedeldao.verificarExistencia(username)){
+       //if(bedeldao.verificarExistencia(username)){
            
             if (g.validarPoliticas(pass)){
-                
+
                 if(compararPassword(pass, passConfirmado)){
                      //
                      //CREAR LA INSTANCIA DE LA CLAVE, ASOCIARLA AL BEDEL Y GUARDARLA//
-                     //
+                    ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
+                    
                     Bedel nuevo = new Bedel(username, nombre, apellido, turno); 
+                    
+                    ClaveBedel claveBedel = new ClaveBedel(clave,nuevo);
+                    
+                    nuevo.getClaveBedels().add(claveBedel);
+                    
                     bedeldao.guardarBedel(nuevo);
+                    
+                    clavedao.guardarClaveBedel(claveBedel);
                      
                 }else{
                     return 2;
@@ -38,9 +53,9 @@ public class GestorBedel {
             }else{
                return 1;
             }
-       }else{
+       /*}else{
            return 3;
-       }
+       }*/
        
        return 0;
     }

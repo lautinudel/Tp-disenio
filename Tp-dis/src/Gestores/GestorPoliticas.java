@@ -8,11 +8,6 @@ package Gestores;
 
 import Modelo.PoliticaClave;
 import Persistencia.PoliticaDAO;
-import javax.management.Query;
-import javax.swing.JOptionPane;
-import javax.transaction.Transaction;
-import org.hibernate.SessionFactory;
-
 /**
  *
  * @author L. Nudel
@@ -20,83 +15,135 @@ import org.hibernate.SessionFactory;
 public class GestorPoliticas {
     
     
-    public Boolean validarPoliticas(String pass){
+     public Boolean validarPoliticas(String pass){
         Boolean r=false;
         int id_politica = 1;
-        PoliticaDAO p = new PoliticaDAO();
-        PoliticaClave politica = p.buscarPolitica(id_politica);
+        PoliticaDAO poli = new PoliticaDAO();
+        PoliticaClave politica = poli.buscarPolitica(id_politica);
         /*Valido la contraseña*/
         if (politica.getLongitudMin() <= pass.length() && politica.getLongitudMax() >= pass.length()){
             switch (politica.getNumeros()){
-		case 0: if(!pass.matches("\\d"/*"[0-9]"*/)){
+		case 0: if(!numeros(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña no debe tener números");
                             return false;
 			}
-		case 1: if(pass.matches("\\d"/*"[0-9]"*/)){
+		case 1: if(numeros(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña debe tener números");
                             return false;
 			}
             }
             switch (politica.getMayusculas()){
-		case 0: if(!pass.matches("\\p{Upper}"/*"[A-Z]"*/)){
+		case 0: if(!mayusculas(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña no debe tener mayusculas");
                             return false;
 			}
-		case 1: if(pass.matches("\\p{Upper}"/*"[A-Z]"*/)){
+		case 1: if(mayusculas(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña  debe tener mayusculas");
                             return false;
 			}
             }
             switch (politica.getMinusculas()){
-		case 0: if(!pass.matches("\\p{Lower}"/*"[a-z]"*/)){
+		case 0: if(!minusculas(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña no debe tener minusculas");
                             return false;
 			}
-		case 1: if(pass.matches("\\p{Lower}"/*"[a-z]"*/)){
+		case 1: if(minusculas(pass)){
                             r=true;
                             break;
-			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña debe tener minusculas");
+                        }else{
                             return false;
 			}
-		}
+            }
             switch (politica.getCararcteresEsp()){
-                case 0: if(!pass.matches("\\p{Punct}")){
+                case 0: if(!caracteres(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña no debe tener caracteres especiales");
                             return false;
 			}
-		case 1: if(pass.matches("\\p{Punct}")){
+		case 1: if(caracteres(pass)){
                             r=true;
                             break;
 			}else{
-                            JOptionPane.showMessageDialog(null,"La contraseña  debe tener caracteres especiales");
                             return false;
 			}
-            }                                                  
+            } 
         }else{
             return false;
         }
         return r;
     }
-
+    
+    private boolean minusculas(String password){
+       char clave;
+       int i=0;
+       boolean tiene_min = false;
+       while (i < password.length() && tiene_min == false){
+            clave = password.charAt(i);
+            String passValue = String.valueOf(clave);
+            if (passValue.matches("[a-z]")) {
+                    tiene_min = true;
+            }
+            i++;
+       }
+       return tiene_min;
+    }
+    
+    private boolean mayusculas(String password){
+       char clave;
+       int i=0;
+       boolean tiene_max = false;
+       while (i < password.length() && tiene_max == false){
+            clave = password.charAt(i);
+            String passValue = String.valueOf(clave);
+            if (passValue.matches("[A-Z]")) {
+                    tiene_max = true;
+            }
+            i++;
+       }
+       return tiene_max;
+    }
+     
+    private boolean numeros(String password){
+       char clave;
+       int i=0;
+       boolean tiene_num = false;
+       while (i < password.length() && tiene_num== false){
+            clave = password.charAt(i);
+            String passValue = String.valueOf(clave);
+            if (passValue.matches("[0-9]")) {
+                    tiene_num = true;
+            }
+            i++;
+       }
+       return tiene_num;
+    }
+    
+    private boolean caracteres(String password){
+       char clave;
+       int i=0;
+       boolean tiene_carac = false;
+       while (i < password.length() && tiene_carac== false){
+            clave = password.charAt(i);
+            String passValue = String.valueOf(clave);
+            /*\\p{Punct}	Punctuation: One of !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~*/
+            if (passValue.matches("\\p{Punct}")) {
+                    tiene_carac = true;
+            }
+            i++;
+       }
+       return tiene_carac;
+    }
     public GestorPoliticas() {
     }
 }

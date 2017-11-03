@@ -26,7 +26,7 @@ public class PoliticaDAO {
         ArrayList <PoliticaClave> politica = new ArrayList();
         //Conección a la BD y consulta
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
-        Session s = sesion.openSession();;
+        Session s = sesion.openSession();
         Transaction tx = s.beginTransaction();
         Query q = s.createQuery("from PoliticaClave PC where PC.idPolitica = "+id_politica+"");
         /*Convierto la consulta en una lista - siempre en esta consulta voy a tener una sola respuesta (id_politica es PK)*/
