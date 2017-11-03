@@ -8,6 +8,7 @@ package Gestores;
 import Modelo.*;
 import Persistencia.BedelDAO;
 import Persistencia.ClaveDao;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,9 +25,14 @@ public class GestorBedel {
        GestorPoliticas g = new GestorPoliticas();
        BedelDAO bedeldao = new BedelDAO();
        ClaveDao clavedao = new ClaveDao();
+       /*TurnoTrabaja turnoT = null;
+       
        switch (turno){
-           case 'Mañana': turnoTrabaja.MANIANA;break;
-       }
+           case "Mañana": turnoT = TurnoTrabaja.MANIANA;break;
+           case "Tarde": turnoT = TurnoTrabaja.TARDE;break;
+           case "Noche": turnoT = TurnoTrabaja.NOCHE;break;
+       }*/
+
        
        //if(bedeldao.verificarExistencia(username)){
            

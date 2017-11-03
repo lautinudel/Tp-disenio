@@ -24,17 +24,17 @@ public class Bedel  implements java.io.Serializable {
     }
 
 	
-    public Bedel(String username, String apellido, String nombre, String turnoTabaja) {
+    public Bedel(String username, String apellido, String nombre, String turnoTrabaja) {
         this.username = username;
         this.apellido = apellido;
         this.nombre = nombre;
-        this.turnoTrabaja = turnoTabaja;
+        this.turnoTrabaja = turnoTrabaja;
     }
-    public Bedel(String username, String apellido, String nombre, String turnoTabaja, Byte activo, Set reservaPeriodicas, Set claveBedels, Set reservaEsporadicas) {
+    public Bedel(String username, String apellido, String nombre, String turnoTrabaja, Byte activo, Set reservaPeriodicas, Set claveBedels, Set reservaEsporadicas) {
        this.username = username;
        this.apellido = apellido;
        this.nombre = nombre;
-       this.turnoTrabaja = turnoTabaja;
+       this.turnoTrabaja = turnoTrabaja;
        this.activo = activo;
        this.reservaPeriodicas = reservaPeriodicas;
        this.claveBedels = claveBedels;
@@ -66,8 +66,8 @@ public class Bedel  implements java.io.Serializable {
         return this.turnoTrabaja;
     }
     
-    public void setTurnoTabaja(String turnoTabaja) {
-        this.turnoTrabaja = turnoTabaja;
+    public void setTurnoTabaja(String turnoTrabaja) {
+        this.turnoTrabaja = turnoTrabaja;
     }
     public Byte getActivo() {
         return this.activo;
