@@ -32,7 +32,7 @@ public class BedelDAO {
         b=(Bedel)session.get(Bedel.class, username);
         tx.commit();
         session.close();
-        if(b==null) r=false;
+        if(b.equals(null)) r=false;
         return r;
     }
     

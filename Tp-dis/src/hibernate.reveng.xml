@@ -41,20 +41,20 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="ayrtonco_tp_disenio"/>
-  <table-filter match-name="Dia ReservaPeriodica"/>
-  <table-filter match-name="Clave_Administrador"/>
-  <table-filter match-name="ReservaEsporadica"/>
-  <table-filter match-name="ActividadUniversitaria-Docente"/>
-  <table-filter match-name="AulaMultimedio"/>
-  <table-filter match-name="Bedel"/>
-  <table-filter match-name="AulaInformatica"/>
   <table-filter match-name="Aula"/>
-  <table-filter match-name="Clave_Bedel"/>
+  <table-filter match-name="ActividadUniversitaria-Docente"/>
+  <table-filter match-name="ReservaEsporadica"/>
+  <table-filter match-name="AulaSinRecursosAdicionales"/>
+  <table-filter match-name="Dia ReservaPeriodica"/>
+  <table-filter match-name="Docente"/>
+  <table-filter match-name="Clave_Administrador"/>
   <table-filter match-name="Administrador"/>
   <table-filter match-name="PoliticaClave"/>
-  <table-filter match-name="ReservaPeriodica"/>
-  <table-filter match-name="AulaSinRecursosAdicionales"/>
-  <table-filter match-name="Docente"/>
-  <table-filter match-name="ActividadUniversitaria"/>
+  <table-filter match-name="AulaInformatica"/>
+  <table-filter match-name="Bedel"/>
   <table-filter match-name="DiaReservaEsporadica"/>
+  <table-filter match-name="AulaMultimedio"/>
+  <table-filter match-name="Clave_Bedel"/>
+  <table-filter match-name="ActividadUniversitaria"/>
+  <table-filter match-name="ReservaPeriodica"/>
 </hibernate-reverse-engineering>

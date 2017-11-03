@@ -1,5 +1,5 @@
 package Modelo;
-// Generated 27/10/2017 22:11:40 by Hibernate Tools 4.3.1
+// Generated 03/11/2017 15:18:41 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -24,12 +24,21 @@ public class Bedel  implements java.io.Serializable {
     }
 
 	
+    public Bedel(String username, String apellido, String nombre) {
+        this.username = username;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.activo = 1;
+    }
+    
     public Bedel(String username, String apellido, String nombre, String turnoTrabaja) {
         this.username = username;
         this.apellido = apellido;
         this.nombre = nombre;
         this.turnoTrabaja = turnoTrabaja;
+        this.activo = 1;
     }
+    
     public Bedel(String username, String apellido, String nombre, String turnoTrabaja, Byte activo, Set reservaPeriodicas, Set claveBedels, Set reservaEsporadicas) {
        this.username = username;
        this.apellido = apellido;
@@ -62,11 +71,11 @@ public class Bedel  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public String getTurnoTabaja() {
+    public String getTurnoTrabaja() {
         return this.turnoTrabaja;
     }
     
-    public void setTurnoTabaja(String turnoTrabaja) {
+    public void setTurnoTrabaja(String turnoTrabaja) {
         this.turnoTrabaja = turnoTrabaja;
     }
     public Byte getActivo() {

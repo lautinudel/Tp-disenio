@@ -34,13 +34,12 @@ public class GestorBedel {
        }*/
 
        
-       //if(bedeldao.verificarExistencia(username)){
+       if(bedeldao.verificarExistencia(username)){
            
             if (g.validarPoliticas(pass)){
 
                 if(compararPassword(pass, passConfirmado)){
-                     //
-                     //CREAR LA INSTANCIA DE LA CLAVE, ASOCIARLA AL BEDEL Y GUARDARLA//
+                                        
                     ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
                     
                     Bedel nuevo = new Bedel(username, nombre, apellido, turno); 
@@ -59,9 +58,9 @@ public class GestorBedel {
             }else{
                return 1;
             }
-       /*}else{
+       }else{
            return 3;
-       }*/
+       }
        
        return 0;
     }
