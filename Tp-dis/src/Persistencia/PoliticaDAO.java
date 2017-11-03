@@ -21,19 +21,20 @@ public class PoliticaDAO {
     public PoliticaDAO() {
     }
     
-    public PoliticaClave buscarPolitica(int id_politica){
+    public PoliticaClave buscarPolitica(int id_politica) throws InterruptedException{
         /*Lo defino como arraylist porque La consulta siempre te devuelve un List*/
         ArrayList <PoliticaClave> politica = new ArrayList();
         //Conección a la BD y consulta
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session s = sesion.openSession();
         Transaction tx = s.beginTransaction();
-        Query q = s.createQuery("from PoliticaClave PC where PC.idPolitica = "+id_politica+"");
+        Query q = s.createQuery("from PoliticaClave PC where PC.vigente = 1");
         /*Convierto la consulta en una lista - siempre en esta consulta voy a tener una sola respuesta (id_politica es PK)*/
         politica = (ArrayList<PoliticaClave>) q.list();
         tx.commit();
         s.close();
         /*Devuelvo el único elemento de mi ArrayList*/
         return politica.get(0);
+        
     }
 }
