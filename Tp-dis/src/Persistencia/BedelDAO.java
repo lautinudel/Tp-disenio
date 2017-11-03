@@ -23,16 +23,15 @@ public class BedelDAO {
     
     
     public Boolean verificarExistencia(String username){
-        Boolean r=true;
-        Bedel b=null;
+        Boolean r;
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        b=(Bedel)session.get(Bedel.class, username);
+        if(session.get(Bedel.class, username)!=null) r=false; 
+        else r=true;
         tx.commit();
         session.close();
-        if(b.equals(null)) r=false;
         return r;
     }
     
