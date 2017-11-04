@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/11/2017 21:00:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Docente" table="Docente" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <composite-id name="id" class="Modelo.DocenteId">
+            <key-property name="dni" type="int">
+                <column name="dni" />
+            </key-property>
+            <key-property name="apellido" type="string">
+                <column name="apellido" length="45" />
+            </key-property>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="32" not-null="true" />
+        </property>
+        <property name="especialidad" type="string">
+            <column name="especialidad" length="32" />
+        </property>
+        <property name="activo" type="java.lang.Byte">
+            <column name="activo" />
+        </property>
+        <set name="actividadUniversitarias" table="`ActividadUniversitaria-Docente`" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="Docente_dni" not-null="true" />
+                <column name="Docente_apellido" length="45" not-null="true" />
+            </key>
+            <many-to-many entity-name="Modelo.ActividadUniversitaria">
+                <column name="ActividadUniversitaria_idActividad" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="reservaEsporadicas" table="ReservaEsporadica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Docente_dni" not-null="true" />
+                <column name="Docente_apellido" length="45" not-null="true" />
+            </key>
+            <one-to-many class="Modelo.ReservaEsporadica" />
+        </set>
+        <set name="reservaPeriodicas" table="ReservaPeriodica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Docente_dni" not-null="true" />
+                <column name="Docente_apellido" length="45" not-null="true" />
+            </key>
+            <one-to-many class="Modelo.ReservaPeriodica" />
+        </set>
+    </class>
+</hibernate-mapping>

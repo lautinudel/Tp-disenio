@@ -25,13 +25,14 @@ public class GestorBedel {
        GestorPoliticas g = new GestorPoliticas();
        BedelDAO bedeldao = new BedelDAO();
        ClaveDao clavedao = new ClaveDao();
-       /*TurnoTrabaja turnoT = null;
+       
+       TurnoEnum turnoT = null;
        
        switch (turno){
-           case "Mañana": turnoT = TurnoTrabaja.MANIANA;break;
-           case "Tarde": turnoT = TurnoTrabaja.TARDE;break;
-           case "Noche": turnoT = TurnoTrabaja.NOCHE;break;
-       }*/
+           case "Mañana": turnoT = TurnoEnum.MANIANA;break;
+           case "Tarde": turnoT = TurnoEnum.TARDE;break;
+           case "Noche": turnoT = TurnoEnum.NOCHE;break;
+       }
 
        
        if(bedeldao.verificarExistencia(username)){
@@ -42,7 +43,7 @@ public class GestorBedel {
                                         
                     ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
                     
-                    Bedel nuevo = new Bedel(username, nombre, apellido, turno); 
+                    Bedel nuevo = new Bedel(username, nombre, apellido, turnoT); 
                     
                     ClaveBedel claveBedel = new ClaveBedel(clave,nuevo);
                     

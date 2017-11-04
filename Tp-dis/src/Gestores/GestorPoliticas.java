@@ -19,7 +19,7 @@ public class GestorPoliticas {
         Boolean r=false;
         int id_politica = 1;
         PoliticaDAO poli = new PoliticaDAO();
-        PoliticaClave politica = poli.buscarPolitica(id_politica);
+        PoliticaClave politica = poli.buscarPolitica();
         /*Valido la contraseña*/
         if (politica.getLongitudMin() <= pass.length() && politica.getLongitudMax() >= pass.length()){
             switch (politica.getNumeros()){

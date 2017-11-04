@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/11/2017 21:00:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.PoliticaClave" table="PoliticaClave" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <id name="idPolitica" type="int">
+            <column name="idPolitica" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombrePolitica" type="string">
+            <column name="nombrePolitica" length="32" />
+        </property>
+        <property name="longitudMin" type="java.lang.Integer">
+            <column name="longitud_min" />
+        </property>
+        <property name="longitudMax" type="java.lang.Integer">
+            <column name="longitud_max" />
+        </property>
+        <property name="numeros" type="java.lang.Byte">
+            <column name="numeros" />
+        </property>
+        <property name="cararcteresEsp" type="java.lang.Byte">
+            <column name="cararcteres_esp" />
+        </property>
+        <property name="minusculas" type="java.lang.Byte">
+            <column name="minusculas" />
+        </property>
+        <property name="mayusculas" type="java.lang.Byte">
+            <column name="mayusculas" />
+        </property>
+        <property name="vigente" type="java.lang.Byte">
+            <column name="vigente" />
+        </property>
+    </class>
+</hibernate-mapping>

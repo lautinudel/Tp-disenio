@@ -21,7 +21,7 @@ public class PoliticaDAO {
     public PoliticaDAO() {
     }
     
-    public PoliticaClave buscarPolitica(int id_politica) throws InterruptedException{
+    public PoliticaClave buscarPolitica(){
         /*Lo defino como arraylist porque La consulta siempre te devuelve un List*/
         ArrayList <PoliticaClave> politica = new ArrayList();
         //Conección a la BD y consulta
