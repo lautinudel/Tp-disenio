@@ -32,6 +32,7 @@
             </key>
             <many-to-many entity-name="Modelo.Docente">
                 <column name="Docente_dni" not-null="true" />
+                <column name="Docente_apellido" not-null="true" />
             </many-to-many>
         </set>
         <set name="reservaEsporadicas" table="ReservaEsporadica" inverse="true" lazy="true" fetch="select">

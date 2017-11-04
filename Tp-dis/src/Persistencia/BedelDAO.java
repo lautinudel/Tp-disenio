@@ -6,6 +6,7 @@
 package Persistencia;
 
 import Modelo.Bedel;
+import Modelo.ClaveBedel;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,7 +36,8 @@ public class BedelDAO {
         return r;
     }
     
-    public void guardarBedel(Bedel b) {
+    public void guardarBedel(Bedel b, ClaveBedel claveBedel) {
+      
       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
       Session session;
       session = sesion.openSession();
@@ -43,6 +45,8 @@ public class BedelDAO {
       session.save(b);
       tx.commit();
       session.close();
+      ClaveDao clavedao = new ClaveDao();
+      clavedao.guardarClaveBedel(claveBedel);
       
       
       //JOptionPane.showMessageDialog(null,"Insertado Correctamente"); 

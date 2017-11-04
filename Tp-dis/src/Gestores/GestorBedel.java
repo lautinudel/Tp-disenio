@@ -49,9 +49,9 @@ public class GestorBedel {
                     
                     nuevo.getClaveBedels().add(claveBedel);
                     
-                    bedeldao.guardarBedel(nuevo);
+                    bedeldao.guardarBedel(nuevo,claveBedel);
                     
-                    clavedao.guardarClaveBedel(claveBedel);
+                    
                      
                 }else{
                     return 2;
