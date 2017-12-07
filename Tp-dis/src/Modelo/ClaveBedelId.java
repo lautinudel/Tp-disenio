@@ -16,7 +16,11 @@ public class ClaveBedelId  implements java.io.Serializable {
 
     public ClaveBedelId() {
     }
-
+    public ClaveBedelId(String pass) {
+        this.valor=pass;
+        this.bedelUsername = null;
+       this.fecha = null;
+    }
     public ClaveBedelId(String valor, String bedelUsername, Date fecha) {
        this.valor = valor;
        this.bedelUsername = bedelUsername;

@@ -5,6 +5,15 @@
  */
 package Interfaces;
 
+import Modelo.*;
+import Persistencia.*;
+import java.awt.event.ActionEvent;
+import static java.lang.System.exit;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author L. Nudel
@@ -16,6 +25,7 @@ public class IniciarSesion extends javax.swing.JPanel {
      */
     public IniciarSesion() {
         initComponents();
+        
     }
 
     /**
@@ -31,8 +41,9 @@ public class IniciarSesion extends javax.swing.JPanel {
         jLabelUsuario = new javax.swing.JLabel();
         jLabelContrasenia = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
-        jTextFieldContrasenia = new javax.swing.JTextField();
         jButtonAceptar = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
+        jPasswordFieldPass = new javax.swing.JPasswordField();
 
         setPreferredSize(new java.awt.Dimension(400, 400));
 
@@ -43,7 +54,25 @@ public class IniciarSesion extends javax.swing.JPanel {
 
         jLabelContrasenia.setText("Contraseña: ");
 
+        jTextFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldUsuarioKeyTyped(evt);
+            }
+        });
+
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
+
+        jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,6 +83,9 @@ public class IniciarSesion extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(98, 98, 98)
+                                .addComponent(jLabelInicioDeSesion))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelUsuario)
@@ -61,20 +93,21 @@ public class IniciarSesion extends javax.swing.JPanel {
                                 .addGap(32, 32, 32)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldUsuario)
-                                    .addComponent(jTextFieldContrasenia)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(98, 98, 98)
-                                .addComponent(jLabelInicioDeSesion)))
-                        .addGap(0, 70, Short.MAX_VALUE))
+                                    .addComponent(jPasswordFieldPass))))
+                        .addGap(0, 103, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonAceptar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonSalir, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(12, 12, 12)
+                .addComponent(jButtonSalir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelInicioDeSesion)
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -83,20 +116,97 @@ public class IniciarSesion extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelContrasenia)
-                    .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                    .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(jButtonAceptar)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        String usuario = this.jTextFieldUsuario.getText();
+        String pass = "";
+        char [] password = this.jPasswordFieldPass.getPassword();
+        for(int i=0; i<password.length;i++){
+            pass+=password[i];
+        }
+        BedelDAO BDAO = new BedelDAO();
+        ClaveDao CDAO = new ClaveDao();
+        //Verificar limite de caracteres en ambos campos
+        if(usuario.length()>5 && usuario.length()<33 ){
+            if( pass.length()>5 && pass.length()<33){
+                //verifico si el bedel existe
+                if(BDAO.verificarExistencia(usuario)){
+                    Bedel b = BDAO.obtenerBedel(usuario);
+                    //verifico si la clave existe
+                   if(CDAO.verificarExistencia(pass)){
+                       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+            topFrame.mensajeEmergente("Existe", pass);
+                       
+                       //ClaveBedelId c = CDAO.obtenerClaveBedel(pass);*/
+                       //verifico si la clave pertenece al usuario
+                   }else{
+                       
+                   }
+                }else{
+                    //verifico si el admin existe
+                }
+                
+                
+                
+                
+            }else{
+                JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                topFrame.mensajeEmergente("Error", "Los numeros de caracteres para el campo contraseña estan fuera del limite");
+                //limpia el campo contraseña
+                this.jPasswordFieldPass.setText(null);
+            }
+            
+        }else{
+            JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+            topFrame.mensajeEmergente("Error", "Los numeros de caracteres para el campo usuario estan fuera del limite");
+            //limpia el campo usuario
+            this.jTextFieldUsuario.setText(null);
+        
+        
+        }
+        
+        
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        ArrayList<JButton> botonesDialogo = new ArrayList<>();
+        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
+        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
+        
+        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+            exit(0);             
+        });
+        
+        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jTextFieldUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextFieldUsuarioKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelInicioDeSesion;
     private javax.swing.JLabel jLabelUsuario;
-    private javax.swing.JTextField jTextFieldContrasenia;
+    private javax.swing.JPasswordField jPasswordFieldPass;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }

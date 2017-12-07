@@ -10,5 +10,5 @@ package Modelo;
  * @author Temp
  */
 public enum TurnoEnum {
-    MANIANA, TARDE, NOCHE
+    Maniana, Tarde, Noche
 }

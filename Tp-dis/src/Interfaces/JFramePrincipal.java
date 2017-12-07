@@ -66,11 +66,18 @@ public class JFramePrincipal extends javax.swing.JFrame {
         ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ventana.setLayout(new BorderLayout());
         
-               
+        /*       
         //Menu Principal -- PROVISORIO
         MenuPrincipalAdmin menu = new MenuPrincipalAdmin();
         ventana.add(menu, BorderLayout.CENTER);
         ventana.setSize(500,500); 
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);*/
+        
+        //Ventana a iniciar sesion
+        IniciarSesion IS = new IniciarSesion();
+        ventana.add(IS, BorderLayout.CENTER);
+        ventana.setSize(400,400); 
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
         

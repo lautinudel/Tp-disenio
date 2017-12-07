@@ -18,7 +18,43 @@ public class ClaveDao {
 
     public ClaveDao() {
     }
+    /*public Boolean verificarExistencia(Bedel b){
+        Boolean r;
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        if(session.get(ClaveBedel.class, b)!=null) r=true; 
+        else r=false;
+        tx.commit();
+        session.close();
+        return r;
+    }*/
     
+    public Boolean verificarExistencia(String pass){
+        Boolean r;
+        ClaveBedelId c=new ClaveBedelId(pass);
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        if(session.get(ClaveBedel.class, c)!=null) r=true; 
+        else r=false;
+        tx.commit();
+        session.close();
+        return r;
+    }
+    public ClaveBedelId obtenerClaveBedel ( String pass){
+        ClaveBedelId clave ;
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        clave=(ClaveBedelId)session.get(ClaveBedelId.class, pass);
+        tx.commit();
+        session.close();
+        return clave;
+    }
     public void guardarClaveBedel(ClaveBedel c) {
       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
       Session session;

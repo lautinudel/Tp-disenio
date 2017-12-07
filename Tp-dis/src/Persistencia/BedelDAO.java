@@ -29,11 +29,22 @@ public class BedelDAO {
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        if(session.get(Bedel.class, username)!=null) r=false; 
-        else r=true;
+        if(session.get(Bedel.class, username)!=null) r=true; 
+        else r=false;
         tx.commit();
         session.close();
         return r;
+    }
+    public Bedel obtenerBedel ( String username){
+        Bedel b ;
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        b=(Bedel)session.get(Bedel.class, username);
+        tx.commit();
+        session.close();
+        return b;
     }
     
     public void guardarBedel(Bedel b, ClaveBedel claveBedel) {
