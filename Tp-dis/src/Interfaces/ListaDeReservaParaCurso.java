@@ -5,9 +5,15 @@
  */
 package Interfaces;
 
+import Gestores.GestorListadoReservasParaActividadUniversitaria;
+import Modelo.ActividadUniversitaria;
+import Modelo.DiaReservaEsporadica;
+import Modelo.ReservaEsporadica;
+import Persistencia.ActividadUniversitariaDAO;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -38,6 +44,7 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroupTipoCurso = new javax.swing.ButtonGroup();
+        jButton1 = new javax.swing.JButton();
         jLabelListadodeReservaParaUnCurso = new javax.swing.JLabel();
         jLabelIntroducirCursoEspecifico = new javax.swing.JLabel();
         jTextFieldCursoEspecifico = new javax.swing.JTextField();
@@ -51,6 +58,9 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         jButtonVerReservas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListaDeCursos = new javax.swing.JTable();
+        jButtonBuscarCursos = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         jLabelListadodeReservaParaUnCurso.setText("Listado de Reserva para un curso");
 
@@ -63,6 +73,8 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         jRadioButtonPeriodica.setText("Periodica");
 
         jLabelanio.setText("Año:");
+
+        jSpinnerAnio.setModel(new javax.swing.SpinnerNumberModel(2017, 1960, 9999, 1));
 
         jLabelCursosDisponibles.setText("Cursos disponibles:");
 
@@ -96,6 +108,13 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableListaDeCursos);
 
+        jButtonBuscarCursos.setText("Buscar cursos");
+        jButtonBuscarCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarCursosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,34 +128,35 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCursosDisponibles)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelanio)
-                                .addGap(40, 40, 40)
-                                .addComponent(jSpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelTipoDeReserva)
                                 .addGap(87, 87, 87)
                                 .addComponent(jRadioButtonEsporadica)
                                 .addGap(18, 18, 18)
                                 .addComponent(jRadioButtonPeriodica))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabelCursosDisponibles)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonBuscarCursos))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelIntroducirCursoEspecifico)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelanio)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jSpinnerAnio))
+                                    .addComponent(jLabelIntroducirCursoEspecifico))
                                 .addGap(90, 90, 90)
                                 .addComponent(jTextFieldCursoEspecifico, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButtonAtras)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabelListadodeReservaParaUnCurso)
-                        .addGap(119, 119, 119))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addGap(0, 60, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(jLabelListadodeReservaParaUnCurso)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,10 +177,12 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
                     .addComponent(jLabelanio)
                     .addComponent(jSpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabelCursosDisponibles)
-                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCursosDisponibles)
+                    .addComponent(jButtonBuscarCursos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAtras)
                     .addComponent(jButtonVerReservas))
@@ -177,12 +199,32 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
 
     private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonAtrasActionPerformed
+
+    private void jButtonBuscarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarCursosActionPerformed
+        // TODO add your handling code here:
+        String curso = this.jTextFieldCursoEspecifico.getText();
+        //booleano true=esporadica false=periodica
+        Boolean tipoReserva;
+        if(this.jRadioButtonEsporadica.isSelected()){
+            tipoReserva=true;
+        }else tipoReserva=false;
+        int anio = (int) this.jSpinnerAnio.getValue();
+        GestorListadoReservasParaActividadUniversitaria GLRU = new GestorListadoReservasParaActividadUniversitaria();
+        List<ActividadUniversitaria> listaCursos = GLRU.buscarCursos(curso, tipoReserva, anio);
+        
+        
+
+
+    }//GEN-LAST:event_jButtonBuscarCursosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupTipoCurso;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAtras;
+    private javax.swing.JButton jButtonBuscarCursos;
     private javax.swing.JButton jButtonVerReservas;
     private javax.swing.JLabel jLabelCursosDisponibles;
     private javax.swing.JLabel jLabelIntroducirCursoEspecifico;

@@ -21,7 +21,7 @@
         <property name="cantidadAlumnos" type="java.lang.Integer">
             <column name="cantidadAlumnos" />
         </property>
-        <set name="diaReservaEsporadicas" table="DiaReservaEsporadica" inverse="true" lazy="true" fetch="select">
+        <set name="diaReservaEsporadicas" table="DiaReservaEsporadica" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="ReservaEsporadica_id_reservaEsporadica" not-null="true" />
             </key>

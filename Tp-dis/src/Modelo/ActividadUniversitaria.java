@@ -80,7 +80,7 @@ public class ActividadUniversitaria  implements java.io.Serializable {
     public void setDocentes(Set docentes) {
         this.docentes = docentes;
     }
-    public Set getReservaEsporadicas() {
+    public Set<ReservaEsporadica> getReservaEsporadicas() {
         return this.reservaEsporadicas;
     }
     

@@ -60,7 +60,6 @@ public class GestorAutenticacion {
             //verifico si el admin existe
             if(ADAO.verificarExistencia(usuario)){
                 Administrador a = ADAO.obtenerAdministrador(usuario);
-                //obtengo el ultimo elemento del hashset
                 ClaveAdministrador ca=null;
                 ClaveAdministrador cAnt=null;
                 

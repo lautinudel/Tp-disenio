@@ -80,6 +80,11 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         jToggleButtonListadoDeReservasDia.setText(">");
 
         jToggleButtonListadoDeReservasCurso.setText(">");
+        jToggleButtonListadoDeReservasCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonListadoDeReservasCursoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -87,9 +92,6 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,6 +120,10 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
                         .addComponent(jLabelMenuPrincipal)
                         .addGap(0, 126, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonSalir)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,9 +150,9 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelListadoDeReservasCurso)
                     .addComponent(jToggleButtonListadoDeReservasCurso))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                .addGap(19, 19, 19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jButtonSalir)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -172,6 +178,16 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
             this.remove(dialogo);
         });
     }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jToggleButtonListadoDeReservasCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonListadoDeReservasCursoActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        ListaDeReservaParaCurso listaRC = new ListaDeReservaParaCurso();
+        topFrame.add(listaRC, BorderLayout.CENTER);
+        this.setVisible(false);
+        topFrame.remove(this);
+        topFrame.setSize(600,600);
+    }//GEN-LAST:event_jToggleButtonListadoDeReservasCursoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

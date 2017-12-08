@@ -70,7 +70,7 @@ public class ReservaEsporadica  implements java.io.Serializable {
     public void setCantidadAlumnos(Integer cantidadAlumnos) {
         this.cantidadAlumnos = cantidadAlumnos;
     }
-    public Set getDiaReservaEsporadicas() {
+    public Set<DiaReservaEsporadica> getDiaReservaEsporadicas() {
         return this.diaReservaEsporadicas;
     }
     
