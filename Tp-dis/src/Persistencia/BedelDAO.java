@@ -58,9 +58,6 @@ public class BedelDAO {
       session.close();
       ClaveDao clavedao = new ClaveDao();
       clavedao.guardarClaveBedel(claveBedel);
-      
-      
-      //JOptionPane.showMessageDialog(null,"Insertado Correctamente"); 
         
         
     }

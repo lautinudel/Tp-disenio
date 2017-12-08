@@ -24,7 +24,7 @@ public class GestorBedel {
    
        GestorPoliticas g = new GestorPoliticas();
        BedelDAO bedeldao = new BedelDAO();
-       ClaveDao clavedao = new ClaveDao();
+       //ClaveDao clavedao = new ClaveDao();
        
        TurnoEnum turnoT = null;
        
