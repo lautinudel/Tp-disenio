@@ -48,47 +48,52 @@ public class RegistrarBedel extends javax.swing.JPanel {
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldApellido = new javax.swing.JTextField();
         jTextFieldUsuario = new javax.swing.JTextField();
-        jTextFieldContrasenia = new javax.swing.JTextField();
         jTextFieldConfirmacionContrasenia = new javax.swing.JTextField();
         jComboBoxTurno = new javax.swing.JComboBox<>();
-        jButtonSalir = new javax.swing.JButton();
         jButtonAceptar = new javax.swing.JButton();
         jButtonAtras = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        jTextFieldContrasenia = new javax.swing.JPasswordField();
 
         jLabelNombre.setText("Nombre");
+        jLabelNombre.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
         jLabelApellido.setText("Apellido");
+        jLabelApellido.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
         jLabelTurno.setText("Turno");
+        jLabelTurno.setToolTipText("Elija un turno de la lista.");
 
         jLabelUsuario.setText("Usuario");
+        jLabelUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
         jLabelContrasenia.setText("Contraseña");
+        jLabelContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
         jLabelConfirmacionContrasenia.setText("Confirmar contraseña");
+        jLabelConfirmacionContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
         jLabelRegistrarBedel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelRegistrarBedel.setText("Registrar Bedel");
 
+        jTextFieldNombre.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
 
+        jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
+
+        jTextFieldUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
+
+        jTextFieldConfirmacionContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
+
         jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
+        jComboBoxTurno.setToolTipText("Elija un turno de la lista.");
         jComboBoxTurno.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBoxTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTurnoActionPerformed(evt);
-            }
-        });
-
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
             }
         });
 
@@ -106,86 +111,73 @@ public class RegistrarBedel extends javax.swing.JPanel {
             }
         });
 
+        jTextFieldContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addContainerGap(80, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButtonAtras)
-                                .addGap(234, 234, 234))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabelUsuario)
-                                            .addComponent(jLabelContrasenia)
-                                            .addComponent(jLabelConfirmacionContrasenia)
-                                            .addComponent(jLabelTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(32, 32, 32)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jTextFieldNombre)
-                                                .addComponent(jTextFieldApellido)
-                                                .addComponent(jTextFieldUsuario)
-                                                .addComponent(jTextFieldContrasenia)
-                                                .addComponent(jTextFieldConfirmacionContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(jLabelRegistrarBedel))
-                                .addGap(18, 18, 18)))
-                        .addComponent(jButtonAceptar))
-                    .addComponent(jButtonSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelRegistrarBedel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButtonAtras)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAceptar))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelUsuario)
+                                .addComponent(jLabelContrasenia)
+                                .addComponent(jLabelConfirmacionContrasenia)
+                                .addComponent(jLabelTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(32, 32, 32)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldNombre)
+                                .addComponent(jTextFieldApellido)
+                                .addComponent(jTextFieldUsuario)
+                                .addComponent(jTextFieldConfirmacionContrasenia)
+                                .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(99, 99, 99))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jSeparator1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonSalir)
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabelRegistrarBedel)
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelUsuario)
-                            .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelContrasenia)
-                            .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelConfirmacionContrasenia)
-                            .addComponent(jTextFieldConfirmacionContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(jButtonAtras))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonAceptar))))
+                .addGap(33, 33, 33)
+                .addComponent(jLabelRegistrarBedel)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelContrasenia)
+                    .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelConfirmacionContrasenia)
+                    .addComponent(jTextFieldConfirmacionContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAceptar)
+                    .addComponent(jButtonAtras))
+                .addGap(48, 48, 48))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,9 +189,10 @@ public class RegistrarBedel extends javax.swing.JPanel {
         // TODO add your handling code here:
                   
        GestorBedel gestor = new GestorBedel();
+       String pass = new String(jTextFieldContrasenia.getPassword());
        int msj = gestor.registrarBedel(jTextFieldNombre.getText(),
                jTextFieldApellido.getText(),jComboBoxTurno.getSelectedItem().toString(),
-               jTextFieldUsuario.getText(), jTextFieldContrasenia.getText(),
+               jTextFieldUsuario.getText(), pass,
                jTextFieldConfirmacionContrasenia.getText());
        
        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
@@ -223,24 +216,6 @@ public class RegistrarBedel extends javax.swing.JPanel {
       
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
-
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        ArrayList<JButton> botonesDialogo = new ArrayList<>();
-        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "Se perderán los cambios NO confirmados. ¿Está seguro de querer salir del programa?");
-        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
-        
-        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-            exit(0);             
-        });
-        
-        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-        });
-    }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jComboBoxTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTurnoActionPerformed
         // TODO add your handling code here:
@@ -274,7 +249,6 @@ public class RegistrarBedel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButtonAtras;
-    private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxTurno;
     private javax.swing.JLabel jLabelApellido;
     private javax.swing.JLabel jLabelConfirmacionContrasenia;
@@ -283,10 +257,9 @@ public class RegistrarBedel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelRegistrarBedel;
     private javax.swing.JLabel jLabelTurno;
     private javax.swing.JLabel jLabelUsuario;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextFieldApellido;
     private javax.swing.JTextField jTextFieldConfirmacionContrasenia;
-    private javax.swing.JTextField jTextFieldContrasenia;
+    private javax.swing.JPasswordField jTextFieldContrasenia;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables

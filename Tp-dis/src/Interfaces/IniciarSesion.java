@@ -9,11 +9,14 @@ import Gestores.GestorAutenticacion;
 import Modelo.*;
 import Persistencia.*;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -51,18 +54,32 @@ public class IniciarSesion extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(400, 400));
 
         jLabelInicioDeSesion.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabelInicioDeSesion.setText("Inicio de Sesion");
+        jLabelInicioDeSesion.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInicioDeSesion.setText("Inicio de Sesión");
 
+        jLabelUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUsuario.setText("Usuario: ");
+        jLabelUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
+        jLabelContrasenia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelContrasenia.setForeground(new java.awt.Color(255, 255, 255));
         jLabelContrasenia.setText("Contraseña: ");
+        jLabelContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
+        jTextFieldUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
+        jTextFieldUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldUsuarioActionPerformed(evt);
+            }
+        });
         jTextFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldUsuarioKeyTyped(evt);
             }
         });
 
+        jButtonAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonAceptar.setText("Aceptar");
         jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,48 +87,46 @@ public class IniciarSesion extends javax.swing.JPanel {
             }
         });
 
+        jPasswordFieldPass.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(78, 78, 78)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonAceptar)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelUsuario)
+                                .addComponent(jLabelContrasenia))
+                            .addGap(32, 32, 32)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(98, 98, 98)
-                                .addComponent(jLabelInicioDeSesion))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelUsuario)
-                                    .addComponent(jLabelContrasenia))
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldUsuario)
-                                    .addComponent(jPasswordFieldPass))))
-                        .addGap(0, 102, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonAceptar)))
-                .addContainerGap())
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabelInicioDeSesion)))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(228, Short.MAX_VALUE)
                 .addComponent(jLabelInicioDeSesion)
-                .addGap(46, 46, 46)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelUsuario)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelContrasenia)
-                    .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                    .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
                 .addComponent(jButtonAceptar)
-                .addContainerGap())
+                .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -164,7 +179,25 @@ public class IniciarSesion extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jTextFieldUsuarioKeyTyped
 
+    private void jTextFieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldUsuarioActionPerformed
 
+    //codigo de la imagen de fondo
+    private Image fondo=null;
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo,0,0,getWidth(),getHeight(),null);
+    }
+    
+    public void setImage(String image){
+        if (image!=null) {
+            fondo=new ImageIcon(getClass().getResource(image)).getImage();
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JLabel jLabelContrasenia;

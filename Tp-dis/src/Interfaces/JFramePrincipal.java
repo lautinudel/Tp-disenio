@@ -74,9 +74,10 @@ public class JFramePrincipal extends javax.swing.JFrame {
         ventana.setVisible(true);*/
         
         //Ventana a iniciar sesion
-        IniciarSesion IS = new IniciarSesion();
-        ventana.add(IS, BorderLayout.CENTER);
-        ventana.setSize(400,400); 
+        IniciarSesion panelIniciar = new IniciarSesion();
+        panelIniciar.setImage("/Imagenes/fondo1.jpg");
+        ventana.add(panelIniciar, BorderLayout.CENTER);
+        ventana.setSize(500,500); 
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
         

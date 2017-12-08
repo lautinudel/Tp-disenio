@@ -17,103 +17,81 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="33" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace pref="80" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jButtonAtras" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="234" max="-2" attributes="0"/>
+                  <Component id="jLabelRegistrarBedel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jButtonAtras" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabelNombre" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="jLabelApellido" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
+                              <Component id="jLabelUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelContrasenia" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelConfirmacionContrasenia" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelTurno" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabelNombre" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                                          <Component id="jLabelApellido" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                                          <Component id="jLabelUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelContrasenia" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelConfirmacionContrasenia" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelTurno" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jComboBoxTurno" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jTextFieldNombre" max="32767" attributes="0"/>
-                                              <Component id="jTextFieldApellido" max="32767" attributes="0"/>
-                                              <Component id="jTextFieldUsuario" max="32767" attributes="0"/>
-                                              <Component id="jTextFieldContrasenia" max="32767" attributes="0"/>
-                                              <Component id="jTextFieldConfirmacionContrasenia" min="-2" pref="139" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <Component id="jLabelRegistrarBedel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jComboBoxTurno" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldNombre" max="32767" attributes="0"/>
+                              <Component id="jTextFieldApellido" max="32767" attributes="0"/>
+                              <Component id="jTextFieldUsuario" max="32767" attributes="0"/>
+                              <Component id="jTextFieldConfirmacionContrasenia" max="32767" attributes="0"/>
+                              <Component id="jTextFieldContrasenia" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jButtonSalir" alignment="1" min="-2" pref="70" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="21" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Component id="jSeparator1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jButtonSalir" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="jLabelRegistrarBedel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelNombre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jTextFieldNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelApellido" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jTextFieldApellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelTurno" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jComboBoxTurno" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelContrasenia" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldContrasenia" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelConfirmacionContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldConfirmacionContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
-                      <Component id="jButtonAtras" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <Component id="jLabelRegistrarBedel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelNombre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="jTextFieldNombre" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelApellido" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="jTextFieldApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelTurno" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="jComboBoxTurno" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelConfirmacionContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldConfirmacionContrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonAtras" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -122,31 +100,37 @@
     <Component class="javax.swing.JLabel" name="jLabelNombre">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nombre"/>
+        <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelApellido">
       <Properties>
         <Property name="text" type="java.lang.String" value="Apellido"/>
+        <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelTurno">
       <Properties>
         <Property name="text" type="java.lang.String" value="Turno"/>
+        <Property name="toolTipText" type="java.lang.String" value="Elija un turno de la lista."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUsuario">
       <Properties>
         <Property name="text" type="java.lang.String" value="Usuario"/>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelContrasenia">
       <Properties>
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelConfirmacionContrasenia">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirmar contrase&#xf1;a"/>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelRegistrarBedel">
@@ -158,17 +142,27 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNombre">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNombreActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldApellido">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldUsuario">
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldContrasenia">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldConfirmacionContrasenia">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxTurno">
       <Properties>
@@ -179,6 +173,7 @@
             <StringItem index="2" value="Noche"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Elija un turno de la lista."/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor Por defecto"/>
         </Property>
@@ -189,14 +184,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButtonSalir">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Salir"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalirActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonAceptar">
       <Properties>
@@ -214,7 +201,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtrasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    <Component class="javax.swing.JPasswordField" name="jTextFieldContrasenia">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
