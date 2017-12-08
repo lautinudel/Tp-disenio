@@ -25,7 +25,7 @@ public class GestorAutenticacion {
     
     public int autenticarUsuario(String usuario, String pass){
         BedelDAO BDAO = new BedelDAO();
-        ClaveDao CDAO = new ClaveDao();
+        //ClaveDao CDAO = new ClaveDao();
         AdministradorDAO ADAO = new AdministradorDAO();
         
         if(BDAO.verificarExistencia(usuario)){
