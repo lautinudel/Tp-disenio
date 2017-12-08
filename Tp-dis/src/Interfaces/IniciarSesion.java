@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Gestores.GestorAutenticacion;
 import Modelo.*;
 import Persistencia.*;
 import java.awt.BorderLayout;
@@ -117,121 +118,45 @@ public class IniciarSesion extends javax.swing.JPanel {
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
         String usuario = this.jTextFieldUsuario.getText();
-        String pass = "";
-        char [] password = this.jPasswordFieldPass.getPassword();
-        for(int i=0; i<password.length;i++){
-            pass+=password[i];
-        }
-        BedelDAO BDAO = new BedelDAO();
-        ClaveDao CDAO = new ClaveDao();
-        AdministradorDAO ADAO = new AdministradorDAO();
+        String pass = new String(jPasswordFieldPass.getPassword());
+        
         //Verificar limite de caracteres en ambos campos
         if(usuario.length()>5 && usuario.length()<33 ){
             if( pass.length()>5 && pass.length()<33){
-                //verifico si el bedel existe
-                if(BDAO.verificarExistencia(usuario)){
-                    Bedel b = BDAO.obtenerBedel(usuario);
-                    //obtengo el ultimo elemento del hashset
-                    ClaveBedel cb=null;
-                    ClaveBedel cAnterior=null;
-                    //busco la contraseña mas actual
-                    
-                    for(ClaveBedel c: b.getClaveBedels()){
-                        if(cb==null){
-                            cb=c;
-                            cAnterior=c;        
-                        }else{
-                            if(c.getId().getFecha().compareTo(cAnterior.getId().getFecha())>0){
-                                cb=c;
-                                cAnterior=c;
-                            }else cAnterior=c;
-                        }
-                        
-                    }
-                    //verifico si la clave concuerda
-                    if(cb.getId().getValor().equals(pass) && cb.getId().getBedelUsername().equals(b.getUsername())){
-                        //ir al menu de bedel
-                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        MenuPrincipalBedel menuBedel = new MenuPrincipalBedel();
-                        topFrame.add(menuBedel, BorderLayout.CENTER);
-                        this.setVisible(false);
-                        topFrame.remove(this);
-                        topFrame.setSize(500,500);
-                        
-                    }else{
-                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        topFrame.mensajeEmergente("Error", "La contraseña es invalida");
-                    }
-                    
-                    
-                   
-                }else{
-                    //verifico si el admin existe
-                    if(ADAO.verificarExistencia(usuario)){
-                        Administrador a = ADAO.obtenerAdministrador(usuario);
-                        //obtengo el ultimo elemento del hashset
-                        ClaveAdministrador ca=null;
-                        ClaveAdministrador cAnt=null;
-                        for(ClaveAdministrador c: a.getClaveAdministradors()){
-                        if(ca==null){
-                            ca=c;
-                            cAnt=c;        
-                        }else{
-                            if(c.getId().getFecha().compareTo(cAnt.getId().getFecha())>0){
-                                ca=c;
-                                cAnt=c;
-                            }else cAnt=c;
-                        }
-                        
-                    }
-                        //verifico si la clave concuerda
-                        
-                        if(ca.getId().getValor().equals(pass) && ca.getId().getAdministradorUsername().equals(a.getUsername())){
-                        //ir al menu de admin
-                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        MenuPrincipalAdmin menuAdmin = new MenuPrincipalAdmin();
-                        topFrame.add(menuAdmin, BorderLayout.CENTER);
-                        this.setVisible(false);
-                        topFrame.remove(this);
-                        topFrame.setSize(500,500);
-                        
-                        
-                        
-                        
-                    }else{
-                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        topFrame.mensajeEmergente("Error", "La contraseña es invalida");
-                    }
-                        
-                        
-                        
-                    }else{
-                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        topFrame.mensajeEmergente("Error", "El usuario no existe");
-                    }
-                    
+                //verifico si el usuario existe:
+                GestorAutenticacion gestorAu = new GestorAutenticacion();
+                int retornoMensajes = gestorAu.autenticarUsuario(usuario, pass);
+                
+                JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                switch (retornoMensajes) {
+                case 1:
+                    MenuPrincipalBedel menuBedel = new MenuPrincipalBedel();
+                    topFrame.add(menuBedel, BorderLayout.CENTER);
+                    this.setVisible(false);
+                    topFrame.remove(this);
+                    topFrame.setSize(500,500);
+                    break;
+                case 2:
+                    topFrame.mensajeEmergente("Error", "La contraseña es incorrecta. Vuelva a intentarlo.");
+                    break;
+                case 3:
+                    topFrame.mensajeEmergente("Error", "No existe un usuario registrado con ese nombre.");
+                    break;
                 }
-                
-                
-                
                 
             }else{
                 JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                topFrame.mensajeEmergente("Error", "Los numeros de caracteres para el campo contraseña estan fuera del limite");
+                topFrame.mensajeEmergente("Error", "El numero de caracteres para el campo contraseña estan fuera del limite");
                 //limpia el campo contraseña
                 this.jPasswordFieldPass.setText(null);
             }
             
         }else{
             JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-            topFrame.mensajeEmergente("Error", "Los numeros de caracteres para el campo usuario estan fuera del limite");
+            topFrame.mensajeEmergente("Error", "El numero de caracteres para el campo usuario estan fuera del limite");
             //limpia el campo usuario
             this.jTextFieldUsuario.setText(null);
-        
-        
         }
-        
-        
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jTextFieldUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyTyped
