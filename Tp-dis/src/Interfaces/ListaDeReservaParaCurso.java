@@ -38,7 +38,6 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroupTipoCurso = new javax.swing.ButtonGroup();
-        jButtonSalir = new javax.swing.JButton();
         jLabelListadodeReservaParaUnCurso = new javax.swing.JLabel();
         jLabelIntroducirCursoEspecifico = new javax.swing.JLabel();
         jTextFieldCursoEspecifico = new javax.swing.JTextField();
@@ -52,13 +51,6 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         jButtonVerReservas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListaDeCursos = new javax.swing.JTable();
-
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
-            }
-        });
 
         jLabelListadodeReservaParaUnCurso.setText("Listado de Reserva para un curso");
 
@@ -75,6 +67,11 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         jLabelCursosDisponibles.setText("Cursos disponibles:");
 
         jButtonAtras.setText("Atras");
+        jButtonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtrasActionPerformed(evt);
+            }
+        });
 
         jButtonVerReservas.setText("Ver Reservas");
         jButtonVerReservas.addActionListener(new java.awt.event.ActionListener() {
@@ -105,9 +102,7 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonVerReservas)
-                    .addComponent(jButtonSalir))
+                .addComponent(jButtonVerReservas)
                 .addGap(19, 19, 19))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,9 +141,7 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonSalir)
-                .addGap(34, 34, 34)
+                .addGap(68, 68, 68)
                 .addComponent(jLabelListadodeReservaParaUnCurso)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -175,25 +168,6 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        ArrayList<JButton> botonesDialogo = new ArrayList<>();
-        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
-        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
-        
-        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-            exit(0);             
-        });
-        
-        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-        });
-    }//GEN-LAST:event_jButtonSalirActionPerformed
-
     private void jButtonVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerReservasActionPerformed
         // TODO add your handling code here:
         String nombreCurso = this.jTextFieldCursoEspecifico.getText();
@@ -201,11 +175,14 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonVerReservasActionPerformed
 
+    private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAtrasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupTipoCurso;
     private javax.swing.JButton jButtonAtras;
-    private javax.swing.JButton jButtonSalir;
     private javax.swing.JButton jButtonVerReservas;
     private javax.swing.JLabel jLabelCursosDisponibles;
     private javax.swing.JLabel jLabelIntroducirCursoEspecifico;

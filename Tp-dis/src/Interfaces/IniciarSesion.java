@@ -45,7 +45,6 @@ public class IniciarSesion extends javax.swing.JPanel {
         jLabelContrasenia = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
         jButtonAceptar = new javax.swing.JButton();
-        jButtonSalir = new javax.swing.JButton();
         jPasswordFieldPass = new javax.swing.JPasswordField();
 
         setPreferredSize(new java.awt.Dimension(400, 400));
@@ -70,13 +69,6 @@ public class IniciarSesion extends javax.swing.JPanel {
             }
         });
 
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,20 +89,16 @@ public class IniciarSesion extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldUsuario)
                                     .addComponent(jPasswordFieldPass))))
-                        .addGap(0, 103, Short.MAX_VALUE))
+                        .addGap(0, 102, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonSalir, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addComponent(jButtonAceptar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jButtonSalir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(41, 41, 41)
                 .addComponent(jLabelInicioDeSesion)
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -120,7 +108,7 @@ public class IniciarSesion extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelContrasenia)
                     .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addComponent(jButtonAceptar)
                 .addContainerGap())
         );
@@ -164,7 +152,7 @@ public class IniciarSesion extends javax.swing.JPanel {
                     if(cb.getId().getValor().equals(pass) && cb.getId().getBedelUsername().equals(b.getUsername())){
                         //ir al menu de bedel
                         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                        menuPrincipalBedel menuBedel = new menuPrincipalBedel();
+                        MenuPrincipalBedel menuBedel = new MenuPrincipalBedel();
                         topFrame.add(menuBedel, BorderLayout.CENTER);
                         this.setVisible(false);
                         topFrame.remove(this);
@@ -246,25 +234,6 @@ public class IniciarSesion extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        ArrayList<JButton> botonesDialogo = new ArrayList<>();
-        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
-        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
-        
-        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-            exit(0);             
-        });
-        
-        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-        });
-    }//GEN-LAST:event_jButtonSalirActionPerformed
-
     private void jTextFieldUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyTyped
         // TODO add your handling code here:
         
@@ -273,7 +242,6 @@ public class IniciarSesion extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
-    private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelInicioDeSesion;
     private javax.swing.JLabel jLabelUsuario;

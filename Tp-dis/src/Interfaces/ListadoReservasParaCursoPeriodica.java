@@ -35,7 +35,6 @@ public class ListadoReservasParaCursoPeriodica extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabelReservasPriodicasParaElCurso = new javax.swing.JLabel();
-        jButtonSalir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jComboBoxPeriodosReservados = new javax.swing.JComboBox<>();
         jButtonAtras = new javax.swing.JButton();
@@ -44,13 +43,6 @@ public class ListadoReservasParaCursoPeriodica extends javax.swing.JPanel {
         jTableReservas = new javax.swing.JTable();
 
         jLabelReservasPriodicasParaElCurso.setText("Reservas periodicas para el curso:");
-
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Periodos reservados:");
 
@@ -84,16 +76,13 @@ public class ListadoReservasParaCursoPeriodica extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabelReservasPriodicasParaElCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSalir))
+                        .addComponent(jLabelReservasPriodicasParaElCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(63, 63, 63)
-                        .addComponent(jComboBoxPeriodosReservados, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jComboBoxPeriodosReservados, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -109,13 +98,8 @@ public class ListadoReservasParaCursoPeriodica extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabelReservasPriodicasParaElCurso))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButtonSalir)))
+                .addGap(27, 27, 27)
+                .addComponent(jLabelReservasPriodicasParaElCurso)
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -130,30 +114,10 @@ public class ListadoReservasParaCursoPeriodica extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        ArrayList<JButton> botonesDialogo = new ArrayList<>();
-        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
-        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
-        
-        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-            exit(0);             
-        });
-        
-        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
-            dialogo.setVisible(false);
-            this.remove(dialogo);
-        });
-    }//GEN-LAST:event_jButtonSalirActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAtras;
     private javax.swing.JButton jButtonImprimir;
-    private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxPeriodosReservados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelReservasPriodicasParaElCurso;

@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import javax.swing.SwingUtilities;
  *
  * @author L. Nudel
  */
-public class menuPrincipalBedel extends javax.swing.JPanel {
+public class MenuPrincipalBedel extends javax.swing.JPanel {
 
     /**
      * Creates new form menuPrincipalBedel
      */
-    public menuPrincipalBedel() {
+    public MenuPrincipalBedel() {
         initComponents();
     }
 
@@ -42,7 +43,6 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
         jLabelListadoDeReservasDia = new javax.swing.JLabel();
         jLabelListadoDeReservasCurso = new javax.swing.JLabel();
         jButtonSalir = new javax.swing.JButton();
-        jButtonAtras = new javax.swing.JButton();
         jButtonNuevaReserva = new javax.swing.JButton();
         jToggleButtonBuscarAula = new javax.swing.JToggleButton();
         jToggleButtonListadoDeReservas = new javax.swing.JToggleButton();
@@ -64,14 +64,12 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
 
         jLabelListadoDeReservasCurso.setText("Listado de reservas (curso)");
 
-        jButtonSalir.setText("Salir");
+        jButtonSalir.setText("Cerrar sesión");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalirActionPerformed(evt);
             }
         });
-
-        jButtonAtras.setText("Atras");
 
         jButtonNuevaReserva.setText(">");
 
@@ -87,9 +85,12 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -112,26 +113,16 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
                                 .addComponent(jLabelListadoDeReservasDia)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jToggleButtonListadoDeReservasDia))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonSalir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButtonAtras))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(129, 129, 129)
-                                .addComponent(jLabelMenuPrincipal)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(jLabelMenuPrincipal)
                         .addGap(0, 126, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonSalir)
-                .addGap(18, 18, 18)
+                .addGap(52, 52, 52)
                 .addComponent(jLabelMenuPrincipal)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -151,14 +142,11 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
                     .addComponent(jToggleButtonListadoDeReservasDia))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelListadoDeReservasCurso)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                        .addComponent(jButtonAtras))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToggleButtonListadoDeReservasCurso)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jLabelListadoDeReservasCurso)
+                    .addComponent(jToggleButtonListadoDeReservasCurso))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -166,13 +154,17 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
         // TODO add your handling code here:
          JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         ArrayList<JButton> botonesDialogo = new ArrayList<>();
-        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
+        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer cerrar la sesión?");
         JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
         
         botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
             dialogo.setVisible(false);
             this.remove(dialogo);
-            exit(0);             
+            IniciarSesion panelInicio = new IniciarSesion();
+            topFrame.add(panelInicio, BorderLayout.CENTER);
+            this.setVisible(false);
+            topFrame.remove(this);
+            topFrame.setSize(500,500);              
         });
         
         botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
@@ -184,7 +176,6 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonAtras;
     private javax.swing.JButton jButtonNuevaReserva;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelBuscarAula;
