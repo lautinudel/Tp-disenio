@@ -62,7 +62,7 @@ public class Administrador  implements java.io.Serializable {
     public void setActivo(Byte activo) {
         this.activo = activo;
     }
-    public Set getClaveAdministradors() {
+    public Set<ClaveAdministrador> getClaveAdministradors() {
         return this.claveAdministradors;
     }
     

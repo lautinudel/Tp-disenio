@@ -29,9 +29,9 @@ public class GestorBedel {
        TurnoEnum turnoT = null;
        
        switch (turno){
-           case "Mañana": turnoT = TurnoEnum.MANIANA;break;
-           case "Tarde": turnoT = TurnoEnum.TARDE;break;
-           case "Noche": turnoT = TurnoEnum.NOCHE;break;
+           case "Mañana": turnoT = TurnoEnum.Maniana;break;
+           case "Tarde": turnoT = TurnoEnum.Tarde;break;
+           case "Noche": turnoT = TurnoEnum.Noche;break;
        }
 
        

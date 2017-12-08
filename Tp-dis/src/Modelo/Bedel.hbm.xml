@@ -26,19 +26,19 @@
         <property name="activo" type="java.lang.Byte">
             <column name="activo" />
         </property>
-        <set name="reservaPeriodicas" table="ReservaPeriodica" inverse="true" lazy="true" fetch="select">
+        <set name="reservaPeriodicas" table="ReservaPeriodica" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="Bedel_username" length="32" not-null="true" />
             </key>
             <one-to-many class="Modelo.ReservaPeriodica" />
         </set>
-        <set name="claveBedels" table="Clave_Bedel" inverse="true" lazy="true" fetch="select">
+        <set name="claveBedels" table="Clave_Bedel" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="Bedel_username" length="32" not-null="true" />
             </key>
-            <one-to-many class="Modelo.ClaveBedel" />
+            <one-to-many class="Modelo.ClaveBedel"/>
         </set>
-        <set name="reservaEsporadicas" table="ReservaEsporadica" inverse="true" lazy="true" fetch="select">
+        <set name="reservaEsporadicas" table="ReservaEsporadica" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="Bedel_username" length="32" not-null="true" />
             </key>

@@ -84,7 +84,7 @@ public class Bedel  implements java.io.Serializable {
     public void setReservaPeriodicas(Set reservaPeriodicas) {
         this.reservaPeriodicas = reservaPeriodicas;
     }
-    public Set getClaveBedels() {
+    public Set<ClaveBedel> getClaveBedels() {
         return this.claveBedels;
     }
     

@@ -17,7 +17,7 @@
         <property name="activo" type="java.lang.Byte">
             <column name="activo" />
         </property>
-        <set name="claveAdministradors" table="Clave_Administrador" inverse="true" lazy="true" fetch="select">
+        <set name="claveAdministradors" table="Clave_Administrador" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="Administrador_username" length="32" not-null="true" />
             </key>

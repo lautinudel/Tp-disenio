@@ -31,7 +31,7 @@ public class ClaveDao {
         return r;
     }*/
     
-    public Boolean verificarExistencia(String pass){
+    public Boolean verificarExistenciaClaveBedel(String pass){
         Boolean r;
         ClaveBedelId c=new ClaveBedelId(pass);
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -39,6 +39,19 @@ public class ClaveDao {
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
         if(session.get(ClaveBedel.class, c)!=null) r=true; 
+        else r=false;
+        tx.commit();
+        session.close();
+        return r;
+    }
+    public Boolean verificarExistenciaClaveAdmin(String pass){
+        Boolean r;
+        ClaveBedelId c=new ClaveBedelId(pass);
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        if(session.get(ClaveAdministrador.class, c)!=null) r=true; 
         else r=false;
         tx.commit();
         session.close();

@@ -5,6 +5,13 @@
  */
 package Interfaces;
 
+import java.awt.event.ActionEvent;
+import static java.lang.System.exit;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author L. Nudel
@@ -58,6 +65,11 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
         jLabelListadoDeReservasCurso.setText("Listado de reservas (curso)");
 
         jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
 
         jButtonAtras.setText("Atras");
 
@@ -149,6 +161,25 @@ public class menuPrincipalBedel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        // TODO add your handling code here:
+         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        ArrayList<JButton> botonesDialogo = new ArrayList<>();
+        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Confirmación de cierre", "¿Está seguro de querer salir del programa?");
+        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
+        
+        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+            exit(0);             
+        });
+        
+        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });
+    }//GEN-LAST:event_jButtonSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

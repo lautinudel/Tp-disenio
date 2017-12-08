@@ -7,9 +7,12 @@ package Interfaces;
 
 import Modelo.*;
 import Persistencia.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -133,24 +136,92 @@ public class IniciarSesion extends javax.swing.JPanel {
         }
         BedelDAO BDAO = new BedelDAO();
         ClaveDao CDAO = new ClaveDao();
+        AdministradorDAO ADAO = new AdministradorDAO();
         //Verificar limite de caracteres en ambos campos
         if(usuario.length()>5 && usuario.length()<33 ){
             if( pass.length()>5 && pass.length()<33){
                 //verifico si el bedel existe
                 if(BDAO.verificarExistencia(usuario)){
                     Bedel b = BDAO.obtenerBedel(usuario);
-                    //verifico si la clave existe
-                   if(CDAO.verificarExistencia(pass)){
-                       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-            topFrame.mensajeEmergente("Existe", pass);
-                       
-                       //ClaveBedelId c = CDAO.obtenerClaveBedel(pass);*/
-                       //verifico si la clave pertenece al usuario
-                   }else{
-                       
-                   }
+                    //obtengo el ultimo elemento del hashset
+                    ClaveBedel cb=null;
+                    ClaveBedel cAnterior=null;
+                    //busco la contraseña mas actual
+                    
+                    for(ClaveBedel c: b.getClaveBedels()){
+                        if(cb==null){
+                            cb=c;
+                            cAnterior=c;        
+                        }else{
+                            if(c.getId().getFecha().compareTo(cAnterior.getId().getFecha())>0){
+                                cb=c;
+                                cAnterior=c;
+                            }else cAnterior=c;
+                        }
+                        
+                    }
+                    //verifico si la clave concuerda
+                    if(cb.getId().getValor().equals(pass) && cb.getId().getBedelUsername().equals(b.getUsername())){
+                        //ir al menu de bedel
+                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        menuPrincipalBedel menuBedel = new menuPrincipalBedel();
+                        topFrame.add(menuBedel, BorderLayout.CENTER);
+                        this.setVisible(false);
+                        topFrame.remove(this);
+                        topFrame.setSize(500,500);
+                        
+                    }else{
+                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        topFrame.mensajeEmergente("Error", "La contraseña es invalida");
+                    }
+                    
+                    
+                   
                 }else{
                     //verifico si el admin existe
+                    if(ADAO.verificarExistencia(usuario)){
+                        Administrador a = ADAO.obtenerAdministrador(usuario);
+                        //obtengo el ultimo elemento del hashset
+                        ClaveAdministrador ca=null;
+                        ClaveAdministrador cAnt=null;
+                        for(ClaveAdministrador c: a.getClaveAdministradors()){
+                        if(ca==null){
+                            ca=c;
+                            cAnt=c;        
+                        }else{
+                            if(c.getId().getFecha().compareTo(cAnt.getId().getFecha())>0){
+                                ca=c;
+                                cAnt=c;
+                            }else cAnt=c;
+                        }
+                        
+                    }
+                        //verifico si la clave concuerda
+                        
+                        if(ca.getId().getValor().equals(pass) && ca.getId().getAdministradorUsername().equals(a.getUsername())){
+                        //ir al menu de admin
+                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        MenuPrincipalAdmin menuAdmin = new MenuPrincipalAdmin();
+                        topFrame.add(menuAdmin, BorderLayout.CENTER);
+                        this.setVisible(false);
+                        topFrame.remove(this);
+                        topFrame.setSize(500,500);
+                        
+                        
+                        
+                        
+                    }else{
+                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        topFrame.mensajeEmergente("Error", "La contraseña es invalida");
+                    }
+                        
+                        
+                        
+                    }else{
+                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        topFrame.mensajeEmergente("Error", "El usuario no existe");
+                    }
+                    
                 }
                 
                 
