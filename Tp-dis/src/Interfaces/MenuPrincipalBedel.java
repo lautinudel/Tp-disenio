@@ -72,6 +72,11 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         });
 
         jButtonNuevaReserva.setText(">");
+        jButtonNuevaReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNuevaReservaActionPerformed(evt);
+            }
+        });
 
         jToggleButtonBuscarAula.setText(">");
 
@@ -166,11 +171,12 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
             dialogo.setVisible(false);
             this.remove(dialogo);
-            IniciarSesion panelInicio = new IniciarSesion();
-            topFrame.add(panelInicio, BorderLayout.CENTER);
+            IniciarSesion panelIniciar = new IniciarSesion();
+            panelIniciar.setImage("/Imagenes/fondo1.jpg");
+            topFrame.add(panelIniciar, BorderLayout.CENTER);
             this.setVisible(false);
             topFrame.remove(this);
-            topFrame.setSize(500,500);              
+            topFrame.setSize(500,500);               
         });
         
         botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
@@ -188,6 +194,17 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         topFrame.remove(this);
         topFrame.setSize(600,600);
     }//GEN-LAST:event_jToggleButtonListadoDeReservasCursoActionPerformed
+
+    private void jButtonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevaReservaActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        RegistrarReserva panelRegistro = new RegistrarReserva();
+        panelRegistro.setImage("/Imagenes/fondoabs.jpg");
+        topFrame.add(panelRegistro, BorderLayout.CENTER);
+        this.setVisible(false);
+        topFrame.remove(this);
+        topFrame.setSize(700,600); 
+    }//GEN-LAST:event_jButtonNuevaReservaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

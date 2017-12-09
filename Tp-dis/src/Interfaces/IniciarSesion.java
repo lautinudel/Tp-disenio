@@ -197,6 +197,7 @@ public class IniciarSesion extends javax.swing.JPanel {
             fondo=new ImageIcon(getClass().getResource(image)).getImage();
         }
     }
+    //
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
