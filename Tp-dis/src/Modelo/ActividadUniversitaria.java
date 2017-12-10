@@ -84,15 +84,23 @@ public class ActividadUniversitaria  implements java.io.Serializable {
         return this.reservaEsporadicas;
     }
     
+    public void removerReservaEsporadica(Set lista){
+        this.reservaEsporadicas.removeAll(lista);
+    }
+    
     public void setReservaEsporadicas(Set reservaEsporadicas) {
         this.reservaEsporadicas = reservaEsporadicas;
     }
-    public Set getReservaPeriodicas() {
+    public Set<ReservaPeriodica> getReservaPeriodicas() {
         return this.reservaPeriodicas;
     }
     
     public void setReservaPeriodicas(Set reservaPeriodicas) {
         this.reservaPeriodicas = reservaPeriodicas;
+    }
+
+    public void removerReservaPeriodica(Set lista) {
+       this.reservaPeriodicas.removeAll(lista);
     }
 
 

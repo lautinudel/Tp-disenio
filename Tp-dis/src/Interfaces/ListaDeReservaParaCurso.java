@@ -213,7 +213,14 @@ public class ListaDeReservaParaCurso extends javax.swing.JPanel {
         int anio = (int) this.jSpinnerAnio.getValue();
         GestorListadoReservasParaActividadUniversitaria GLRU = new GestorListadoReservasParaActividadUniversitaria();
         List<ActividadUniversitaria> listaCursos = GLRU.buscarCursos(curso, tipoReserva, anio);
-        
+        if(listaCursos.isEmpty()){
+            
+        }else{
+            for(int i=0;i<listaCursos.size();i++){
+              //this.jTableListaDeCursos.editCellAt(i, 0, listaCursos.get(i));
+            }
+            
+        }
         
 
 

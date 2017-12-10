@@ -90,12 +90,16 @@ public class ReservaPeriodica  implements java.io.Serializable {
     public void setPeriodo(PeriodoEnum periodo) {
         this.periodo = periodo;
     }
-    public Set getDiaReservaPeriodicas() {
+    public Set<DiaReservaPeriodica> getDiaReservaPeriodicas() {
         return this.diaReservaPeriodicas;
     }
     
     public void setDiaReservaPeriodicas(Set diaReservaPeriodicas) {
         this.diaReservaPeriodicas = diaReservaPeriodicas;
+    }
+
+    public void removerElementos(Set lista) {
+        this.diaReservaPeriodicas.removeAll(lista);
     }
 
 

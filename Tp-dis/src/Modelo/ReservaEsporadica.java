@@ -85,6 +85,11 @@ public class ReservaEsporadica  implements java.io.Serializable {
         return this.diaReservaEsporadicas;
     }
     
+    public void removerElementos (Set<DiaReservaEsporadica> lista){
+        this.diaReservaEsporadicas.removeAll(lista);
+    }
+    
+    
     public void setDiaReservaEsporadicas(Set diaReservaEsporadicas) {
         this.diaReservaEsporadicas = diaReservaEsporadicas;
     }
