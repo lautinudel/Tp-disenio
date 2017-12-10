@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 03/11/2017 21:00:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Modelo.DiaReservaPeriodica" table="`Dia ReservaPeriodica`" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+    <class name="Modelo.DiaReservaPeriodica" table="DiaReservaPeriodica" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
         <composite-id name="id" class="Modelo.DiaReservaPeriodicaId">
             <key-property name="reservaPeriodicaIdReservaPeriodica" type="int">
                 <column name="ReservaPeriodica_id_reservaPeriodica" />
@@ -11,9 +11,15 @@
             <key-property name="aulaNumeroAula" type="int">
                 <column name="Aula_numeroAula" />
             </key-property>
-            <key-property name="dia" type="date">
+            <!--<key-property name="dia" type="date">
                 <column name="dia" length="10" />
-            </key-property>
+            </key-property>-->
+            <property name="dia" column="dia">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">Modelo.DiaSemana</param>
+                <param name="useNamed">true</param>
+            </type>
+            </property>
             <key-property name="horaInicio" type="time">
                 <column name="horaInicio" length="8" />
             </key-property>
