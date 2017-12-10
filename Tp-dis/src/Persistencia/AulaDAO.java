@@ -27,6 +27,7 @@ public class AulaDAO {
     }
     
     public List<Aula> obtenerListaDeAulas(TipoAula tipoAula, int cantAlumnos){
+        //recupero las aulas
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
