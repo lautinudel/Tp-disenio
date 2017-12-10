@@ -16,7 +16,9 @@ public class ReservaEsporadica  implements java.io.Serializable {
      private Bedel bedel;
      private Docente docente;
      private Integer cantidadAlumnos;
+     private TipoAula tipoAula;
      private Set diaReservaEsporadicas = new HashSet(0);
+     
 
     public ReservaEsporadica() {
     }
@@ -27,12 +29,21 @@ public class ReservaEsporadica  implements java.io.Serializable {
         this.bedel = bedel;
         this.docente = docente;
     }
-    public ReservaEsporadica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Integer cantidadAlumnos, Set diaReservaEsporadicas) {
+    public ReservaEsporadica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Integer cantidadAlumnos, Set diaReservaEsporadicas, TipoAula tipo) {
        this.actividadUniversitaria = actividadUniversitaria;
        this.bedel = bedel;
        this.docente = docente;
        this.cantidadAlumnos = cantidadAlumnos;
        this.diaReservaEsporadicas = diaReservaEsporadicas;
+       this.tipoAula = tipo;
+    }
+
+    public TipoAula getTipoAula() {
+        return tipoAula;
+    }
+
+    public void setTipoAula(TipoAula tipoAula) {
+        this.tipoAula = tipoAula;
     }
    
     public Integer getIdReservaEsporadica() {

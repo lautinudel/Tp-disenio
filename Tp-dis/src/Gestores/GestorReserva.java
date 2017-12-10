@@ -5,6 +5,9 @@
  */
 package Gestores;
 
+import Modelo.Aula;
+import java.util.ArrayList;
+
 /**
  *
  * @author Temp
@@ -12,5 +15,10 @@ package Gestores;
 public class GestorReserva {
     
     
-    //public obtenerDisponibilidadAula
+    public ArrayList<Aula> obtenerDisponibilidadDeAula(){
+        ArrayList<Aula> lista = new ArrayList<>();
+        
+        
+        return lista;
+    }
 }
