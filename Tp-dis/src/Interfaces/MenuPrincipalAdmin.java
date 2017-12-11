@@ -68,6 +68,11 @@ public class MenuPrincipalAdmin extends javax.swing.JPanel {
         jLabel3.setText("Buscar bedel");
 
         jButton3.setText(">");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -143,6 +148,16 @@ public class MenuPrincipalAdmin extends javax.swing.JPanel {
             this.remove(dialogo);
         });
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        BuscarBedel bb = new BuscarBedel();
+        topFrame.add(bb, BorderLayout.CENTER);
+        this.setVisible(false);
+        topFrame.remove(this);
+        topFrame.setSize(500,500); 
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

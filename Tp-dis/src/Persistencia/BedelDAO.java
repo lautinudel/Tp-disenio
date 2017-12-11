@@ -7,10 +7,12 @@ package Persistencia;
 
 import Modelo.Bedel;
 import Modelo.ClaveBedel;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 
 /**
@@ -61,6 +63,29 @@ public class BedelDAO {
         
         
     }
-
+    public List<Bedel> buscarPorApellido (String apellido){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("apellido", "%"+apellido+"%") ).list();
+        tx.commit();
+        session.close();
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getActivo()==0){
+                lista.remove(i);
+                i--;
+            }
+            for(int j=0;j<lista.size();j++){
+                if(j!=i){
+                if(lista.get(i).getUsername().equals(lista.get(j).getUsername())){
+                    lista.remove(j);
+                    j--;
+                }}
+            }
+        }
+        return lista; 
+  
+    }
     
 }
