@@ -33,7 +33,7 @@ public class GestorAula {
         
         LinkedHashMap<ArrayList<String>, ArrayList<Aula>> retorno = new LinkedHashMap<>();
         
-        AulaDAO aulaDao = new AulaDAO();
+        /*AulaDAO aulaDao = new AulaDAO();
         List<Aula> listaAulas = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -53,7 +53,7 @@ public class GestorAula {
                     
                 }
             }
-        }
+        }*/
         
         
         return retorno;

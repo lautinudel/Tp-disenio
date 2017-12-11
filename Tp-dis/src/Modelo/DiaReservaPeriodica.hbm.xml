@@ -20,14 +20,14 @@
                 <param name="useNamed">true</param>
             </type>
             </key-property>
-            <key-property name="anio" type="java.lang.Integer">
+            <key-property name="anio" type="int">
                 <column name="anio" />
             </key-property>
             <key-property name="horaInicio" type="time">
                 <column name="horaInicio" length="8" />
             </key-property>
-            <key-property name="horaFin" type="time">
-                <column name="horaFin" length="8" />
+            <key-property name="duracion" type="int">
+                <column name="duracion" />
             </key-property>
         </composite-id>
         <many-to-one name="aula" class="Modelo.Aula" update="false" insert="false" fetch="select">

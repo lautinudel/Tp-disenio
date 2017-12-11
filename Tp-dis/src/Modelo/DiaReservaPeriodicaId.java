@@ -2,6 +2,7 @@ package Modelo;
 // Generated 03/11/2017 21:00:49 by Hibernate Tools 4.3.1
 
 
+//import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -14,21 +15,30 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
      private int aulaNumeroAula;
      private DiaSemana dia;
      private Date horaInicio;
-     private Date horaFin;
+     private int duracion;
      private int anio;
 
     public DiaReservaPeriodicaId() {
     }
 
-    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, DiaSemana dia, Date horaInicio, Date horaFin, int anio) {
+    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, DiaSemana dia, Date horaInicio, int duracion, int anio) {
        this.reservaPeriodicaIdReservaPeriodica = reservaPeriodicaIdReservaPeriodica;
        this.aulaNumeroAula = aulaNumeroAula;
        this.dia = dia;
        this.horaInicio = horaInicio;
-       this.horaFin = horaFin;
+       this.duracion = duracion;
        this.anio = anio;
     }
 
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    
     public int getAnio() {
         return anio;
     }
@@ -65,13 +75,6 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
-    public Date getHoraFin() {
-        return this.horaFin;
-    }
-    
-    public void setHoraFin(Date horaFin) {
-        this.horaFin = horaFin;
-    }
 
 
    public boolean equals(Object other) {
@@ -84,7 +87,8 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
  && (this.getAulaNumeroAula()==castOther.getAulaNumeroAula())
  && ( (this.getDia()==castOther.getDia()) || ( this.getDia()!=null && castOther.getDia()!=null && this.getDia().equals(castOther.getDia()) ) )
  && ( (this.getHoraInicio()==castOther.getHoraInicio()) || ( this.getHoraInicio()!=null && castOther.getHoraInicio()!=null && this.getHoraInicio().equals(castOther.getHoraInicio()) ) )
- && ( (this.getHoraFin()==castOther.getHoraFin()) || ( this.getHoraFin()!=null && castOther.getHoraFin()!=null && this.getHoraFin().equals(castOther.getHoraFin()) ) );
+ && ( (this.getDuracion()==castOther.getDuracion()) )
+ && ( (this.getAnio()==castOther.getAnio()) );
    }
    
    public int hashCode() {
@@ -94,9 +98,10 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
          result = 37 * result + this.getAulaNumeroAula();
          result = 37 * result + ( getDia() == null ? 0 : this.getDia().hashCode() );
          result = 37 * result + ( getHoraInicio() == null ? 0 : this.getHoraInicio().hashCode() );
-         result = 37 * result + ( getHoraFin() == null ? 0 : this.getHoraFin().hashCode() );
+         result = 37 * result + this.getDuracion();
+         result = 37 * result + this.getAnio();
          return result;
-   }   
+   }
 
 
 }
