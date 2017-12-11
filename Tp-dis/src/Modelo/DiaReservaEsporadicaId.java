@@ -15,17 +15,17 @@ public class DiaReservaEsporadicaId  implements java.io.Serializable {
      private int aulaNumeroAula;
      private Date dia;
      private Date horaInicio;
-     private int duracion;
+     private Date horaFin;
 
     public DiaReservaEsporadicaId() {
     }
 
-    public DiaReservaEsporadicaId(int reservaEsporadicaIdReservaEsporadica, int aulaNumeroAula, Date dia, Date horaInicio, int duracion) {
+    public DiaReservaEsporadicaId(int reservaEsporadicaIdReservaEsporadica, int aulaNumeroAula, Date dia, Date horaInicio, Date horaFin) {
        this.reservaEsporadicaIdReservaEsporadica = reservaEsporadicaIdReservaEsporadica;
        this.aulaNumeroAula = aulaNumeroAula;
        this.dia = dia;
        this.horaInicio = horaInicio;
-       this.duracion = duracion;
+       this.horaFin = horaFin;
     }
    
     
@@ -57,14 +57,16 @@ public class DiaReservaEsporadicaId  implements java.io.Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
-    public int getDuracion() {
-        return this.duracion;
-    }
-    
-    public void setDuracion(int duracion) {
-        this.duracion = duracion;
+
+    public Date getHoraFin() {
+        return horaFin;
     }
 
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
+    }
+    
+    
 
   public boolean equals(Object other) {
          if ( (this == other ) ) return true;
@@ -76,7 +78,7 @@ public class DiaReservaEsporadicaId  implements java.io.Serializable {
  && (this.getAulaNumeroAula()==castOther.getAulaNumeroAula())
  && ( (this.getDia()==castOther.getDia()) || ( this.getDia()!=null && castOther.getDia()!=null && this.getDia().equals(castOther.getDia()) ) )
  && ( (this.getHoraInicio()==castOther.getHoraInicio()) || ( this.getHoraInicio()!=null && castOther.getHoraInicio()!=null && this.getHoraInicio().equals(castOther.getHoraInicio()) ) )
- && (this.getDuracion()==castOther.getDuracion());
+ && ( (this.getHoraInicio()==castOther.getHoraFin()) || ( this.getHoraFin()!=null && castOther.getHoraFin()!=null && this.getHoraFin().equals(castOther.getHoraFin()) ) );
    }
    
    public int hashCode() {
@@ -86,7 +88,7 @@ public class DiaReservaEsporadicaId  implements java.io.Serializable {
          result = 37 * result + this.getAulaNumeroAula();
          result = 37 * result + ( getDia() == null ? 0 : this.getDia().hashCode() );
          result = 37 * result + ( getHoraInicio() == null ? 0 : this.getHoraInicio().hashCode() );
-         result = 37 * result + this.getDuracion();
+         result = 37 * result + ( getHoraFin() == null ? 0 : this.getHoraFin().hashCode() );
          return result;
    }
 

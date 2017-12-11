@@ -26,8 +26,8 @@
             <key-property name="horaInicio" type="time">
                 <column name="horaInicio" length="8" />
             </key-property>
-            <key-property name="duracion" type="int">
-                <column name="duracion" />
+            <key-property name="horaFin" type="time">
+                <column name="horaFin" />
             </key-property>
         </composite-id>
         <many-to-one name="aula" class="Modelo.Aula" update="false" insert="false" fetch="select">

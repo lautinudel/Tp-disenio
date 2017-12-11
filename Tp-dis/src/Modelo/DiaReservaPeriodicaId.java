@@ -15,29 +15,28 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
      private int aulaNumeroAula;
      private DiaSemana dia;
      private Date horaInicio;
-     private int duracion;
+     private Date horaFin;
      private int anio;
 
     public DiaReservaPeriodicaId() {
     }
 
-    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, DiaSemana dia, Date horaInicio, int duracion, int anio) {
+    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, DiaSemana dia, Date horaInicio, Date horaFin, int anio) {
        this.reservaPeriodicaIdReservaPeriodica = reservaPeriodicaIdReservaPeriodica;
        this.aulaNumeroAula = aulaNumeroAula;
        this.dia = dia;
        this.horaInicio = horaInicio;
-       this.duracion = duracion;
+       this.horaFin = horaFin;
        this.anio = anio;
     }
 
-    public int getDuracion() {
-        return duracion;
+    public Date getHoraFin() {
+        return horaFin;
     }
 
-    public void setDuracion(int duracion) {
-        this.duracion = duracion;
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
     }
-
     
     public int getAnio() {
         return anio;
@@ -87,7 +86,7 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
  && (this.getAulaNumeroAula()==castOther.getAulaNumeroAula())
  && ( (this.getDia()==castOther.getDia()) || ( this.getDia()!=null && castOther.getDia()!=null && this.getDia().equals(castOther.getDia()) ) )
  && ( (this.getHoraInicio()==castOther.getHoraInicio()) || ( this.getHoraInicio()!=null && castOther.getHoraInicio()!=null && this.getHoraInicio().equals(castOther.getHoraInicio()) ) )
- && ( (this.getDuracion()==castOther.getDuracion()) )
+ && ( (this.getHoraFin()==castOther.getHoraFin()) || ( this.getHoraFin()!=null && castOther.getHoraFin()!=null && this.getHoraFin().equals(castOther.getHoraFin()) ) )
  && ( (this.getAnio()==castOther.getAnio()) );
    }
    
@@ -98,7 +97,7 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
          result = 37 * result + this.getAulaNumeroAula();
          result = 37 * result + ( getDia() == null ? 0 : this.getDia().hashCode() );
          result = 37 * result + ( getHoraInicio() == null ? 0 : this.getHoraInicio().hashCode() );
-         result = 37 * result + this.getDuracion();
+         result = 37 * result + ( getHoraFin() == null ? 0 : this.getHoraFin().hashCode() );
          result = 37 * result + this.getAnio();
          return result;
    }

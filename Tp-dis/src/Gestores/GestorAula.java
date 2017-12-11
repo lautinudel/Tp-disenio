@@ -12,6 +12,7 @@ import Modelo.TipoAula;
 import Modelo.TipoReserva;
 import Persistencia.AulaDAO;
 import Persistencia.NewHibernateUtil;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -27,36 +28,41 @@ import org.hibernate.SessionFactory;
 public class GestorAula {
     
     
-    public LinkedHashMap<ArrayList<String>, ArrayList<Aula>> obtenerDisponibilidadDeAula(
-            TipoReserva tipoReserva, ArrayList<String> dias, ArrayList<String> horaInicio,
-            ArrayList<Integer> duracion, PeriodoEnum periodo,
+    public ArrayList<ArrayList<Aula>> obtenerDisponibilidadDeAula(
+            TipoReserva tipoReserva, ArrayList<String> dias, ArrayList<Time> horaInicio,
+            ArrayList<Time> horaFin, PeriodoEnum periodo,
             int cantAlumnos, TipoAula tipoAula){
         
-        LinkedHashMap<ArrayList<Integer>, ArrayList<Aula>> retorno = new LinkedHashMap<>();
-        
-        AulaDAO aulaDao = new AulaDAO();
-        List<Aula> listaAulas = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
+        ArrayList<ArrayList<Aula>> aulas = new ArrayList();
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         
-        int nroAula;
-        GestorReserva gestorReserva = new GestorReserva();
-        for(Aula a : listaAulas){
-            nroAula=a.getNumeroAula();
-            Query query = session.createQuery("SELECT d FROM DiaReservaEsporadica d WHERE Aula_numeroAula = :nroAula");
-            query.setParameter("nroAula", nroAula);
-            List<DiaReservaEsporadica> listaDiaReservaEsporadica = query.list();
-            
-            for(DiaReservaEsporadica d : listaDiaReservaEsporadica){
-                if(gestorReserva.reservaEsporadicaActiva(d.getId().getReservaEsporadicaIdReservaEsporadica())){
-                    for()
-                }
-            }
+        for(int i=0; i<dias.size(); i++){
+            Query query = session.createQuery(
+                    "SELECT a "+
+                    "FROM Aula a, DiaReservaPeriodica d, ReservaPeriodica r "+
+                    "WHERE a.numeroAula = d.Aula_numeroAula AND "+
+                    "d.ReservaPeriodica_id_reservaPeriodica = r.id_reservaPeriodica AND "+
+                    "r.activo = 1 AND "+
+                    "(d.dia != :variable_dia OR (d.dia = :variable_dia AND "+
+                    "NOT(d.horaInicio > :variable_horaInicio AND d.horaFIN < :variable_horaFin) AND "+
+                    "((d.horaInicio < :variable_horaInicio AND d.horaInicio > :variable_horaFin) OR "+
+                    "(d.horaInicio > :variable_horaInicio AND d.horaFin < :variable_horaInicio))))");
+            query.setParameter("variable_dia", dias.get(i));
+            query.setParameter("variable_horaInicio", horaInicio.get(i));
+            query.setParameter("variable_horaFin", horaFin.get(i));
+            List<Aula> listaAulas = query.list();
+            aulas.add(i, (ArrayList<Aula>) listaAulas);
+            listaAulas.clear();
         }
         
+        AulaDAO aulaDao = new AulaDAO();
+        List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
-        return retorno;
+        
+        
+        return aulas;
     }
 }
