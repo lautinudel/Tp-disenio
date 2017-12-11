@@ -12,19 +12,29 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
 
      private int reservaPeriodicaIdReservaPeriodica;
      private int aulaNumeroAula;
-     private Date dia;
+     private DiaSemana dia;
      private Date horaInicio;
      private Date horaFin;
+     private int anio;
 
     public DiaReservaPeriodicaId() {
     }
 
-    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, Date dia, Date horaInicio, Date horaFin) {
+    public DiaReservaPeriodicaId(int reservaPeriodicaIdReservaPeriodica, int aulaNumeroAula, DiaSemana dia, Date horaInicio, Date horaFin, int anio) {
        this.reservaPeriodicaIdReservaPeriodica = reservaPeriodicaIdReservaPeriodica;
        this.aulaNumeroAula = aulaNumeroAula;
        this.dia = dia;
        this.horaInicio = horaInicio;
        this.horaFin = horaFin;
+       this.anio = anio;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
    
     public int getReservaPeriodicaIdReservaPeriodica() {
@@ -41,11 +51,11 @@ public class DiaReservaPeriodicaId  implements java.io.Serializable {
     public void setAulaNumeroAula(int aulaNumeroAula) {
         this.aulaNumeroAula = aulaNumeroAula;
     }
-    public Date getDia() {
+    public DiaSemana getDia() {
         return this.dia;
     }
     
-    public void setDia(Date dia) {
+    public void setDia(DiaSemana dia) {
         this.dia = dia;
     }
     public Date getHoraInicio() {

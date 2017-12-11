@@ -36,6 +36,9 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
+        <property name="activo" type="java.lang.Byte">
+            <column name="activo" />
+        </property>
         <set name="diaReservaPeriodicas" table="`Dia ReservaPeriodica`" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="ReservaPeriodica_id_reservaPeriodica" not-null="true" />

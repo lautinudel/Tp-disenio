@@ -35,7 +35,7 @@ public class GestorBedel {
        }
 
        
-       if(bedeldao.verificarExistencia(username)){
+       if(!(bedeldao.verificarExistencia(username))){
            
             if (g.validarPoliticas(pass)){
 
@@ -50,14 +50,12 @@ public class GestorBedel {
                     nuevo.getClaveBedels().add(claveBedel);
                     
                     bedeldao.guardarBedel(nuevo,claveBedel);
-                    
-                    
                      
                 }else{
-                    return 2;
+                    return 1;
                 }
             }else{
-               return 1;
+               return 2;
             }
        }else{
            return 3;

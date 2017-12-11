@@ -14,12 +14,15 @@
             <!--<key-property name="dia" type="date">
                 <column name="dia" length="10" />
             </key-property>-->
-            <property name="dia" column="dia">
+            <key-property name="dia" column="dia">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">Modelo.DiaSemana</param>
                 <param name="useNamed">true</param>
             </type>
-            </property>
+            </key-property>
+            <key-property name="anio" type="int">
+                <column name="anio" />
+            </key-property>
             <key-property name="horaInicio" type="time">
                 <column name="horaInicio" length="8" />
             </key-property>

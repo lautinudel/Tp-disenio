@@ -27,6 +27,9 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
+        <property name="activo" type="java.lang.Byte">
+            <column name="activo" />
+        </property>
         <set name="diaReservaEsporadicas" table="DiaReservaEsporadica" inverse="true" lazy="true" fetch="join">
             <key>
                 <column name="ReservaEsporadica_id_reservaEsporadica" not-null="true" />

@@ -41,8 +41,8 @@
                               <Component id="jTextFieldNombre" max="32767" attributes="0"/>
                               <Component id="jTextFieldApellido" max="32767" attributes="0"/>
                               <Component id="jTextFieldUsuario" max="32767" attributes="0"/>
-                              <Component id="jTextFieldConfirmacionContrasenia" max="32767" attributes="0"/>
-                              <Component id="jTextFieldContrasenia" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                              <Component id="jTextFieldContrasenia" alignment="0" pref="139" max="32767" attributes="0"/>
+                              <Component id="jTextFieldConfirmacionContrasenia" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -159,11 +159,6 @@
         <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldConfirmacionContrasenia">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxTurno">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -205,6 +200,8 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="jTextFieldConfirmacionContrasenia">
     </Component>
   </SubComponents>
 </Form>

@@ -78,7 +78,7 @@ public class GestorAutenticacion {
                 //verifico si la clave concuerda
                 if(ca.getId().getValor().equals(pass) && ca.getId().getAdministradorUsername().equals(a.getUsername())){
                         //ir al menu de admin
-                        return 1;
+                        return 3;
                 }else{
                     //mensaje de datos invalidos:
                     return 2;
@@ -86,7 +86,7 @@ public class GestorAutenticacion {
                         
         }else{
             //mensaje de usuario inexistente:
-            return 3;
+            return 4;
         }
         }
     }

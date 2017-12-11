@@ -155,6 +155,13 @@ public class IniciarSesion extends javax.swing.JPanel {
                     topFrame.mensajeEmergente("Error", "La contraseña es incorrecta. Vuelva a intentarlo.");
                     break;
                 case 3:
+                    MenuPrincipalAdmin menuAdmin = new MenuPrincipalAdmin();
+                    topFrame.add(menuAdmin, BorderLayout.CENTER);
+                    this.setVisible(false);
+                    topFrame.remove(this);
+                    topFrame.setSize(500,500);
+                    break;
+                case 4:
                     topFrame.mensajeEmergente("Error", "No existe un usuario registrado con ese nombre.");
                     break;
                 }

@@ -48,11 +48,11 @@ public class RegistrarBedel extends javax.swing.JPanel {
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldApellido = new javax.swing.JTextField();
         jTextFieldUsuario = new javax.swing.JTextField();
-        jTextFieldConfirmacionContrasenia = new javax.swing.JTextField();
         jComboBoxTurno = new javax.swing.JComboBox<>();
         jButtonAceptar = new javax.swing.JButton();
         jButtonAtras = new javax.swing.JButton();
         jTextFieldContrasenia = new javax.swing.JPasswordField();
+        jTextFieldConfirmacionContrasenia = new javax.swing.JPasswordField();
 
         jLabelNombre.setText("Nombre");
         jLabelNombre.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
@@ -85,8 +85,6 @@ public class RegistrarBedel extends javax.swing.JPanel {
         jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
         jTextFieldUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
-
-        jTextFieldConfirmacionContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
         jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
         jComboBoxTurno.setToolTipText("Elija un turno de la lista.");
@@ -140,8 +138,8 @@ public class RegistrarBedel extends javax.swing.JPanel {
                                 .addComponent(jTextFieldNombre)
                                 .addComponent(jTextFieldApellido)
                                 .addComponent(jTextFieldUsuario)
-                                .addComponent(jTextFieldConfirmacionContrasenia)
-                                .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jTextFieldContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                                .addComponent(jTextFieldConfirmacionContrasenia)))))
                 .addGap(99, 99, 99))
         );
         layout.setVerticalGroup(
@@ -190,15 +188,23 @@ public class RegistrarBedel extends javax.swing.JPanel {
                   
        GestorBedel gestor = new GestorBedel();
        String pass = new String(jTextFieldContrasenia.getPassword());
+       String passConfirmacion = new String(jTextFieldConfirmacionContrasenia.getPassword());
        int msj = gestor.registrarBedel(jTextFieldNombre.getText(),
                jTextFieldApellido.getText(),jComboBoxTurno.getSelectedItem().toString(),
                jTextFieldUsuario.getText(), pass,
-               jTextFieldConfirmacionContrasenia.getText());
+               passConfirmacion);
        
        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         switch (msj) {
             case 0:
                 topFrame.mensajeEmergente("Registro Exitoso", "El Bedel se registró correctamente.");
+                jTextFieldNombre.setText("");
+                jTextFieldApellido.setText("");
+                jComboBoxTurno.setSelectedIndex(0);
+                jTextFieldUsuario.setText("");
+                jTextFieldContrasenia.setText("");
+                jTextFieldConfirmacionContrasenia.setText("");
+            
                 break;
             case 1:
                 topFrame.mensajeEmergente("Error de passwords", "Las contraseñas no coinciden.");
@@ -258,7 +264,7 @@ public class RegistrarBedel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelTurno;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JTextField jTextFieldApellido;
-    private javax.swing.JTextField jTextFieldConfirmacionContrasenia;
+    private javax.swing.JPasswordField jTextFieldConfirmacionContrasenia;
     private javax.swing.JPasswordField jTextFieldContrasenia;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldUsuario;

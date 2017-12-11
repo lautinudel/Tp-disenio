@@ -19,6 +19,7 @@ public class ReservaPeriodica  implements java.io.Serializable {
      private PeriodoEnum periodo;
      private TipoAula tipoAula;
      private Set diaReservaPeriodicas = new HashSet(0);
+     private Byte activo;
      
 
     public ReservaPeriodica() {
@@ -30,7 +31,7 @@ public class ReservaPeriodica  implements java.io.Serializable {
         this.bedel = bedel;
         this.docente = docente;
     }
-    public ReservaPeriodica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Integer cantidadAlumnos, PeriodoEnum periodo, Set diaReservaPeriodicas, TipoAula tipo) {
+    public ReservaPeriodica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Integer cantidadAlumnos, PeriodoEnum periodo, Set diaReservaPeriodicas, TipoAula tipo, Byte activo) {
        this.actividadUniversitaria = actividadUniversitaria;
        this.bedel = bedel;
        this.docente = docente;
@@ -38,6 +39,15 @@ public class ReservaPeriodica  implements java.io.Serializable {
        this.periodo = periodo;
        this.diaReservaPeriodicas = diaReservaPeriodicas;
        this.tipoAula=tipo;
+       this.activo=activo;
+    }
+
+    public Byte getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Byte activo) {
+        this.activo = activo;
     }
 
     public TipoAula getTipoAula() {
