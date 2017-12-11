@@ -5,16 +5,23 @@
  */
 package Interfaces;
 
+import Modelo.TipoAula;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -163,6 +170,11 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
         tipoAula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aula multimedio", "Aula informatica", "Aula sin recursos adicionales" }));
         tipoAula.setToolTipText("Elija una modalidad de la lista.");
+        tipoAula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoAulaActionPerformed(evt);
+            }
+        });
 
         cantidadAlumnos.setToolTipText("Cantidad mínima: 1 - Cantidad máxima: 250");
 
@@ -193,8 +205,18 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         jButtonEliminar.setText("Eliminar de la lista");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         jButtonAnadir.setText("Añadir a la lista");
+        jButtonAnadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAnadirActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -719,7 +741,31 @@ public class RegistrarReserva extends javax.swing.JPanel {
         topFrame.add(panelAulas, BorderLayout.CENTER);
         this.setVisible(false);
         topFrame.remove(this);
-        topFrame.setSize(1100,500); 
+        topFrame.setSize(1100,500);
+        //Recupero...
+        //Tipo Aula
+        TipoAula tipoAula = TipoAula.SinRecursos;
+        switch (this.tipoAula.getSelectedItem().toString()){
+           case "Aula informatica": tipoAula = TipoAula.Informatica;break;
+           case "Aula multimedio": tipoAula = TipoAula.Multimedios;break;
+           case "Aula sin recursos adicionales": tipoAula = TipoAula.SinRecursos;break;
+       }
+       //cantidad de alumnos
+       //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
+       int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+       //Modalidad
+       String modalidad = this.listaModalidad.getSelectedItem().toString();
+       //Periodo
+       String periodo = this.listaPeriodo.getSelectedItem().toString();
+       //Cuatrimestre (si no esta vacio)
+       if (periodo.equals("Cuatrimestre")){
+           String cuatrimestre = this.listaCuatrimestre.getSelectedItem().toString();
+       }
+       
+        
+        
+        
+        
     }//GEN-LAST:event_aceptarActionPerformed
 
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
@@ -746,6 +792,48 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.remove(dialogo);
         });
     }//GEN-LAST:event_atrasActionPerformed
+
+    private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        
+        /*Obtengo la duracion*/
+        int duracion = Integer.parseInt(this.duracion.getText());
+        /*Obtengo la fecha (el try-catch lo tuve que poner porque sino no me compilaba)*/
+        String textoFecha = this.fecha.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date fecha = null;
+        try {
+            fecha = sdf.parse(textoFecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*Obtengo la horaInicio*/
+        SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+        String textoHora = this.horaInicio.getText();
+        Date horaInicio = null;
+        try {
+            horaInicio = sdfhora.parse(textoHora);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Object row[] = {fecha,horaInicio,duracion};   
+        /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
+        ((DefaultTableModel)this.tabla.getModel()).addRow(row);
+    }//GEN-LAST:event_jButtonAnadirActionPerformed
+
+    private void tipoAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoAulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoAulaActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        int row = this.tabla.getSelectedRow(); //fila seleccionada
+        if(row > 0){
+            JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+            DefaultTableModel modelo = (DefaultTableModel)tabla.getModel(); 
+            modelo.removeRow(row); 
+       }
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     //codigo de la imagen de fondo ----------------------------------------
     private Image fondo=null;
