@@ -28,12 +28,13 @@ public class GestorAula {
     
     
     public LinkedHashMap<ArrayList<String>, ArrayList<Aula>> obtenerDisponibilidadDeAula(
-            TipoReserva tipoReserva, LinkedHashMap listaDiasHoraYDuracion, PeriodoEnum periodo,
+            TipoReserva tipoReserva, ArrayList<String> dias, ArrayList<String> horaInicio,
+            ArrayList<Integer> duracion, PeriodoEnum periodo,
             int cantAlumnos, TipoAula tipoAula){
         
-        LinkedHashMap<ArrayList<String>, ArrayList<Aula>> retorno = new LinkedHashMap<>();
+        LinkedHashMap<ArrayList<Integer>, ArrayList<Aula>> retorno = new LinkedHashMap<>();
         
-        /*AulaDAO aulaDao = new AulaDAO();
+        AulaDAO aulaDao = new AulaDAO();
         List<Aula> listaAulas = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -50,10 +51,10 @@ public class GestorAula {
             
             for(DiaReservaEsporadica d : listaDiaReservaEsporadica){
                 if(gestorReserva.reservaEsporadicaActiva(d.getId().getReservaEsporadicaIdReservaEsporadica())){
-                    
+                    for()
                 }
             }
-        }*/
+        }
         
         
         return retorno;

@@ -25,7 +25,7 @@ public class GestorReserva {
     }
     
     
-    /*public Boolean reservaEsporadicaActiva(int idReservaEsporadica){
+    public Boolean reservaEsporadicaActiva(int idReservaEsporadica){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -49,5 +49,5 @@ public class GestorReserva {
             return false;
         else
             return true;
-    }*/
+    }
 }
