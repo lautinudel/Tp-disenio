@@ -95,13 +95,15 @@ public class GestorListadoReservasParaActividadUniversitaria {
                 }
             }
         }else{
+          
             //lista de los cursos
             for(int i=0;i<listaCursos.size();i++){
                 //reserva esporadicas para cada curso
                 for(ReservaPeriodica rp: listaCursos.get(i).getReservaPeriodicas()){
                     //dias de cada reserva, verificar el año
                      for(DiaReservaPeriodica drp : rp.getDiaReservaPeriodicas()){
-                         if(this.obtenerAnio(drp.getId().getDia())!=anio)
+                           System.out.println(drp.getId().getAnio()+"--"+anio);
+                         if(drp.getId().getAnio()!=anio)
                           listaARemoverDia.add(drp);
                    
                         }

@@ -12,36 +12,16 @@ public class DiaReservaPeriodica  implements java.io.Serializable {
      private DiaReservaPeriodicaId id;
      private Aula aula;
      private ReservaPeriodica reservaPeriodica;
-     private DiaSemana dia;
-     private int anio;
+     
 
     public DiaReservaPeriodica() {
     }
 
-    public DiaReservaPeriodica(DiaReservaPeriodicaId id, Aula aula, ReservaPeriodica reservaPeriodica, DiaSemana dia, int anio) {
+    public DiaReservaPeriodica(DiaReservaPeriodicaId id, Aula aula, ReservaPeriodica reservaPeriodica) {
        this.id = id;
        this.aula = aula;
        this.reservaPeriodica = reservaPeriodica;
-       this.dia = dia;
-       this.anio = anio;
     }
-
-    public int getAnio() {
-        return anio;
-    }
-
-    public void setAnio(int anio) {
-        this.anio = anio;
-    }
-
-    public DiaSemana getDia() {
-        return dia;
-    }
-
-    public void setDia(DiaSemana dia) {
-        this.dia = dia;
-    }
-   
     public DiaReservaPeriodicaId getId() {
         return this.id;
     }
@@ -63,7 +43,7 @@ public class DiaReservaPeriodica  implements java.io.Serializable {
     public void setReservaPeriodica(ReservaPeriodica reservaPeriodica) {
         this.reservaPeriodica = reservaPeriodica;
     }
-
+    
 
 
 

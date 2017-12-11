@@ -20,7 +20,7 @@
                 <param name="useNamed">true</param>
             </type>
             </key-property>
-            <key-property name="anio" type="int">
+            <key-property name="anio" type="java.lang.Integer">
                 <column name="anio" />
             </key-property>
             <key-property name="horaInicio" type="time">
