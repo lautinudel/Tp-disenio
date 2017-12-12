@@ -232,7 +232,7 @@ public class ObtenerDisponibilidadTest {
         
         System.out.println(listaAulas.get(0).getNumeroAula());*/
         
-        
+        /*
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -255,7 +255,7 @@ public class ObtenerDisponibilidadTest {
         AulaDAO aulaDao = new AulaDAO();
         ArrayList<Aula> aulasSinReserva = aulaDao.getAulas(listaAulasSinReserva);
         for(Aula a: aulasSinReserva)
-            System.out.println(a.getNumeroAula()+" ");
+            System.out.println(a.getNumeroAula()+" ");*/
         
        
         /*Iterator itr = listaAulasSinReserva.iterator();
@@ -269,6 +269,7 @@ public class ObtenerDisponibilidadTest {
             System.out.println(nroAula);
             System.out.println(piso);
         }*/
+        
         
         
         exit(0);

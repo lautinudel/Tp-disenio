@@ -8,6 +8,7 @@ import Gestores.GestorBedel;
 import Modelo.*;
 import Persistencia.BedelDAO;
 import Gestores.GestorPoliticas;
+import Gestores.GestorValidacion;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
@@ -189,37 +190,54 @@ public class RegistrarBedel extends javax.swing.JPanel {
        GestorBedel gestor = new GestorBedel();
        String pass = new String(jTextFieldContrasenia.getPassword());
        String passConfirmacion = new String(jTextFieldConfirmacionContrasenia.getPassword());
-       int msj = gestor.registrarBedel(jTextFieldNombre.getText(),
+       
+       //Validacion de los campos:
+       GestorValidacion gestorValidacion = new GestorValidacion();
+       int[] validacionCampos = gestorValidacion.validarCamposBedel(jTextFieldNombre.getText(), jTextFieldApellido.getText(), jTextFieldUsuario.getText());
+       
+       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+       
+       if(validacionCampos[0]==0 || validacionCampos[1]==0 || validacionCampos[2]==0){
+            if(validacionCampos[0]==0)
+                topFrame.mensajeEmergente("Error de validación del nombre", "El nombre ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+            if(validacionCampos[1]==0)
+                topFrame.mensajeEmergente("Error de validación del apeliido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+            if(validacionCampos[2]==0)
+                topFrame.mensajeEmergente("Error de validación del nombre de usuario", "El nombre de usuario ingresado debe tener entre 6 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+            
+            
+       }else{
+       
+            int msj = gestor.registrarBedel(jTextFieldNombre.getText(),
                jTextFieldApellido.getText(),jComboBoxTurno.getSelectedItem().toString(),
                jTextFieldUsuario.getText(), pass,
                passConfirmacion);
        
-       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        switch (msj) {
-            case 0:
-                topFrame.mensajeEmergente("Registro Exitoso", "El Bedel se registró correctamente.");
-                jTextFieldNombre.setText("");
-                jTextFieldApellido.setText("");
-                jComboBoxTurno.setSelectedIndex(0);
-                jTextFieldUsuario.setText("");
-                jTextFieldContrasenia.setText("");
-                jTextFieldConfirmacionContrasenia.setText("");
+            switch (msj) {
+                case 0:
+                    topFrame.mensajeEmergente("Registro Exitoso", "El Bedel se registró correctamente.");
+                    jTextFieldNombre.setText("");
+                    jTextFieldApellido.setText("");
+                    jComboBoxTurno.setSelectedIndex(0);
+                    jTextFieldUsuario.setText("");
+                    jTextFieldContrasenia.setText("");
+                    jTextFieldConfirmacionContrasenia.setText("");
             
-                break;
-            case 1:
-                topFrame.mensajeEmergente("Error de passwords", "Las contraseñas no coinciden.");
+                    break;
+                case 1:
+                    topFrame.mensajeEmergente("Error de validación de políticas", "Los datos ingresados no respetan las políticas establecidas.");
                 
-                break;
-            case 2:
-                topFrame.mensajeEmergente("Error de validación de políticas", "Los datos ingresados no respetan las políticas establecidas.");
+                    break;
+                case 2:
+                    topFrame.mensajeEmergente("Error de passwords", "Las contraseñas no coinciden.");
                 
-                break;
-            case 3:
-                topFrame.mensajeEmergente("Nombre de Usuario existente", "Ya existe un Bedel con el nombre de Usuario: "+ jTextFieldUsuario.getText()+".");
+                     break;
+                case 3:
+                    topFrame.mensajeEmergente("Nombre de Usuario existente", "Ya existe un Bedel con el nombre de Usuario: "+ jTextFieldUsuario.getText()+".");
                 
-                break;
+                    break;
+            }
         }
-      
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 

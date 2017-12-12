@@ -38,9 +38,9 @@ public class GestorBedel {
        
        if(!(bedeldao.verificarExistencia(username))){
            
-            if (g.validarPoliticas(pass)){
+            if (compararPassword(pass, passConfirmado)){
 
-                if(compararPassword(pass, passConfirmado)){
+                if(g.validarPoliticas(pass)){
                                         
                     ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
                     
