@@ -38,11 +38,11 @@ import org.hibernate.SessionFactory;
 public class ObtenerDisponibilidadTest {
     
     public static void main(String args[]) {
-        
-        /*AulaDAO dao = new AulaDAO();
-        List<Aula> lista = dao.obtenerListaDeAulas(TipoAula.SinRecursos, 2);
-        System.out.println(lista);
-        System.out.println(lista.get(0).getAulaSinRecursosAdicionales().getVentiladores());*/
+        /*
+        AulaDAO dao = new AulaDAO();
+        List<Aula> lista = dao.obtenerListaDeAulas(TipoAula.SinRecursos, 20);
+        for(Aula a: lista)
+            System.out.println(a.getNumeroAula()+" ");*/
         
                
         //------------------------------------------------------------
@@ -185,7 +185,7 @@ public class ObtenerDisponibilidadTest {
         prueba.add(2,horasFin);
         System.out.println(prueba);*/
         
-        
+        /*
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -230,9 +230,9 @@ public class ObtenerDisponibilidadTest {
             } 
         
         
-        System.out.println(listaAulas.get(0).getNumeroAula());
+        System.out.println(listaAulas.get(0).getNumeroAula());*/
         
-        /*
+        
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -254,9 +254,9 @@ public class ObtenerDisponibilidadTest {
         
         AulaDAO aulaDao = new AulaDAO();
         ArrayList<Aula> aulasSinReserva = aulaDao.getAulas(listaAulasSinReserva);
-        System.out.println(aulasSinReserva);
-        System.out.println(aulasSinReserva.get(0).getNumeroAula());
-        */ 
+        for(Aula a: aulasSinReserva)
+            System.out.println(a.getNumeroAula()+" ");
+        
        
         /*Iterator itr = listaAulasSinReserva.iterator();
         while(itr.hasNext()){

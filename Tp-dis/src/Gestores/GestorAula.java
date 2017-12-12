@@ -76,6 +76,7 @@ public class GestorAula {
             listaAulas.clear();
         }
         
+        //Couslta aulas sin reserva:
         Query queryAulaSinReservas = session.createSQLQuery(
             "SELECT a.numeroAula " +
             "FROM Aula a, (SELECT a.numeroAula " +
@@ -95,10 +96,12 @@ public class GestorAula {
         ArrayList<Aula> aulasSinReserva = aulaDao.getAulas(numerosAulasSinReserva);
         List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
-        /*for(int h=0; h<aulas.size(); h++)
-            aulas.get(h).addAll(aulasSinReserva);*/
+        //Aulas sin reserva
+        for(int h=0; h<aulas.size(); h++)
+            aulas.get(h).addAll(aulasSinReserva);
         
-        /*boolean bandera = false;
+        //Verificacion de capacidad y tipo de aula:
+        boolean bandera = false;
         Iterator<Aula> iter;
         for(int j=0; j<aulas.size(); j++){
             iter = aulas.get(j).iterator();
@@ -115,7 +118,7 @@ public class GestorAula {
                         iter.remove();
                     }
             } 
-        }*/
+        }
         
         return aulas;
     }
