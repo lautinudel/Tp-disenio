@@ -235,7 +235,7 @@ public class ObtenerDisponibilidadTest {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Query queryAulaSinReservas = session.createSQLQuery("SELECT a.* " +
+        Query queryAulaSinReservas = session.createQuery("SELECT a.* " +
 "FROM Aula a, (SELECT a.numeroAula " +
 "				FROM Aula a " +
 "                where a.numeroAula NOT IN( " +
@@ -247,9 +247,22 @@ public class ObtenerDisponibilidadTest {
 "				)) t " +
 "WHERE t.numeroAula = a.numeroAula; ");
         
-        List<Object> listaAulasSinReserva = queryAulaSinReservas.list();
-        Integer service = Integer.parseInt(String.valueOf(listaAulasSinReserva.get(0)));
-        System.out.println(service);
+        List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
+        System.out.println(listaAulasSinReserva);
+        
+        
+        /*Iterator itr = listaAulasSinReserva.iterator();
+        while(itr.hasNext()){
+            Object[] obj = (Object[]) itr.next();
+            //now you have one array of Object for each row
+            Integer nroAula = Integer.parseInt(String.valueOf(obj[0])); // don't know the type of column CLIENT assuming String 
+            Integer piso = Integer.parseInt(String.valueOf(obj[1])); //SERVICE assumed as int
+            //same way for all obj[2], obj[3], obj[4]
+            
+            System.out.println(nroAula);
+            System.out.println(piso);
+        }*/
+        
         
         exit(0);
     }

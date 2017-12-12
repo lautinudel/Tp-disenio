@@ -96,6 +96,9 @@ public class GestorAula {
         
         AulaDAO aulaDao = new AulaDAO();
         List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
+        
+        
+        
         boolean bandera = false;
         Iterator<Aula> iter;
         for(int j=0; j<aulas.size(); j++){
