@@ -82,7 +82,10 @@ public class ObtenerDisponibilidadTest {
         String s2 = formatter2.format(horaDate);
         System.out.println(s2);
         
-        //--------------------------------------------------------------
+        //De Date a String para el nombre del Día
+        String cadena =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(date);
+        System.out.println (cadena);
+              //--------------------------------------------------------------
         //--------------------------------------------------------------
         //Probando metodo ObtenerDisponibilidad
         String dia1 = "2018-01-12";
@@ -165,17 +168,27 @@ public class ObtenerDisponibilidadTest {
         System.out.println(horasInicio);
         System.out.println(horasFin);
         
-        /*
-        GestorAula gestorAula = new GestorAula();
-        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 20, TipoAula.SinRecursos);
-        System.out.println(aulasDisp);
-        */
         
+        GestorAula gestorAula = new GestorAula();
+        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 40, TipoAula.SinRecursos);
+        for(int i = 0; i<aulasDisp.size();i++){
+            for(int j=0; j<aulasDisp.get(i).size();j++){
+                System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
+            }
+            System.out.print("\n");
+        }
+        /*
+        ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
+        prueba.add(0, dias);
+        prueba.add(1,horasInicio);
+        prueba.add(2,horasFin);
+        System.out.println(prueba);*/
+        /*
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Query query = session.createQuery(
-                    "SELECT a "+
+                    "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
                     "WHERE a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
@@ -195,17 +208,27 @@ public class ObtenerDisponibilidadTest {
         AulaDAO aulaDao = new AulaDAO();
         List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(TipoAula.SinRecursos, 20);
         
-        System.out.println(aulasCapacidadTipo);
+        System.out.println(aulasCapacidadTipo.get(0).getNumeroAula());
         
+        boolean bandera = false;
         Iterator<Aula> iter;
             iter = listaAulas.iterator();
             while (iter.hasNext()){
                 Aula a = iter.next();
-                    if (!(aulasCapacidadTipo.contains(a)))
+                    for (Aula b: aulasCapacidadTipo){
+                        bandera = false;
+                        if(b.getNumeroAula()==a.getNumeroAula()){
+                            bandera = true;
+                            break;
+                        }                        
+                    }
+                    if(!bandera){
                         iter.remove();
-            }
+                    }
+            } 
         
-        System.out.println(listaAulas);
+        
+        System.out.println(listaAulas.get(0).getNumeroAula());*/
         
         exit(0);
     }

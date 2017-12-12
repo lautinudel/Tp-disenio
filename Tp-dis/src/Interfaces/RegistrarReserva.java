@@ -5,7 +5,9 @@
  */
 package Interfaces;
 
+import Modelo.PeriodoEnum;
 import Modelo.TipoAula;
+import Modelo.TipoReserva;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -749,25 +751,77 @@ public class RegistrarReserva extends javax.swing.JPanel {
            case "Aula informatica": tipoAula = TipoAula.Informatica;break;
            case "Aula multimedio": tipoAula = TipoAula.Multimedios;break;
            case "Aula sin recursos adicionales": tipoAula = TipoAula.SinRecursos;break;
-       }
-       //cantidad de alumnos
-       //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
-       int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
-       //Modalidad
-       String modalidad = this.listaModalidad.getSelectedItem().toString();
-       //Periodo
-       String periodo = this.listaPeriodo.getSelectedItem().toString();
-       //Cuatrimestre (si no esta vacio)
-       if (periodo.equals("Cuatrimestre")){
-           String cuatrimestre = this.listaCuatrimestre.getSelectedItem().toString();
-       }
+        }
+        //cantidad de alumnos
+        //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
+        int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+        //Modalidad
+        String modalidad = this.listaModalidad.getSelectedItem().toString();
+        if(modalidad.equals("Periodica")){
+            TipoReserva tipoReserva = TipoReserva.Periodica;
+            //Periodo
+            PeriodoEnum periodo;
+            //Cuatrimestre (si no esta vacio)
+            if (this.listaPeriodo.getSelectedItem().toString().equals("Cuatrimestral")){
+                switch (this.listaCuatrimestre.getSelectedItem().toString()){
+                    case "1º": periodo = PeriodoEnum.PrimerCuatrimestre;break;
+                    case "2º": periodo = PeriodoEnum.SegundoCuatrimestre;break;
+                }
+            }else{
+                periodo = PeriodoEnum.Anual;
+            }
+            //Dias
+            /*ArrayList<Date> dias = new ArrayList();
+            if (this.jCheckBoxLunes.isSelected()){
+                dias.add(convertirStringADate("Lunes"));
+            }
+            if (this.jCheckBoxMartes.isSelected()){
+                dias.add("Martes");
+            }
+            if (this.jCheckBoxMiercoles.isSelected()){
+                dias.add("Miercoles");
+            }
+            if (this.jCheckBoxJueves.isSelected()){
+                dias.add("Jueves");
+            }
+            if (this.jCheckBoxViernes.isSelected()){
+                dias.add("Viernes");
+            }
+            if (this.jCheckBoxSabado.isSelected()){
+                dias.add("Sabado");
+            }*/
+            ArrayList<Date> horaInicio = new ArrayList();
+            
+            ArrayList<Date> horaFin = new ArrayList();
+            
+            
+        }else{  //Si no es periodica es esporádica (no hay otra alternativa)
+            TipoReserva tipoReserva = TipoReserva.Esporadica;
+            
+        }
+        String docenteApellido = this.apellido.getText();
+        String docenteNombre = this.nombre.getText();
+        String email = this.email.getText();
+        String catedra = this.catedra.getText();
+        
+        
        
         
         
         
         
     }//GEN-LAST:event_aceptarActionPerformed
-
+/*
+    private Date convertirStringADate(String fecha){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat(format).parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+        
+    }*/
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
         // TODO add your handling code here:
         

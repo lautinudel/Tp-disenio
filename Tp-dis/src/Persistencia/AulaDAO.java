@@ -31,7 +31,7 @@ public class AulaDAO {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Query query = session.createQuery("SELECT a FROM Aula a WHERE capacidad > :cantAlumnos");
+        Query query = session.createQuery("SELECT a FROM Aula a WHERE capacidad >= :cantAlumnos");
         query.setParameter("cantAlumnos", cantAlumnos);
         List<Aula> listaAulas = query.list();
         

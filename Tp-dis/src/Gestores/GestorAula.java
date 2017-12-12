@@ -37,6 +37,7 @@ public class GestorAula {
             int cantAlumnos, TipoAula tipoAula){
         
         ArrayList<ArrayList<Aula>> aulas = new ArrayList();
+        ArrayList<Aula> copia;
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
@@ -56,7 +57,7 @@ public class GestorAula {
             */
             
             Query query = session.createQuery(
-                    "SELECT a "+
+                    "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
                     "WHERE a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
@@ -70,20 +71,44 @@ public class GestorAula {
             query.setParameter("variableHoraInicio", horaInicio.get(i));
             query.setParameter("variableHoraFin", horaFin.get(i));
             List<Aula> listaAulas = query.list();
-            aulas.add(i, (ArrayList<Aula>) listaAulas);
+            copia = new ArrayList<>(listaAulas);
+            aulas.add(i, copia);
             listaAulas.clear();
         }
+        Query queryAulaSinReservas = session.createQuery("SELECT a " +
+                                                        "FROM Aula a , ((SELECT a.numeroAula " +
+                                                                            "FROM Aula a ) " +
+                                                                        "MINUS " +
+                                                                            "((SELECT DISTINCT e.id.aulaNumeroAula " +
+                                                                                "FROM  DiaReservaEsporadica e) " +
+                                                                              "UNION " +
+                                                                               "(SELECT DISTINCT p.id.aulaNumeroAula " +
+                                                                                "FROM DiaReservaPeriodica p)))t " +
+                                                        "WHERE t.numeroAula = a.numeroAula");
+        List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
+        for(int i=0; i<aulas.size();i++){
+                aulas.get(i).addAll(listaAulasSinReserva);
+        }
+        
         
         AulaDAO aulaDao = new AulaDAO();
         List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
-        
+        boolean bandera = false;
         Iterator<Aula> iter;
         for(int j=0; j<aulas.size(); j++){
             iter = aulas.get(j).iterator();
             while (iter.hasNext()){
                 Aula a = iter.next();
-                    if (!(aulasCapacidadTipo.contains(a)))
+                    for (Aula b: aulasCapacidadTipo){
+                        bandera = false;
+                        if(b.getNumeroAula()==a.getNumeroAula()){
+                            bandera = true;
+                            break;
+                        }                        
+                    }
+                    if(!bandera){
                         iter.remove();
+                    }
             } 
         }
         
