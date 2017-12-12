@@ -93,7 +93,7 @@ public class ObtenerDisponibilidadTest {
         String dia3 = "2017-12-21";
         String dia4 = "2018-03-05";
         String dia5 = "2018-05-07";
-        String dia6 = "2017-12-22";
+        String dia6 = "2017-08-15";
         DateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
         Date date1=null, date2=null, date3=null, date4=null, date5=null, date6=null;
         try {
@@ -120,13 +120,13 @@ public class ObtenerDisponibilidadTest {
         String hora3 = "07:09:00";
         String hora4 = "11:11:00";
         String hora5 = "12:58:00";
-        String hora6 = "13:43:00";
+        String hora6 = "19:45:00";
         String horaFin1 = "17:29:00";
         String horaFin2 = "22:08:00";
         String horaFin3 = "10:09:00";
         String horaFin4 = "14:11:00";
         String horaFin5 = "13:58:00";
-        String horaFin6 = "18:43:00";
+        String horaFin6 = "21:15:00";
         DateFormat formatoHora = new SimpleDateFormat("hh:mm:ss");
         Date time1=null, time2=null, time3=null, time4=null, time5=null, time6=null;
         Date timeFin1=null, timeFin2=null, timeFin3=null, timeFin4=null, timeFin5=null, timeFin6=null;
@@ -184,7 +184,7 @@ public class ObtenerDisponibilidadTest {
         prueba.add(1,horasInicio);
         prueba.add(2,horasFin);
         System.out.println(prueba);*/
-        /*
+        
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
@@ -192,17 +192,17 @@ public class ObtenerDisponibilidadTest {
         Query query = session.createQuery(
                     "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
-                    "WHERE a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
                     "(((r.activo = 1) AND "+
                     "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
-                    "NOT(d.id.horaInicio > :variableHoraInicio AND d.id.horaFin < :variableHoraFin) AND "+
+                    "NOT(d.id.horaInicio >= :variableHoraInicio AND d.id.horaFin <= :variableHoraFin) AND "+
                     "((d.id.horaInicio < :variableHoraInicio AND d.id.horaInicio > :variableHoraFin) OR "+
                     "(d.id.horaInicio > :variableHoraInicio AND d.id.horaFin < :variableHoraInicio)))))) OR "+
                     "(r.activo = 0)");
-        query.setParameter("variableDia", date1);
-        query.setParameter("variableHoraInicio", time1);
-        query.setParameter("variableHoraFin", timeFin1);
+        query.setParameter("variableDia", date6);
+        query.setParameter("variableHoraInicio", time6);
+        query.setParameter("variableHoraFin", timeFin6);
         List<Aula> listaAulas = query.list();
         
         System.out.println(listaAulas);
@@ -230,27 +230,34 @@ public class ObtenerDisponibilidadTest {
             } 
         
         
-        System.out.println(listaAulas.get(0).getNumeroAula());*/
+        System.out.println(listaAulas.get(0).getNumeroAula());
         
+        /*
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Query queryAulaSinReservas = session.createQuery("SELECT a.* " +
-"FROM Aula a, (SELECT a.numeroAula " +
-"				FROM Aula a " +
-"                where a.numeroAula NOT IN( " +
-"						(SELECT DISTINCT e.Aula_numeroAula " +
-"						 FROM  DiaReservaEsporadica e " +
-"					 UNION distinct " +
-"						SELECT DISTINCT p.Aula_numeroAula " +
-"						FROM DiaReservaPeriodica p) " +
-"				)) t " +
-"WHERE t.numeroAula = a.numeroAula; ");
+        Query queryAulaSinReservas = session.createSQLQuery(
+            "SELECT a.numeroAula " +
+            "FROM Aula a, (SELECT a.numeroAula " +
+            "				FROM Aula a " +
+            "                where a.numeroAula NOT IN( " +
+            "						(SELECT DISTINCT e.Aula_numeroAula " +
+            "						 FROM  DiaReservaEsporadica e " +
+            "					 UNION DISTINCT " +
+            "						SELECT DISTINCT p.Aula_numeroAula " +
+            "						FROM DiaReservaPeriodica p) " +
+            "				)) t " +
+            "WHERE t.numeroAula = a.numeroAula; ");
         
-        List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
+        List<Object> listaAulasSinReserva = queryAulaSinReservas.list();
         System.out.println(listaAulasSinReserva);
         
-        
+        AulaDAO aulaDao = new AulaDAO();
+        ArrayList<Aula> aulasSinReserva = aulaDao.getAulas(listaAulasSinReserva);
+        System.out.println(aulasSinReserva);
+        System.out.println(aulasSinReserva.get(0).getNumeroAula());
+        */ 
+       
         /*Iterator itr = listaAulasSinReserva.iterator();
         while(itr.hasNext()){
             Object[] obj = (Object[]) itr.next();

@@ -55,4 +55,19 @@ public class AulaDAO {
         
         return retorno;
     }
+    
+    public ArrayList<Aula> getAulas(List<Object>nroAulas){
+        ArrayList<Aula> retorno = new ArrayList<>();
+        List<Aula> listaAulas;
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        for(Object n : nroAulas){
+            Query query = session.createQuery("SELECT a FROM Aula a WHERE numeroAula = :nro");
+            query.setParameter("nro", Integer.parseInt(String.valueOf(n)));
+            listaAulas = query.list();
+            retorno.addAll(listaAulas);
+        }
+        return retorno;
+    }
 }
