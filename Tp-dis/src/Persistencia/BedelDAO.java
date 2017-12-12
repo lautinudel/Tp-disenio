@@ -7,6 +7,8 @@ package Persistencia;
 
 import Modelo.Bedel;
 import Modelo.ClaveBedel;
+import Modelo.TurnoEnum;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
@@ -76,16 +78,60 @@ public class BedelDAO {
                 lista.remove(i);
                 i--;
             }
+            
+        }
+        for(int i=0;i<lista.size();i++){
             for(int j=0;j<lista.size();j++){
                 if(j!=i){
                 if(lista.get(i).getUsername().equals(lista.get(j).getUsername())){
                     lista.remove(j);
                     j--;
                 }}
-            }
-        }
+            }}
         return lista; 
   
+    }
+    public List<Bedel> buscarPorTurno (TurnoEnum turno){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("turnoTrabaja", turno) ).list();
+        tx.commit();
+        session.close();
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getActivo()==0){
+                lista.remove(i);
+                i--;
+            }
+            
+        }
+        for(int i=0;i<lista.size();i++){
+            for(int j=0;j<lista.size();j++){
+                if(j!=i){
+                if(lista.get(i).getUsername().equals(lista.get(j).getUsername())){
+                    lista.remove(j);
+                    j--;
+                }}
+            }}
+        return lista;
+    }
+    
+    
+    public List<Bedel> buscarBedelApellidoyTurno(String Apellido, TurnoEnum turno){
+        List<Bedel> lista1 = this.buscarPorApellido(Apellido);
+        List<Bedel> lista2= this.buscarPorTurno(turno);
+        List<Bedel> lista=new ArrayList();
+        for(int i=0;i<lista1.size();i++){
+            for(int j=0;j<lista2.size();j++){
+                if(lista2.get(j).getUsername().equals(lista1.get(i).getUsername())){
+                    lista.add(lista1.get(i));
+                }
+            }
+        }
+        return lista;
+        
+        
     }
     
 }

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -66,6 +67,27 @@ public class GestorBedel {
     
     public Boolean compararPassword(String pass, String passConfirmado){
         return pass.equals(passConfirmado);
+    }
+    
+    
+    public List<Bedel> buscarBedelApellido (String apellido){
+        BedelDAO BDAO = new BedelDAO();
+        List<Bedel> bedeles = BDAO.buscarPorApellido(apellido);
+        
+        return bedeles;
+        
+    } 
+    
+    public List<Bedel> buscarBedelTurno(TurnoEnum turno){
+       BedelDAO BDAO = new BedelDAO();
+       List<Bedel> bedeles = BDAO.buscarPorTurno(turno);
+       return bedeles;
+    }
+    
+    public List<Bedel> buscarBedelApellidoyTurno(String Apellido, TurnoEnum turno){
+        BedelDAO BDAO = new BedelDAO();
+       List<Bedel> bedeles = BDAO.buscarBedelApellidoyTurno(Apellido, turno);
+       return bedeles;
     }
         
 }

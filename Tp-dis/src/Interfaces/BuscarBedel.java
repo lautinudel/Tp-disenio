@@ -5,11 +5,13 @@
  */
 package Interfaces;
 
+import Gestores.GestorBedel;
 import Modelo.Bedel;
 import Modelo.TurnoEnum;
 import Persistencia.BedelDAO;
 import java.util.List;
 import javax.swing.SwingUtilities;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 /**
  *
@@ -52,9 +54,16 @@ public class BuscarBedel extends javax.swing.JPanel {
 
         jLabel1.setText("Apellido");
 
+        jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
+
         jLabel2.setText("Turno");
 
         jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
+        jComboBoxTurno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxTurnoActionPerformed(evt);
+            }
+        });
 
         jTableBedeles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,11 +176,40 @@ public class BuscarBedel extends javax.swing.JPanel {
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        //vaciar tabla
+        for(int i=0;i<17;i++){
+            this.jTableBedeles.setValueAt("", i, 0);
+            this.jTableBedeles.setValueAt("", i, 1);
+            this.jTableBedeles.setValueAt("", i, 2);
+            this.jTableBedeles.setValueAt("", i, 3);
+        }
         //verificar teclas especiales
-        BedelDAO BDAO = new BedelDAO();
+        GestorBedel GB = new GestorBedel();
         if(this.jCheckBoxApellido.isSelected() && this.jCheckBoxTurno.isSelected()){
             if(this.jTextFieldApellido.getText().length()>1 && this.jTextFieldApellido.getText().length()<33){
+                 List<Bedel> bedeles= null;
+                 if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
+                        bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Maniana );   
+                   }else if(this.jComboBoxTurno.getSelectedItem().toString().equals("Tarde")){
+                       bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Tarde );   
+                   } else bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Noche );   
+                 
+                if(!bedeles.isEmpty()){
+                   for(int i=0;i<bedeles.size();i++){
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getNombre(), i, 1);
+                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)) this.jTableBedeles.setValueAt("Mañana", i, 2);
+                       else this.jTableBedeles.setValueAt(bedeles.get(i).getTurnoTrabaja(), i, 2);
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getUsername(), i, 3);
+                       //añador filas si es necesario
+                   }}else{
+                       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        topFrame.mensajeEmergente("Resultado", "No hay bedeles con ese criterio de busqueda");
+                   }
+                
+                
+                
+                
+                
                 
             }else{
                 JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
@@ -180,7 +218,7 @@ public class BuscarBedel extends javax.swing.JPanel {
         }else{
             if(this.jCheckBoxApellido.isSelected()){
                if(this.jTextFieldApellido.getText().length()>1 && this.jTextFieldApellido.getText().length()<33){
-                   List<Bedel> bedeles = BDAO.buscarPorApellido(this.jTextFieldApellido.getText());
+                   List<Bedel> bedeles = GB.buscarBedelApellido(this.jTextFieldApellido.getText());
                    if(!bedeles.isEmpty()){
                    for(int i=0;i<bedeles.size();i++){
                        this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
@@ -199,7 +237,25 @@ public class BuscarBedel extends javax.swing.JPanel {
                 } 
             }else{
                 if(this.jCheckBoxTurno.isSelected()){
-                    
+                    List<Bedel> bedeles= null;
+                   if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
+                        bedeles = GB.buscarBedelTurno(TurnoEnum.Maniana);   
+                   }else if(this.jComboBoxTurno.getSelectedItem().toString().equals("Tarde")){
+                       bedeles = GB.buscarBedelTurno(TurnoEnum.Tarde); 
+                   } else bedeles = GB.buscarBedelTurno(TurnoEnum.Noche); 
+                   if(!bedeles.isEmpty()){
+                   for(int i=0;i<bedeles.size();i++){
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getNombre(), i, 1);
+                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)) this.jTableBedeles.setValueAt("Mañana", i, 2);
+                       else this.jTableBedeles.setValueAt(bedeles.get(i).getTurnoTrabaja(), i, 2);
+                       this.jTableBedeles.setValueAt(bedeles.get(i).getUsername(), i, 3);
+                       //añador filas si es necesario
+                   }}else{
+                       JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                        topFrame.mensajeEmergente("Resultado", "No hay bedeles con ese turno");
+                   }
+                   
                 }else{
                     JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                     topFrame.mensajeEmergente("Error", "Debe seleccionar al menos una de las opciones de busqueda");
@@ -207,6 +263,10 @@ public class BuscarBedel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jComboBoxTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTurnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxTurnoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
