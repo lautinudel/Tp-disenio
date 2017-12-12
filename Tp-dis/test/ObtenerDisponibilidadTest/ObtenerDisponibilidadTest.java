@@ -177,6 +177,7 @@ public class ObtenerDisponibilidadTest {
             }
             System.out.print("\n");
         }
+        
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
         prueba.add(0, dias);
@@ -184,6 +185,7 @@ public class ObtenerDisponibilidadTest {
         prueba.add(2,horasFin);
         System.out.println(prueba);*/
         /*
+        
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -229,6 +231,24 @@ public class ObtenerDisponibilidadTest {
         
         
         System.out.println(listaAulas.get(0).getNumeroAula());*/
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query queryAulaSinReservas = session.createSQLQuery("SELECT a.* " +
+                                                        "FROM Aula a, ((SELECT a.numeroAula " +
+                                                                            "FROM Aula a) " +
+                                                                        "NOT IN " +
+                                                                            "((SELECT DISTINCT e.id.aulaNumeroAula " +
+                                                                                "FROM  DiaReservaEsporadica e) " +
+                                                                              "UNION DISINCT " +
+                                                                               "(SELECT DISTINCT p.id.aulaNumeroAula " +
+                                                                                "FROM DiaReservaPeriodica p))) t " +
+                                                        "WHERE t.numeroAula = a.numeroAula");
+        
+        List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
+        
+        System.out.println(listaAulasSinReserva);
         
         exit(0);
     }

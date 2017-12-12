@@ -75,16 +75,18 @@ public class GestorAula {
             aulas.add(i, copia);
             listaAulas.clear();
         }
-        Query queryAulaSinReservas = session.createQuery("SELECT a " +
-                                                        "FROM Aula a , ((SELECT a.numeroAula " +
-                                                                            "FROM Aula a ) " +
-                                                                        "MINUS " +
+        
+        Query queryAulaSinReservas = session.createSQLQuery("SELECT a.* " +
+                                                        "FROM Aula a, ((SELECT a.numeroAula " +
+                                                                            "FROM Aula a) " +
+                                                                        "NOT IN " +
                                                                             "((SELECT DISTINCT e.id.aulaNumeroAula " +
                                                                                 "FROM  DiaReservaEsporadica e) " +
-                                                                              "UNION " +
+                                                                              "UNION DISTINCT" +
                                                                                "(SELECT DISTINCT p.id.aulaNumeroAula " +
-                                                                                "FROM DiaReservaPeriodica p)))t " +
+                                                                                "FROM DiaReservaPeriodica p))) t " +
                                                         "WHERE t.numeroAula = a.numeroAula");
+        
         List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
         for(int i=0; i<aulas.size();i++){
                 aulas.get(i).addAll(listaAulasSinReserva);
