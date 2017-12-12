@@ -77,15 +77,16 @@ public class GestorAula {
         }
         
         Query queryAulaSinReservas = session.createSQLQuery("SELECT a.* " +
-                                                        "FROM Aula a, ((SELECT a.numeroAula " +
-                                                                            "FROM Aula a) " +
-                                                                        "NOT IN " +
-                                                                            "((SELECT DISTINCT e.id.aulaNumeroAula " +
-                                                                                "FROM  DiaReservaEsporadica e) " +
-                                                                              "UNION DISTINCT" +
-                                                                               "(SELECT DISTINCT p.id.aulaNumeroAula " +
-                                                                                "FROM DiaReservaPeriodica p))) t " +
-                                                        "WHERE t.numeroAula = a.numeroAula");
+"FROM Aula a, (SELECT a.numeroAula " +
+"				FROM Aula a " +
+"                where a.numeroAula NOT IN( " +
+"						(SELECT DISTINCT e.Aula_numeroAula " +
+"						 FROM  DiaReservaEsporadica e " +
+"					 UNION distinct " +
+"						SELECT DISTINCT p.Aula_numeroAula " +
+"						FROM DiaReservaPeriodica p) " +
+"				)) t " +
+"WHERE t.numeroAula = a.numeroAula; ");
         
         List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
         for(int i=0; i<aulas.size();i++){

@@ -168,7 +168,7 @@ public class ObtenerDisponibilidadTest {
         System.out.println(horasInicio);
         System.out.println(horasFin);
         
-        
+        /*
         GestorAula gestorAula = new GestorAula();
         ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 40, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
@@ -176,7 +176,7 @@ public class ObtenerDisponibilidadTest {
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }
+        }*/
         
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
@@ -236,19 +236,20 @@ public class ObtenerDisponibilidadTest {
         Session session;
         session = sesion.openSession();
         Query queryAulaSinReservas = session.createSQLQuery("SELECT a.* " +
-                                                        "FROM Aula a, ((SELECT a.numeroAula " +
-                                                                            "FROM Aula a) " +
-                                                                        "NOT IN " +
-                                                                            "((SELECT DISTINCT e.id.aulaNumeroAula " +
-                                                                                "FROM  DiaReservaEsporadica e) " +
-                                                                              "UNION DISINCT " +
-                                                                               "(SELECT DISTINCT p.id.aulaNumeroAula " +
-                                                                                "FROM DiaReservaPeriodica p))) t " +
-                                                        "WHERE t.numeroAula = a.numeroAula");
+"FROM Aula a, (SELECT a.numeroAula " +
+"				FROM Aula a " +
+"                where a.numeroAula NOT IN( " +
+"						(SELECT DISTINCT e.Aula_numeroAula " +
+"						 FROM  DiaReservaEsporadica e " +
+"					 UNION distinct " +
+"						SELECT DISTINCT p.Aula_numeroAula " +
+"						FROM DiaReservaPeriodica p) " +
+"				)) t " +
+"WHERE t.numeroAula = a.numeroAula; ");
         
-        List<Aula> listaAulasSinReserva = queryAulaSinReservas.list();
-        
-        System.out.println(listaAulasSinReserva);
+        List<Object> listaAulasSinReserva = queryAulaSinReservas.list();
+        Integer service = Integer.parseInt(String.valueOf(listaAulasSinReserva.get(0)));
+        System.out.println(service);
         
         exit(0);
     }
