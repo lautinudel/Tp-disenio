@@ -27,10 +27,8 @@ public class GestorAutenticacion {
         BedelDAO BDAO = new BedelDAO();
         //ClaveDao CDAO = new ClaveDao();
         AdministradorDAO ADAO = new AdministradorDAO();
-        
         if(BDAO.verificarExistencia(usuario)){
             Bedel b = BDAO.obtenerBedel(usuario);
-            //obtengo el ultimo elemento del hashset
             ClaveBedel cb=null;
             ClaveBedel cAnterior=null;
             //busco la contraseña mas actual

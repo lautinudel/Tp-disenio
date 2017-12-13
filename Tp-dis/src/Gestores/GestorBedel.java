@@ -68,7 +68,30 @@ public class GestorBedel {
     public Boolean compararPassword(String pass, String passConfirmado){
         return pass.equals(passConfirmado);
     }
-    
+    public int modificarBedel(String nombre, String apellido, String username, String turno, String pass, String passConfirmado, Bedel b){
+        GestorPoliticas g = new GestorPoliticas();
+        BedelDAO bedeldao = new BedelDAO();
+        
+        b.setApellido(apellido);
+        b.setNombre(nombre);
+        switch (turno){
+           case "Mañana": b.setTurnoTrabaja(TurnoEnum.Maniana);break;
+           case "Tarde": b.setTurnoTrabaja(TurnoEnum.Tarde);break;
+           case "Noche": b.setTurnoTrabaja(TurnoEnum.Noche);break;
+       }
+        
+        if(this.compararPassword(pass, passConfirmado)){
+          if(g.validarPoliticas(pass)){
+              ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
+               ClaveBedel claveBedel = new ClaveBedel(clave,b);
+               
+          }else return 1;
+            bedeldao.modificarBedel(nombre, apellido, username, turno);
+        }else return 2;
+        
+        
+        return 0;
+    }
     
     public List<Bedel> buscarBedelApellido (String apellido){
         BedelDAO BDAO = new BedelDAO();

@@ -9,8 +9,13 @@ import Modelo.Bedel;
 import Modelo.ClaveBedel;
 import Modelo.TurnoEnum;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
+import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -32,10 +37,15 @@ public class BedelDAO {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Transaction tx = session.beginTransaction();
+        /*Transaction tx = session.beginTransaction();
         if(session.get(Bedel.class, username)!=null) r=true; 
         else r=false;
-        tx.commit();
+        tx.commit();*/
+        Query query = session.createQuery("FROM Bedel WHERE username = :username");
+        query.setParameter("username", username);
+        List<Bedel> lista = query.list();
+        if(!lista.isEmpty()) r=true;
+        else r=false;
         session.close();
         return r;
     }
@@ -44,13 +54,20 @@ public class BedelDAO {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Transaction tx = session.beginTransaction();
+        /*Transaction tx = session.beginTransaction();
         b=(Bedel)session.get(Bedel.class, username);
-        tx.commit();
+        tx.commit();*/
+        Query query = session.createQuery("FROM Bedel WHERE username = :username");
+        query.setParameter("username", username);
+        List<Bedel> lista = query.list();
+        b=lista.get(0);
+        int temp = b.getClaveBedels().size();
         session.close();
         return b;
     }
     
+    
+    //existe en hql?
     public void guardarBedel(Bedel b, ClaveBedel claveBedel) {
       
       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -65,15 +82,29 @@ public class BedelDAO {
         
         
     }
+    //solo modifica si no se cambia la clave
+    public void modificarBedel(String nombre, String apellido, String username, String turno){
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      int query = session.createQuery("update Bedel b set b.nombre = :nombre, b.apellido = :apellido,  b.turnoTrabaja = :turno where b.username = :username").setString("nombre", nombre).setString("apellido", apellido).setString("username", username).setString("turno", turno).executeUpdate();
+      session.close();    
+    }
+   
     public List<Bedel> buscarPorApellido (String apellido){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Transaction tx = session.beginTransaction();
-        List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("apellido", "%"+apellido+"%") ).list();
-        tx.commit();
-        session.close();
+        //Transaction tx = session.beginTransaction();
+        //List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("apellido", "%"+apellido+"%") ).list();
+         Query query = session.createQuery("FROM Bedel WHERE apellido = :apellido");
+        query.setParameter("apellido", apellido);
+        List<Bedel> lista = query.list();
+       // tx.commit();
+       int temp;
         for(int i=0;i<lista.size();i++){
+            
+            temp=lista.get(i).getClaveBedels().size();
             if(lista.get(i).getActivo()==0){
                 lista.remove(i);
                 i--;
@@ -88,6 +119,7 @@ public class BedelDAO {
                     j--;
                 }}
             }}
+        session.close();
         return lista; 
   
     }
@@ -95,11 +127,21 @@ public class BedelDAO {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Transaction tx = session.beginTransaction();
-        List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("turnoTrabaja", turno) ).list();
-        tx.commit();
-        session.close();
+        //Transaction tx = session.beginTransaction();
+        //List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("turnoTrabaja", turno) ).list();
+        //tx.commit();
+         Query query = session.createQuery("FROM Bedel WHERE turnoTrabaja = :turno");
+         
+         if(turno.equals(TurnoEnum.Maniana))query.setParameter("turno", TurnoEnum.Maniana);
+         else if(turno.equals(TurnoEnum.Tarde))query.setParameter("turno", TurnoEnum.Tarde);
+         else if(turno.equals(TurnoEnum.Noche))query.setParameter("turno", TurnoEnum.Noche);
+        
+        List<Bedel> lista = query.list();
+        
+        int temp;
         for(int i=0;i<lista.size();i++){
+            temp=lista.get(i).getClaveBedels().size();
+            lista.get(i).getClaveBedels();
             if(lista.get(i).getActivo()==0){
                 lista.remove(i);
                 i--;
@@ -114,6 +156,7 @@ public class BedelDAO {
                     j--;
                 }}
             }}
+        session.close();
         return lista;
     }
     

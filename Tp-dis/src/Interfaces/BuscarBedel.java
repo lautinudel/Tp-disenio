@@ -25,12 +25,13 @@ import jdk.nashorn.internal.runtime.regexp.joni.Regex;
  * @author L. Nudel
  */
 public class BuscarBedel extends javax.swing.JPanel {
-
+    public List<Bedel> bedeles;
     /**
      * Creates new form BuscarBedel
      */
     public BuscarBedel() {
         initComponents();
+        this.bedeles= new ArrayList();
     }
 
     /**
@@ -97,8 +98,18 @@ public class BuscarBedel extends javax.swing.JPanel {
         });
 
         jButtonModificar.setText("Modificar");
+        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonModificarActionPerformed(evt);
+            }
+        });
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -185,7 +196,7 @@ public class BuscarBedel extends javax.swing.JPanel {
         if(this.jCheckBoxApellido.isSelected() && this.jCheckBoxTurno.isSelected()){
             //valido apellido
             if(GV.validarApellido(this.jTextFieldApellido.getText())){
-                 List<Bedel> bedeles= null;
+                 
                  //busco segun turno y apellido
                  if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
                         bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Maniana );   
@@ -225,7 +236,7 @@ public class BuscarBedel extends javax.swing.JPanel {
             if(this.jCheckBoxApellido.isSelected()){
                 //valido
                if(GV.validarApellido(this.jTextFieldApellido.getText())){
-                   List<Bedel> bedeles = GB.buscarBedelApellido(this.jTextFieldApellido.getText());
+                   bedeles = GB.buscarBedelApellido(this.jTextFieldApellido.getText());
                    if(!bedeles.isEmpty()){
                        //muestro en tabla
                    for(int i=0;i<bedeles.size();i++){
@@ -256,7 +267,7 @@ public class BuscarBedel extends javax.swing.JPanel {
                 //solo turno
                 
                 if(this.jCheckBoxTurno.isSelected()){
-                    List<Bedel> bedeles= null;
+                    
                    if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
                         bedeles = GB.buscarBedelTurno(TurnoEnum.Maniana);   
                    }else if(this.jComboBoxTurno.getSelectedItem().toString().equals("Tarde")){
@@ -318,6 +329,34 @@ public class BuscarBedel extends javax.swing.JPanel {
             this.remove(dialogo);
         });
     }//GEN-LAST:event_jButtonAtrasActionPerformed
+
+    private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
+        // TODO add your handling code here:
+        if(!bedeles.isEmpty()){
+            if(this.jTableBedeles.getSelectedRow()!=-1){
+                Bedel b = bedeles.get(this.jTableBedeles.getSelectedRow());
+                JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+                ModificarBedel mb = new ModificarBedel(b);
+                topFrame.add(mb, BorderLayout.CENTER);
+                this.setVisible(false);
+                topFrame.remove(this);
+                topFrame.setSize(500,500); 
+            }else{
+                JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Error", "Primero debe seleccionar un bedel de la tabla");
+            }   
+        }else{
+           JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Error", "Primero debe realizar una busqueda correcta"); 
+        }
+        
+    }//GEN-LAST:event_jButtonModificarActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Error", "Funcionalidad en desarrollo"); 
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

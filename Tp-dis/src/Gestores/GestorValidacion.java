@@ -56,7 +56,7 @@ public class GestorValidacion {
     
     public boolean validarApellido (String apellido){
         
-        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]"))
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-](.*)"))
             return false;
         else return true;
         
