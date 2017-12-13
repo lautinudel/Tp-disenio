@@ -12,10 +12,13 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -80,6 +83,23 @@ public class RegistrarReserva extends javax.swing.JPanel {
             panelTabla.setVisible(true);
             jButtonEliminar.setVisible(true);
             jButtonAnadir.setVisible(true);
+            
+            //Bloqueo la hora inicio y la duracion para reserva periodica hasta que hagan click en el checkbox correspondiente
+            horaInicioLunes.setEnabled(false);
+            horaInicioMartes.setEnabled(false);
+            horaInicioMiercoles.setEnabled(false);
+            horaInicioJueves.setEnabled(false);
+            horaInicioViernes.setEnabled(false);
+            horaInicioSabado.setEnabled(false);
+            
+            duracionLunes.setEnabled(false);
+            duracionMartes.setEnabled(false);
+            duracionMiercoles.setEnabled(false);
+            duracionJueves.setEnabled(false);
+            duracionViernes.setEnabled(false);
+            duracionSabado.setEnabled(false);
+            
+            
             
             /*JTableHeader header= tabla.getTableHeader();
             TableColumnModel colMod = header.getColumnModel();
@@ -266,22 +286,47 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jCheckBoxLunes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxLunes.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxLunes.setText("Lunes");
+        jCheckBoxLunes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxLunesActionPerformed(evt);
+            }
+        });
 
         jCheckBoxMartes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxMartes.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxMartes.setText("Martes");
+        jCheckBoxMartes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMartesActionPerformed(evt);
+            }
+        });
 
         jCheckBoxMiercoles.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxMiercoles.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxMiercoles.setText("Miércoles");
+        jCheckBoxMiercoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMiercolesActionPerformed(evt);
+            }
+        });
 
         jCheckBoxJueves.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxJueves.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxJueves.setText("Jueves");
+        jCheckBoxJueves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxJuevesActionPerformed(evt);
+            }
+        });
 
         jCheckBoxViernes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxViernes.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxViernes.setText("Viernes");
+        jCheckBoxViernes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxViernesActionPerformed(evt);
+            }
+        });
 
         jCheckBoxSabado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxSabado.setForeground(new java.awt.Color(255, 255, 255));
@@ -295,6 +340,12 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabelHoraInicio1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelHoraInicio1.setForeground(new java.awt.Color(255, 255, 255));
         jLabelHoraInicio1.setText("Hora de inicio:");
+
+        horaInicioLunes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horaInicioLunesActionPerformed(evt);
+            }
+        });
 
         horaInicioMartes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,7 +364,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabelDuracion1.setText("Duración:");
 
         duracionLunes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionLunes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionLunes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
         duracionLunes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionLunesActionPerformed(evt);
@@ -321,19 +372,44 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionMartes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionMartes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMartes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMartes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionMartesActionPerformed(evt);
+            }
+        });
 
         duracionMiercoles.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionMiercoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMiercoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMiercoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionMiercolesActionPerformed(evt);
+            }
+        });
 
         duracionJueves.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionJueves.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionJueves.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionJueves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionJuevesActionPerformed(evt);
+            }
+        });
 
         duracionViernes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionViernes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionViernes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionViernes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionViernesActionPerformed(evt);
+            }
+        });
 
         duracionSabado.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionSabado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionSabado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionSabado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionSabadoActionPerformed(evt);
+            }
+        });
 
         listaPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuatrimestral", "Anual" }));
         listaPeriodo.addActionListener(new java.awt.event.ActionListener() {
@@ -596,11 +672,18 @@ public class RegistrarReserva extends javax.swing.JPanel {
     }//GEN-LAST:event_nombreActionPerformed
 
     private void jCheckBoxSabadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSabadoActionPerformed
-        // TODO add your handling code here:
+        if(this.jCheckBoxSabado.isSelected()){
+            this.horaInicioSabado.setEnabled(true);
+            this.duracionSabado.setEnabled(true);
+        }else{
+            this.horaInicioSabado.setEnabled(false);
+            this.duracionSabado.setSelectedItem("Seleccione");
+            this.duracionSabado.setEnabled(false);
+        }
     }//GEN-LAST:event_jCheckBoxSabadoActionPerformed
 
     private void duracionLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionLunesActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_duracionLunesActionPerformed
 
     private void horaInicioSabadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaInicioSabadoActionPerformed
@@ -712,14 +795,9 @@ public class RegistrarReserva extends javax.swing.JPanel {
     }//GEN-LAST:event_listaPeriodoActionPerformed
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-        // TODO add your handling code here:
+        
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles();
-        panelAulas.setImage("/Imagenes/fondoabs.jpg");
-        topFrame.add(panelAulas, BorderLayout.CENTER);
-        this.setVisible(false);
-        topFrame.remove(this);
-        topFrame.setSize(1100,500);
+        
         //Recupero...
         //Tipo Aula
         TipoAula tipoAula = TipoAula.SinRecursos;
@@ -766,28 +844,107 @@ public class RegistrarReserva extends javax.swing.JPanel {
             if (this.jCheckBoxSabado.isSelected()){
                 dias.add(convertirStringADateFormatoFecha("Sabado"));
             }
+            //HoraInicio
             ArrayList<Date> horaInicio = new ArrayList();
-            if (!this.horaInicioLunes.getText().isEmpty()){
+            //Si ingresaron algún horario y el checkbox del dia está activado...
+            if (!this.horaInicioLunes.getText().isEmpty() && this.jCheckBoxLunes.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioLunes.getText()));
+            }else{
+                if(this.jCheckBoxLunes.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }                
             }
-            if (!this.horaInicioMartes.getText().isEmpty()){
+            if (!this.horaInicioMartes.getText().isEmpty() && this.jCheckBoxMartes.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMartes.getText()));
+            }else{
+                if(this.jCheckBoxMartes.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Martes.");
+                } 
             }
-            if (!this.horaInicioMiercoles.getText().isEmpty()){
+            if (!this.horaInicioMiercoles.getText().isEmpty() && this.jCheckBoxMiercoles.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMiercoles.getText()));
+            }else{
+                if(this.jCheckBoxMiercoles.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Miércoles.");
+                } 
             }
-            if (!this.horaInicioJueves.getText().isEmpty()){
+            if (!this.horaInicioJueves.getText().isEmpty() && this.jCheckBoxJueves.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioJueves.getText()));
+            }else{
+                if(this.jCheckBoxJueves.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Jueves.");
+                } 
             }
-            if (!this.horaInicioViernes.getText().isEmpty()){
+            if (!this.horaInicioViernes.getText().isEmpty() && this.jCheckBoxViernes.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioViernes.getText()));
+            }else{
+                if(this.jCheckBoxViernes.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Viernes.");
+                } 
             }
-            if (!this.horaInicioSabado.getText().isEmpty()){
+            if (!this.horaInicioSabado.getText().isEmpty() && this.jCheckBoxSabado.isSelected()){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioSabado.getText()));
+            }else{
+                if(this.jCheckBoxSabado.isSelected()){
+                    //Mostrar mensaje de que falta la hora inicio
+                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Sábado.");
+                } 
             }
+            //HoraFin
             ArrayList<Date> horaFin = new ArrayList();
-            
-            
+            if (!this.duracionLunes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxLunes.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioLunes.getText(),this.duracionLunes.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxLunes.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Lunes.");
+                }
+            }
+            if (!this.duracionMartes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMartes.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioMartes.getText(),this.duracionMartes.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxMartes.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Martes.");
+                }
+            }
+            if (!this.duracionMiercoles.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMiercoles.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioMiercoles.getText(),this.duracionMiercoles.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxMiercoles.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Miércoles.");
+                }
+            }
+            if (!this.duracionJueves.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxJueves.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioJueves.getText(),this.duracionJueves.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxJueves.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Jueves.");
+                }
+            }
+            if (!this.duracionViernes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxViernes.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioViernes.getText(),this.duracionViernes.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxViernes.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Viernes.");
+                }
+            }
+            if (!this.duracionSabado.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxSabado.isSelected()){
+                horaFin.add(sumarMinutosAHoraInicio(this.horaInicioSabado.getText(),this.duracionSabado.getSelectedItem().toString()));
+            }else{
+                if(this.jCheckBoxSabado.isSelected()){
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Sábado.");
+                }
+            }            
         }else{  //Si no es periodica es esporádica (no hay otra alternativa)
             TipoReserva tipoReserva = TipoReserva.Esporadica;
             
@@ -796,20 +953,41 @@ public class RegistrarReserva extends javax.swing.JPanel {
         String docenteNombre = this.nombre.getText();
         String email = this.email.getText();
         String catedra = this.catedra.getText();
-        
-        
-       
-        
-        
-        
+         
+        boolean validacion = false;
+        if(validacion){
+            ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles();
+        panelAulas.setImage("/Imagenes/fondoabs.jpg");
+        topFrame.add(panelAulas, BorderLayout.CENTER);
+        this.setVisible(false);
+        topFrame.remove(this);
+        topFrame.setSize(1100,500);
+        }
         
     }//GEN-LAST:event_aceptarActionPerformed
     
-    private Date convertirStringADateFormatoHora(String fecha){
+    private Date sumarMinutosAHoraInicio (String textoHoraInicio,String textoDuracion){
+        //Convierto el String en Date
+        Date horaInicio = convertirStringADateFormatoHora(textoHoraInicio);
+        //Convierto el String en int
+        int duracionMinutos = Integer.parseInt(textoDuracion);
+        //Sumo los minutos a la horaInicio
+        return sumarHorasFecha(horaInicio, duracionMinutos);   
+    }
+    
+    private Date sumarHorasFecha(Date fecha, int minutos){
+	Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+        calendar.add(Calendar.MINUTE, minutos);  // numero de minutos a añadir
+        
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos minutos añadidas
+    }
+       
+    private Date convertirStringADateFormatoHora(String hora){
         Date date = null;
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
         try {
-            date = sdf.parse(fecha);
+            date = sdf.parse(hora);
         } catch (ParseException ex) {
             Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -934,6 +1112,91 @@ public class RegistrarReserva extends javax.swing.JPanel {
        }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
+    private void jCheckBoxLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxLunesActionPerformed
+        if(this.jCheckBoxLunes.isSelected()){
+            this.horaInicioLunes.setEnabled(true);
+            this.duracionLunes.setEnabled(true);
+        }else{
+            this.horaInicioLunes.setEnabled(false);
+            this.duracionLunes.setSelectedItem("Seleccione");
+            this.duracionLunes.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_jCheckBoxLunesActionPerformed
+
+    private void jCheckBoxMartesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMartesActionPerformed
+        if(this.jCheckBoxMartes.isSelected()){
+            this.horaInicioMartes.setEnabled(true);
+            this.duracionMartes.setEnabled(true);
+        }else{
+            this.horaInicioMartes.setEnabled(false);
+            this.duracionMartes.setSelectedItem("Seleccione");
+            this.duracionMartes.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_jCheckBoxMartesActionPerformed
+
+    private void jCheckBoxMiercolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMiercolesActionPerformed
+        if(this.jCheckBoxMiercoles.isSelected()){
+            this.horaInicioMiercoles.setEnabled(true);
+            this.duracionMiercoles.setEnabled(true);
+        }else{
+            this.horaInicioMiercoles.setEnabled(false);
+            this.duracionMiercoles.setSelectedItem("Seleccione");
+            this.duracionMiercoles.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_jCheckBoxMiercolesActionPerformed
+
+    private void jCheckBoxJuevesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxJuevesActionPerformed
+        if(this.jCheckBoxJueves.isSelected()){
+            this.horaInicioJueves.setEnabled(true);
+            this.duracionJueves.setEnabled(true);
+        }else{
+            this.horaInicioJueves.setEnabled(false);
+            this.duracionJueves.setSelectedItem("Seleccione");
+            this.duracionJueves.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_jCheckBoxJuevesActionPerformed
+
+    private void jCheckBoxViernesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxViernesActionPerformed
+        if(this.jCheckBoxViernes.isSelected()){
+            this.horaInicioViernes.setEnabled(true);
+            this.duracionViernes.setEnabled(true);
+        }else{
+            this.horaInicioViernes.setEnabled(false);
+            this.duracionViernes.setSelectedItem("Seleccione");
+            this.duracionViernes.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckBoxViernesActionPerformed
+
+    private void duracionMartesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionMartesActionPerformed
+        
+    }//GEN-LAST:event_duracionMartesActionPerformed
+
+    private void duracionMiercolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionMiercolesActionPerformed
+        
+    }//GEN-LAST:event_duracionMiercolesActionPerformed
+
+    private void duracionJuevesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionJuevesActionPerformed
+        
+    }//GEN-LAST:event_duracionJuevesActionPerformed
+
+    private void duracionViernesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionViernesActionPerformed
+        
+    }//GEN-LAST:event_duracionViernesActionPerformed
+
+    private void duracionSabadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionSabadoActionPerformed
+        
+    }//GEN-LAST:event_duracionSabadoActionPerformed
+
+    private void horaInicioLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaInicioLunesActionPerformed
+        
+    }//GEN-LAST:event_horaInicioLunesActionPerformed
+    
+    
+    
     //codigo de la imagen de fondo ----------------------------------------
     private Image fondo=null;
     

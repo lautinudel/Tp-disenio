@@ -201,7 +201,7 @@ public class RegistrarBedel extends javax.swing.JPanel {
             if(validacionCampos[0]==0)
                 topFrame.mensajeEmergente("Error de validación del nombre", "El nombre ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
             if(validacionCampos[1]==0)
-                topFrame.mensajeEmergente("Error de validación del apeliido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+                topFrame.mensajeEmergente("Error de validación del apellido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
             if(validacionCampos[2]==0)
                 topFrame.mensajeEmergente("Error de validación del nombre de usuario", "El nombre de usuario ingresado debe tener entre 6 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
             
