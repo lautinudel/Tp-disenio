@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Gestores.GestorValidacion;
 import Modelo.PeriodoEnum;
 import Modelo.TipoAula;
 import Modelo.TipoReserva;
@@ -132,7 +133,6 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabelDuracion2 = new javax.swing.JLabel();
         fecha = new javax.swing.JTextField();
         horaInicio = new javax.swing.JTextField();
-        duracion = new javax.swing.JTextField();
         jButtonEliminar = new javax.swing.JButton();
         jButtonAnadir = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -171,6 +171,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        duracion = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,7 +192,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabel5.setText("Modalidad:");
         jLabel5.setToolTipText("Elija una modalidad de la lista.");
 
-        tipoAula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aula multimedio", "Aula informatica", "Aula sin recursos adicionales" }));
+        tipoAula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aula sin recursos adicionales", "Aula multimedio", "Aula informatica", " " }));
         tipoAula.setToolTipText("Elija una modalidad de la lista.");
         tipoAula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +220,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
         jLabelDuracion2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDuracion2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDuracion2.setText("Duración:");
+        jLabelDuracion2.setText("Duración (minutos):");
 
         fecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -361,10 +362,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
         jLabelDuracion1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDuracion1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDuracion1.setText("Duración:");
+        jLabelDuracion1.setText("Duración (minutos):");
 
         duracionLunes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionLunes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionLunes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionLunes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionLunesActionPerformed(evt);
@@ -372,7 +373,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionMartes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionMartes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMartes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionMartes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionMartesActionPerformed(evt);
@@ -380,7 +381,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionMiercoles.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionMiercoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionMiercoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionMiercoles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionMiercolesActionPerformed(evt);
@@ -388,7 +389,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionJueves.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionJueves.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionJueves.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionJueves.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionJuevesActionPerformed(evt);
@@ -396,7 +397,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionViernes.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionViernes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionViernes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionViernes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionViernesActionPerformed(evt);
@@ -404,7 +405,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         });
 
         duracionSabado.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        duracionSabado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min", "330 min", "360 min" }));
+        duracionSabado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
         duracionSabado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 duracionSabadoActionPerformed(evt);
@@ -461,6 +462,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        duracion.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        duracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "30", "60", "90", "120", "150", "180", "210", "240", "270", "300", "330", "360" }));
+        duracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duracionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -552,7 +561,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         .addGap(41, 41, 41)
                         .addComponent(jLabelDuracion2)
                         .addGap(18, 18, 18)
-                        .addComponent(duracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(duracion, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,6 +685,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioSabado.setEnabled(true);
             this.duracionSabado.setEnabled(true);
         }else{
+            this.horaInicioSabado.setText("");
             this.horaInicioSabado.setEnabled(false);
             this.duracionSabado.setSelectedItem("Seleccione");
             this.duracionSabado.setEnabled(false);
@@ -799,16 +809,21 @@ public class RegistrarReserva extends javax.swing.JPanel {
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         
         //Recupero...
-        //Tipo Aula
+        //Tipo Aula (es una lista desplegable por lo que siempre va a tener algún valor)
         TipoAula tipoAula = TipoAula.SinRecursos;
         switch (this.tipoAula.getSelectedItem().toString()){
            case "Aula informatica": tipoAula = TipoAula.Informatica;break;
            case "Aula multimedio": tipoAula = TipoAula.Multimedios;break;
            case "Aula sin recursos adicionales": tipoAula = TipoAula.SinRecursos;break;
         }
-        //cantidad de alumnos
+        //Cantidad de alumnos
         //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
-        int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+        if(!this.cantidadAlumnos.getText().isEmpty()){
+            //Tengo que validar si el String contiene solo números
+            int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+        }else{
+            topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
+        }
         //Modalidad
         String modalidad = this.listaModalidad.getSelectedItem().toString();
         if(modalidad.equals("Periodica")){
@@ -957,11 +972,11 @@ public class RegistrarReserva extends javax.swing.JPanel {
         boolean validacion = false;
         if(validacion){
             ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles();
-        panelAulas.setImage("/Imagenes/fondoabs.jpg");
-        topFrame.add(panelAulas, BorderLayout.CENTER);
-        this.setVisible(false);
-        topFrame.remove(this);
-        topFrame.setSize(1100,500);
+            panelAulas.setImage("/Imagenes/fondoabs.jpg");
+            topFrame.add(panelAulas, BorderLayout.CENTER);
+            this.setVisible(false);
+            topFrame.remove(this);
+            topFrame.setSize(1100,500);
         }
         
     }//GEN-LAST:event_aceptarActionPerformed
@@ -1031,72 +1046,82 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-        //CAMPOSVACIOS NO SIRVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if(!camposVacios()){
-            /*Obtengo la duracion*/
-            int duracion = Integer.parseInt(this.duracion.getText());
-            /*Obtengo la fecha (el try-catch lo tuve que poner porque sino no me compilaba)*/
+        Date fechaDato = null;
+        Date horaInicioDato = null;
+        int duracionDato = 0;
+        int cantAlumnos = 0;
+        GestorValidacion gestorVal = new GestorValidacion();
+        //Si el campo de la fecha no esta vacio
+        if(!this.fecha.getText().isEmpty()){
+            /*Obtengo la fecha*/
             String textoFecha = this.fecha.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date fecha = null;
-            try {
-                fecha = sdf.parse(textoFecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+            //Validar que la fecha contenga solo numeros y /
+            if(gestorVal.validarFormatoFecha(textoFecha)){
+                try {
+                    fechaDato = sdf.parse(textoFecha);
+                } catch (ParseException ex) {
+                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
+                }
+            }else{
+                topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
             }
-            /*Obtengo la horaInicio*/
-            SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
-            String textoHora = this.horaInicio.getText();
-            Date horaInicio = null;
-            try {
-                horaInicio = sdfhora.parse(textoHora);
-            } catch (ParseException ex) {
-                Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+            
+            
+            //Si el campo de horaInicio no está vacio
+            if(!this.horaInicio.getText().isEmpty()){
+                /*Obtengo la horaInicio*/
+                SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+                String textoHora = this.horaInicio.getText();
+                //Validar que la fecha contenfa solo numeros y : 
+                //asdfa
+                try {
+                    horaInicioDato = sdfhora.parse(textoHora);
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }     
+                //Si el campo de duracion no está en Seleccione
+                if (!this.duracion.getSelectedItem().toString().equalsIgnoreCase("Seleccione")){
+                    duracionDato = Integer.parseInt(this.duracion.getSelectedItem().toString());
+                }else{
+                    //Mostrar mensaje de que falta la duracion
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para la reserva.");
+                }
+            }else{
+                topFrame.mensajeEmergente("Campo faltante", "Debe ingresar la hora de inicio de la reserva.");
             }
-            //Tipo Aula
-            TipoAula aula = TipoAula.SinRecursos;
-            switch (this.tipoAula.getSelectedItem().toString()){
-                case "Aula informatica": aula = TipoAula.Informatica;break;
-                case "Aula multimedio": aula = TipoAula.Multimedios;break;
-                case "Aula sin recursos adicionales": aula = TipoAula.SinRecursos;break;
-            }
-            //cantidad de alumnos
-            //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
-            int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
-        
-            Object row[] = {fecha,horaInicio,duracion,aula,cantAlumnos}; 
+        }else{
+            topFrame.mensajeEmergente("Campo faltante", "Debe ingresar la fecha de la reserva.");
+        }
+            
+        //Tipo Aula
+        TipoAula aula = TipoAula.SinRecursos;
+        switch (this.tipoAula.getSelectedItem().toString()){
+            case "Aula informatica": aula = TipoAula.Informatica;break;
+            case "Aula multimedio": aula = TipoAula.Multimedios;break;
+            case "Aula sin recursos adicionales": aula = TipoAula.SinRecursos;break;
+        }
+        //Cantidad de alumnos
+        //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
+        if(!this.cantidadAlumnos.getText().isEmpty()){
+            //Tengo que validar si el String contiene solo números
+            //dsfdsfds;
+            cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+        }else{
+            topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
+        }
+        if(fechaDato != null && horaInicioDato != null && duracionDato != 0 && cantAlumnos != 0){
+            Object row[] = {this.fecha.getText(),this.horaInicio.getText(),duracion.getSelectedItem().toString(),aula,cantAlumnos}; 
             /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
             ((DefaultTableModel)this.tabla.getModel()).addRow(row);
             this.fecha.setText("");
-            this.duracion.setText("");
+            this.duracion.setSelectedItem("Seleccione");
             this.horaInicio.setText("");
             this.cantidadAlumnos.setText("");
-            this.tipoAula.setSelectedItem("Aula multimedio");
-        }else{
-            //Mostrar mensaje de campo vacio
+            this.tipoAula.setSelectedItem("Aula sin recursos adicionales");
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
-    private boolean camposVacios(){
-        Boolean r = true;
-        r = this.duracion.getText().isEmpty();
-        if (!r){
-            return false;
-        }
-        r = this.fecha.getText().isEmpty();
-        if (!r){
-            return false;
-        }
-        r = this.cantidadAlumnos.getText().isEmpty();
-        if (!r){
-            return false;
-        }
-        r = this.horaInicio.getText().isEmpty(); 
-        if (!r){
-            return false;
-        }
-        return r;
-    }
     
     
     private void tipoAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoAulaActionPerformed
@@ -1117,6 +1142,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioLunes.setEnabled(true);
             this.duracionLunes.setEnabled(true);
         }else{
+            this.horaInicioLunes.setText("");
             this.horaInicioLunes.setEnabled(false);
             this.duracionLunes.setSelectedItem("Seleccione");
             this.duracionLunes.setEnabled(false);
@@ -1129,6 +1155,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioMartes.setEnabled(true);
             this.duracionMartes.setEnabled(true);
         }else{
+            this.horaInicioMartes.setText("");
             this.horaInicioMartes.setEnabled(false);
             this.duracionMartes.setSelectedItem("Seleccione");
             this.duracionMartes.setEnabled(false);
@@ -1141,6 +1168,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioMiercoles.setEnabled(true);
             this.duracionMiercoles.setEnabled(true);
         }else{
+            this.horaInicioMiercoles.setText("");
             this.horaInicioMiercoles.setEnabled(false);
             this.duracionMiercoles.setSelectedItem("Seleccione");
             this.duracionMiercoles.setEnabled(false);
@@ -1153,6 +1181,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioJueves.setEnabled(true);
             this.duracionJueves.setEnabled(true);
         }else{
+            this.horaInicioJueves.setText("");
             this.horaInicioJueves.setEnabled(false);
             this.duracionJueves.setSelectedItem("Seleccione");
             this.duracionJueves.setEnabled(false);
@@ -1165,6 +1194,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicioViernes.setEnabled(true);
             this.duracionViernes.setEnabled(true);
         }else{
+            this.horaInicioViernes.setText("");
             this.horaInicioViernes.setEnabled(false);
             this.duracionViernes.setSelectedItem("Seleccione");
             this.duracionViernes.setEnabled(false);
@@ -1194,6 +1224,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
     private void horaInicioLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaInicioLunesActionPerformed
         
     }//GEN-LAST:event_horaInicioLunesActionPerformed
+
+    private void duracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duracionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_duracionActionPerformed
     
     
     
@@ -1219,7 +1253,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
     private javax.swing.JButton atras;
     private javax.swing.JTextField cantidadAlumnos;
     private javax.swing.JTextField catedra;
-    private javax.swing.JTextField duracion;
+    private javax.swing.JComboBox<String> duracion;
     private javax.swing.JComboBox<String> duracionJueves;
     private javax.swing.JComboBox<String> duracionLunes;
     private javax.swing.JComboBox<String> duracionMartes;

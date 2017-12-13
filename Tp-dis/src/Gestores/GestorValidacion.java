@@ -6,6 +6,7 @@
 package Gestores;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -16,6 +17,21 @@ public class GestorValidacion {
     public GestorValidacion() {
     }
     
+    public boolean validarFormatoFecha(String textoFecha){
+        String dia = textoFecha.substring(0, 1);
+        String mes = textoFecha.substring(3, 4);
+        String anio = textoFecha.substring(6);
+        
+        String regexp = "\\d{2}/\\d{2}/\\d{4}";
+        //Si cumplen con el patron sigo con las comprobaciones de los numeros
+        if(Pattern.matches(regexp, textoFecha)){
+            /*if(dia.){
+            }*/
+        }else{  //Sino devuelvo false
+            return false;
+        }
+        return false;
+    }
    
     public int[] validarCamposBedel(String nombre, String apellido, String usuario){
         //Utilizo un array para saber cuales campos estan correctos
