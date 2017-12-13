@@ -213,7 +213,7 @@
                   <Component id="horaInicioViernes" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="horaInicioSabado" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabelDuracion1" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -831,10 +831,12 @@
             <Component class="javax.swing.JTable" name="tabla">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="33">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="Fecha" type="java.lang.Object"/>
                     <Column editable="false" title="Hora inicio" type="java.lang.Object"/>
-                    <Column editable="false" title="Duraci&#xf3;n" type="java.lang.Object"/>
+                    <Column editable="false" title="Duraci&#xf3;n" type="java.lang.Integer"/>
+                    <Column editable="false" title="Tipo de Aula" type="java.lang.Object"/>
+                    <Column editable="false" title="Cantidad de Alumnos" type="java.lang.Integer"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

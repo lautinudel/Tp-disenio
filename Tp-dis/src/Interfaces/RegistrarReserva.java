@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -345,47 +346,22 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Fecha", "Hora inicio", "Duración"
+                "Fecha", "Hora inicio", "Duración", "Tipo de Aula", "Cantidad de Alumnos"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -567,7 +543,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     .addComponent(horaInicioJueves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(horaInicioViernes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(horaInicioSabado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDuracion1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -771,27 +747,44 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 periodo = PeriodoEnum.Anual;
             }
             //Dias
-            /*ArrayList<Date> dias = new ArrayList();
+            ArrayList<Date> dias = new ArrayList();
             if (this.jCheckBoxLunes.isSelected()){
-                dias.add(convertirStringADate("Lunes"));
+                dias.add(convertirStringADateFormatoFecha("Lunes"));
             }
             if (this.jCheckBoxMartes.isSelected()){
-                dias.add("Martes");
+                dias.add(convertirStringADateFormatoFecha("Martes"));
             }
             if (this.jCheckBoxMiercoles.isSelected()){
-                dias.add("Miercoles");
+                dias.add(convertirStringADateFormatoFecha("Miercoles"));
             }
             if (this.jCheckBoxJueves.isSelected()){
-                dias.add("Jueves");
+                dias.add(convertirStringADateFormatoFecha("Jueves"));
             }
             if (this.jCheckBoxViernes.isSelected()){
-                dias.add("Viernes");
+                dias.add(convertirStringADateFormatoFecha("Viernes"));
             }
             if (this.jCheckBoxSabado.isSelected()){
-                dias.add("Sabado");
-            }*/
+                dias.add(convertirStringADateFormatoFecha("Sabado"));
+            }
             ArrayList<Date> horaInicio = new ArrayList();
-            
+            if (!this.horaInicioLunes.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioLunes.getText()));
+            }
+            if (!this.horaInicioMartes.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMartes.getText()));
+            }
+            if (!this.horaInicioMiercoles.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMiercoles.getText()));
+            }
+            if (!this.horaInicioJueves.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioJueves.getText()));
+            }
+            if (!this.horaInicioViernes.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioViernes.getText()));
+            }
+            if (!this.horaInicioSabado.getText().isEmpty()){
+                horaInicio.add(convertirStringADateFormatoHora(this.horaInicioSabado.getText()));
+            }
             ArrayList<Date> horaFin = new ArrayList();
             
             
@@ -811,17 +804,28 @@ public class RegistrarReserva extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_aceptarActionPerformed
-/*
-    private Date convertirStringADate(String fecha){
+    
+    private Date convertirStringADateFormatoHora(String fecha){
         Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
         try {
-            date = new SimpleDateFormat(format).parse(inputDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            date = sdf.parse(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
-        
-    }*/
+       return date;
+    }
+    
+    private Date convertirStringADateFormatoFecha(String fecha){
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            date = sdf.parse(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return date;
+    }
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
         // TODO add your handling code here:
         
@@ -849,40 +853,81 @@ public class RegistrarReserva extends javax.swing.JPanel {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        //CAMPOSVACIOS NO SIRVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(!camposVacios()){
+            /*Obtengo la duracion*/
+            int duracion = Integer.parseInt(this.duracion.getText());
+            /*Obtengo la fecha (el try-catch lo tuve que poner porque sino no me compilaba)*/
+            String textoFecha = this.fecha.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date fecha = null;
+            try {
+                fecha = sdf.parse(textoFecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*Obtengo la horaInicio*/
+            SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+            String textoHora = this.horaInicio.getText();
+            Date horaInicio = null;
+            try {
+                horaInicio = sdfhora.parse(textoHora);
+            } catch (ParseException ex) {
+                Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Tipo Aula
+            TipoAula aula = TipoAula.SinRecursos;
+            switch (this.tipoAula.getSelectedItem().toString()){
+                case "Aula informatica": aula = TipoAula.Informatica;break;
+                case "Aula multimedio": aula = TipoAula.Multimedios;break;
+                case "Aula sin recursos adicionales": aula = TipoAula.SinRecursos;break;
+            }
+            //cantidad de alumnos
+            //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
+            int cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
         
-        /*Obtengo la duracion*/
-        int duracion = Integer.parseInt(this.duracion.getText());
-        /*Obtengo la fecha (el try-catch lo tuve que poner porque sino no me compilaba)*/
-        String textoFecha = this.fecha.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date fecha = null;
-        try {
-            fecha = sdf.parse(textoFecha);
-        } catch (ParseException ex) {
-            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+            Object row[] = {fecha,horaInicio,duracion,aula,cantAlumnos}; 
+            /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
+            ((DefaultTableModel)this.tabla.getModel()).addRow(row);
+            this.fecha.setText("");
+            this.duracion.setText("");
+            this.horaInicio.setText("");
+            this.cantidadAlumnos.setText("");
+            this.tipoAula.setSelectedItem("Aula multimedio");
+        }else{
+            //Mostrar mensaje de campo vacio
         }
-        /*Obtengo la horaInicio*/
-        SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
-        String textoHora = this.horaInicio.getText();
-        Date horaInicio = null;
-        try {
-            horaInicio = sdfhora.parse(textoHora);
-        } catch (ParseException ex) {
-            Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Object row[] = {fecha,horaInicio,duracion};   
-        /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
-        ((DefaultTableModel)this.tabla.getModel()).addRow(row);
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
+    private boolean camposVacios(){
+        Boolean r = true;
+        r = this.duracion.getText().isEmpty();
+        if (!r){
+            return false;
+        }
+        r = this.fecha.getText().isEmpty();
+        if (!r){
+            return false;
+        }
+        r = this.cantidadAlumnos.getText().isEmpty();
+        if (!r){
+            return false;
+        }
+        r = this.horaInicio.getText().isEmpty(); 
+        if (!r){
+            return false;
+        }
+        return r;
+    }
+    
+    
     private void tipoAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoAulaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoAulaActionPerformed
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         int row = this.tabla.getSelectedRow(); //fila seleccionada
-        if(row > 0){
+        if(row >= 0){
             JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
             DefaultTableModel modelo = (DefaultTableModel)tabla.getModel(); 
             modelo.removeRow(row); 

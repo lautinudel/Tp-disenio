@@ -76,7 +76,7 @@ public class GestorAula {
             listaAulas.clear();
         }
         
-        //Couslta aulas sin reserva:
+        //Consulta aulas sin reserva:
         Query queryAulaSinReservas = session.createSQLQuery(
             "SELECT a.numeroAula " +
             "FROM Aula a, (SELECT a.numeroAula " +
