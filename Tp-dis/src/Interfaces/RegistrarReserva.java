@@ -809,12 +809,20 @@ public class RegistrarReserva extends javax.swing.JPanel {
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         
         //Recupero...
+        //Apellido
+        String docenteApellido = this.apellido.getText();
+        //Nombre
+        String docenteNombre = this.nombre.getText();
+        //Email
+        String emailDato = this.email.getText();
+        //Catedra
+        String catedraDato = this.catedra.getText();
         //Tipo Aula (es una lista desplegable por lo que siempre va a tener algún valor)
-        TipoAula tipoAula = TipoAula.SinRecursos;
+        TipoAula tipoAulaDato = TipoAula.SinRecursos;
         switch (this.tipoAula.getSelectedItem().toString()){
-           case "Aula informatica": tipoAula = TipoAula.Informatica;break;
-           case "Aula multimedio": tipoAula = TipoAula.Multimedios;break;
-           case "Aula sin recursos adicionales": tipoAula = TipoAula.SinRecursos;break;
+           case "Aula informatica": tipoAulaDato = TipoAula.Informatica;break;
+           case "Aula multimedio": tipoAulaDato = TipoAula.Multimedios;break;
+           case "Aula sin recursos adicionales": tipoAulaDato = TipoAula.SinRecursos;break;
         }
         //Cantidad de alumnos
         //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
@@ -964,10 +972,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             TipoReserva tipoReserva = TipoReserva.Esporadica;
             
         }
-        String docenteApellido = this.apellido.getText();
-        String docenteNombre = this.nombre.getText();
-        String email = this.email.getText();
-        String catedra = this.catedra.getText();
+        
          
         boolean validacion = false;
         if(validacion){
@@ -1064,7 +1069,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
                 }
             }else{
-                topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
+                topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
             }
             
             
@@ -1074,12 +1079,16 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
                 String textoHora = this.horaInicio.getText();
                 //Validar que la fecha contenfa solo numeros y : 
-                //asdfa
-                try {
-                    horaInicioDato = sdfhora.parse(textoHora);
-                } catch (ParseException ex) {
-                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
-                }     
+                if(gestorVal.validarFormatoHora(textoHora)){
+                    try {
+                        horaInicioDato = sdfhora.parse(textoHora);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                    } 
+                }else{
+                    topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                }
+                    
                 //Si el campo de duracion no está en Seleccione
                 if (!this.duracion.getSelectedItem().toString().equalsIgnoreCase("Seleccione")){
                     duracionDato = Integer.parseInt(this.duracion.getSelectedItem().toString());
@@ -1105,8 +1114,12 @@ public class RegistrarReserva extends javax.swing.JPanel {
         //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
         if(!this.cantidadAlumnos.getText().isEmpty()){
             //Tengo que validar si el String contiene solo números
-            //dsfdsfds;
-            cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()).replaceAll(" ", ""));
+            if(gestorVal.validarStringSoloConNumeros(this.cantidadAlumnos.getText())){
+                //Obtengo un String del jTextField y parseInt lo convierte en int
+                cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()));
+            }else{
+                topFrame.mensajeEmergente("Datos Incorrectos", "Debe ingresar solo números en la cantidad de alumnos");
+            }
         }else{
             topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
         }
