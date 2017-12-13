@@ -37,4 +37,13 @@ public class GestorValidacion {
         
        return retorno; 
     }
+    
+    public boolean validarApellido (String apellido){
+        
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]"))
+            return false;
+        else return true;
+        
+    }
+    
 }

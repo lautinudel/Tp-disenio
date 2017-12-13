@@ -6,11 +6,18 @@
 package Interfaces;
 
 import Gestores.GestorBedel;
+import Gestores.GestorValidacion;
 import Modelo.Bedel;
 import Modelo.TurnoEnum;
 import Persistencia.BedelDAO;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 /**
@@ -67,23 +74,7 @@ public class BuscarBedel extends javax.swing.JPanel {
 
         jTableBedeles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Apellido", "Nombre", "Turno", "Usuario"
@@ -99,6 +90,11 @@ public class BuscarBedel extends javax.swing.JPanel {
         });
 
         jButtonAtras.setText("Atras");
+        jButtonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtrasActionPerformed(evt);
+            }
+        });
 
         jButtonModificar.setText("Modificar");
 
@@ -176,17 +172,21 @@ public class BuscarBedel extends javax.swing.JPanel {
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        for(int i=0;i<17;i++){
-            this.jTableBedeles.setValueAt("", i, 0);
-            this.jTableBedeles.setValueAt("", i, 1);
-            this.jTableBedeles.setValueAt("", i, 2);
-            this.jTableBedeles.setValueAt("", i, 3);
+        
+        //elimino las filas
+        for(int i=((DefaultTableModel)this.jTableBedeles.getModel()).getRowCount()-1;i>=0;i--){
+            ((DefaultTableModel)this.jTableBedeles.getModel()).removeRow(i);
         }
-        //verificar teclas especiales
+        
+        
         GestorBedel GB = new GestorBedel();
+        GestorValidacion GV = new GestorValidacion();
+        //apellido y turno
         if(this.jCheckBoxApellido.isSelected() && this.jCheckBoxTurno.isSelected()){
-            if(this.jTextFieldApellido.getText().length()>1 && this.jTextFieldApellido.getText().length()<33){
+            //valido apellido
+            if(GV.validarApellido(this.jTextFieldApellido.getText())){
                  List<Bedel> bedeles= null;
+                 //busco segun turno y apellido
                  if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
                         bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Maniana );   
                    }else if(this.jComboBoxTurno.getSelectedItem().toString().equals("Tarde")){
@@ -194,48 +194,67 @@ public class BuscarBedel extends javax.swing.JPanel {
                    } else bedeles = GB.buscarBedelApellidoyTurno(this.jTextFieldApellido.getText(),TurnoEnum.Noche );   
                  
                 if(!bedeles.isEmpty()){
+                    //muestro en tabla
                    for(int i=0;i<bedeles.size();i++){
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getNombre(), i, 1);
-                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)) this.jTableBedeles.setValueAt("Mañana", i, 2);
-                       else this.jTableBedeles.setValueAt(bedeles.get(i).getTurnoTrabaja(), i, 2);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getUsername(), i, 3);
-                       //añador filas si es necesario
+                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)){
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), "Mañana", bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                           
+                       }else{
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), bedeles.get(i).getTurnoTrabaja(), bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                       }
+                      
                    }}else{
                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                         topFrame.mensajeEmergente("Resultado", "No hay bedeles con ese criterio de busqueda");
-                   }
-                
-                
-                
-                
-                
-                
+                   }  
             }else{
                 JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                    topFrame.mensajeEmergente("Error", "Debe ingresar como maximo 32 caracteres en el campo apellido");
+                    topFrame.mensajeEmergente("Error de validación del apeliido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
             }
+            
+            
+            
+            
         }else{
+            
+            
+            
+            //solo apellido
             if(this.jCheckBoxApellido.isSelected()){
-               if(this.jTextFieldApellido.getText().length()>1 && this.jTextFieldApellido.getText().length()<33){
+                //valido
+               if(GV.validarApellido(this.jTextFieldApellido.getText())){
                    List<Bedel> bedeles = GB.buscarBedelApellido(this.jTextFieldApellido.getText());
                    if(!bedeles.isEmpty()){
+                       //muestro en tabla
                    for(int i=0;i<bedeles.size();i++){
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getNombre(), i, 1);
-                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)) this.jTableBedeles.setValueAt("Mañana", i, 2);
-                       else this.jTableBedeles.setValueAt(bedeles.get(i).getTurnoTrabaja(), i, 2);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getUsername(), i, 3);
-                       //añador filas si es necesario
+                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)){
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), "Mañana", bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                           
+                       }else{
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), bedeles.get(i).getTurnoTrabaja(), bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                       }
                    }}else{
                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                         topFrame.mensajeEmergente("Resultado", "No hay bedeles con ese apellido");
                    }
                 }else{
                     JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-                    topFrame.mensajeEmergente("Error", "Debe ingresar como maximo 32 caracteres en el campo apellido");
+                    topFrame.mensajeEmergente("Error de validación del apeliido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
                 } 
+               
+               
+               
+               
+               
             }else{
+                
+                
+                //solo turno
+                
                 if(this.jCheckBoxTurno.isSelected()){
                     List<Bedel> bedeles= null;
                    if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
@@ -244,17 +263,25 @@ public class BuscarBedel extends javax.swing.JPanel {
                        bedeles = GB.buscarBedelTurno(TurnoEnum.Tarde); 
                    } else bedeles = GB.buscarBedelTurno(TurnoEnum.Noche); 
                    if(!bedeles.isEmpty()){
+                       //muestro en tabla
                    for(int i=0;i<bedeles.size();i++){
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getApellido(), i, 0);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getNombre(), i, 1);
-                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)) this.jTableBedeles.setValueAt("Mañana", i, 2);
-                       else this.jTableBedeles.setValueAt(bedeles.get(i).getTurnoTrabaja(), i, 2);
-                       this.jTableBedeles.setValueAt(bedeles.get(i).getUsername(), i, 3);
-                       //añador filas si es necesario
+                       if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)){
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), "Mañana", bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                           
+                       }else{
+                           Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), bedeles.get(i).getTurnoTrabaja(), bedeles.get(i).getUsername()};
+                           ((DefaultTableModel)this.jTableBedeles.getModel()).addRow(row);
+                       }
                    }}else{
                        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                         topFrame.mensajeEmergente("Resultado", "No hay bedeles con ese turno");
                    }
+                   
+                   
+                   
+                   
+                   
                    
                 }else{
                     JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
@@ -267,6 +294,30 @@ public class BuscarBedel extends javax.swing.JPanel {
     private void jComboBoxTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTurnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTurnoActionPerformed
+
+    private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        
+        ArrayList<JButton> botonesDialogo = new ArrayList<>();
+        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Mensaje de Confirmación", "Volverá al menu principal. ¿Continuar? ");
+        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
+        
+        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+            MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+            topFrame.add(panelMenu, BorderLayout.CENTER);
+            this.setVisible(false);
+            topFrame.remove(this);
+            topFrame.setSize(500,500);             
+        });
+        
+        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
+            dialogo.setVisible(false);
+            this.remove(dialogo);
+        });
+    }//GEN-LAST:event_jButtonAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
