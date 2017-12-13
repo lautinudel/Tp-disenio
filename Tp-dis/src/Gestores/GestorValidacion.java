@@ -112,4 +112,10 @@ public class GestorValidacion {
         
     }
     
+    public boolean validarNombre(String nombre){
+        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]"))
+            return false;
+        else return true;
+    }
+    
 }

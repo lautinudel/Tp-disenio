@@ -6,6 +6,7 @@
 package Interfaces;
 
 import Gestores.GestorBedel;
+import Gestores.GestorValidacion;
 import Modelo.Bedel;
 import Modelo.ClaveBedel;
 import Modelo.TurnoEnum;
@@ -31,6 +32,7 @@ public class ModificarBedel extends javax.swing.JPanel {
     
     public ModificarBedel(Bedel b){
         initComponents();
+        GestorBedel GB = new GestorBedel();
         this.bedel=b;
         this.jTextFieldNombre.setText(b.getNombre());
         this.jTextFieldApellido.setText(b.getApellido());
@@ -39,23 +41,9 @@ public class ModificarBedel extends javax.swing.JPanel {
         else if(b.getTurnoTrabaja().equals(TurnoEnum.Tarde)) this.jComboBoxTurno.setSelectedIndex(1);
         else this.jComboBoxTurno.setSelectedIndex(2);
         //busco la contraseña mas actual
-        ClaveBedel cb=null;
-            ClaveBedel cAnterior=null;
-            //busco la contraseña mas actual
-                    
-            for(ClaveBedel c: b.getClaveBedels()){
-                if(cb==null){
-                    cb=c;
-                    cAnterior=c;        
-                }else{
-                    if(c.getId().getFecha().compareTo(cAnterior.getId().getFecha())>0){
-                        cb=c;
-                        cAnterior=c;
-                    }else cAnterior=c;
-                }            
-            }
-         this.jPasswordFieldPass.setText(cb.getId().getValor());
-         this.jPasswordFieldConfirmarPass.setText(cb.getId().getValor());
+        ClaveBedel cb=GB.obtenerClaveMasActual(b);
+        this.jPasswordFieldPass.setText(cb.getId().getValor());
+        this.jPasswordFieldConfirmarPass.setText(cb.getId().getValor());
     }
 
     /**
@@ -97,6 +85,10 @@ public class ModificarBedel extends javax.swing.JPanel {
         jLabelPass.setText("Contraseña");
 
         jLabelConfirmarPass.setText("Confirmar contraseña");
+
+        jTextFieldNombre.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
+
+        jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
 
         jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
 
@@ -223,7 +215,52 @@ public class ModificarBedel extends javax.swing.JPanel {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        GestorBedel GB = new GestorBedel();
+        GestorValidacion GV = new GestorValidacion();
+        String nombre = this.jTextFieldNombre.getText();
+        String apellido = this.jTextFieldApellido.getText();
+        String turno = this.jComboBoxTurno.getSelectedItem().toString();
+        String pass = new String(this.jPasswordFieldPass.getPassword());
+        String passConfirmada = new String(this.jPasswordFieldConfirmarPass.getPassword());
+        if(GV.validarNombre(nombre)){
+            if(GV.validarApellido(apellido)){
+                switch(GB.modificarBedel(nombre, apellido, bedel.getUsername(), turno, pass, passConfirmada, bedel)){
+                    case 0:
+                        
+                        ArrayList<JButton> botonesDialogo = new ArrayList<>();
+                        botonesDialogo = topFrame.mensajeEmergenteConfirmacion("Mensaje de Confirmación", "El bedel se modifico correctamente ¿Desea volver al menu principal? ");
+                        JDialog dialogo = (JDialog) SwingUtilities.getWindowAncestor(botonesDialogo.get(0));
         
+                        botonesDialogo.get(0).addActionListener((ActionEvent e) -> {
+                         dialogo.setVisible(false);
+                         this.remove(dialogo);
+                         MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+                         topFrame.add(panelMenu, BorderLayout.CENTER);
+                         this.setVisible(false);
+                         topFrame.remove(this);
+                         topFrame.setSize(500,500);             
+                        });
+        
+                        botonesDialogo.get(1).addActionListener((ActionEvent e) -> {
+                          dialogo.setVisible(false);
+                         this.remove(dialogo);
+                         });
+                        break;
+                    case 1: 
+                        topFrame.mensajeEmergente("Error de validación de políticas", "Los datos ingresados no respetan las políticas establecidas.");
+                        break;
+                    case 2: topFrame.mensajeEmergente("Error de passwords", "Las contraseñas no coinciden.");
+                            break;
+                }
+
+            
+            }else{
+                topFrame.mensajeEmergente("Error de validación del apeliido", "El apellido ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+            }}else{
+            topFrame.mensajeEmergente("Error de validación del nombre", "El nombre ingresado debe tener entre 2 y 32 caracteres y contener sólo letras (minúsculas o mayúsculas).");
+        }
+       
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
 

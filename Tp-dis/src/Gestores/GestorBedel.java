@@ -72,21 +72,32 @@ public class GestorBedel {
         GestorPoliticas g = new GestorPoliticas();
         BedelDAO bedeldao = new BedelDAO();
         
-        b.setApellido(apellido);
+        /*b.setApellido(apellido);
         b.setNombre(nombre);
         switch (turno){
            case "Mañana": b.setTurnoTrabaja(TurnoEnum.Maniana);break;
            case "Tarde": b.setTurnoTrabaja(TurnoEnum.Tarde);break;
            case "Noche": b.setTurnoTrabaja(TurnoEnum.Noche);break;
-       }
+       }*/
+        ClaveBedel cb=this.obtenerClaveMasActual(b);
+        
+        
         
         if(this.compararPassword(pass, passConfirmado)){
-          if(g.validarPoliticas(pass)){
-              ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
-               ClaveBedel claveBedel = new ClaveBedel(clave,b);
-               
-          }else return 1;
-            bedeldao.modificarBedel(nombre, apellido, username, turno);
+            if(!cb.getId().getValor().equals(pass)){ //se cambio la pass
+                if(g.validarPoliticas(pass)){
+                    ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
+                    ClaveBedel claveBedel = new ClaveBedel(clave,b);
+                    b.getClaveBedels().add(claveBedel);
+                    bedeldao.modificarBedel(nombre, apellido, username, turno, claveBedel);
+                }else return 1;
+                    
+            }else{ //no se cambio la pass
+                if(turno.equals("Mañana"))bedeldao.modificarBedel(nombre, apellido, username, "Maniana");
+                else bedeldao.modificarBedel(nombre, apellido, username, turno);
+                
+            }
+          
         }else return 2;
         
         
@@ -111,6 +122,27 @@ public class GestorBedel {
         BedelDAO BDAO = new BedelDAO();
        List<Bedel> bedeles = BDAO.buscarBedelApellidoyTurno(Apellido, turno);
        return bedeles;
+    }
+    
+    
+    public ClaveBedel obtenerClaveMasActual(Bedel b){
+        ClaveBedel cb=null;
+        ClaveBedel cAnterior=null;
+            //busco la contraseña mas actual
+                    
+            for(ClaveBedel c: b.getClaveBedels()){
+                if(cb==null){
+                    cb=c;
+                    cAnterior=c;        
+                }else{
+                    if(c.getId().getFecha().compareTo(cAnterior.getId().getFecha())>0){
+                        cb=c;
+                        cAnterior=c;
+                    }else cAnterior=c;
+                }            
+            }
+            
+            return cb;
     }
         
 }

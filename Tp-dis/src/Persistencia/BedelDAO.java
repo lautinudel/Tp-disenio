@@ -82,15 +82,43 @@ public class BedelDAO {
         
         
     }
+    public void guardarBedel(Bedel b) {
+      
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
+      session.save(b);
+      tx.commit();
+      session.close(); 
+    }
+    
+    
     //solo modifica si no se cambia la clave
     public void modificarBedel(String nombre, String apellido, String username, String turno){
       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
       Session session;
       session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
       int query = session.createQuery("update Bedel b set b.nombre = :nombre, b.apellido = :apellido,  b.turnoTrabaja = :turno where b.username = :username").setString("nombre", nombre).setString("apellido", apellido).setString("username", username).setString("turno", turno).executeUpdate();
-      session.close();    
+      tx.commit();
+      session.close();
+      
     }
    
+    public void modificarBedel(String nombre, String apellido, String username, String turno, ClaveBedel clavebedel){
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
+      int query = session.createQuery("update Bedel b set b.nombre = :nombre, b.apellido = :apellido,  b.turnoTrabaja = :turno where b.username = :username").setString("nombre", nombre).setString("apellido", apellido).setString("username", username).setString("turno", turno).executeUpdate();
+      tx.commit();
+      session.close();   
+      ClaveDao clavedao = new ClaveDao();
+      clavedao.guardarClaveBedel(clavebedel);
+    }
+    
+    
     public List<Bedel> buscarPorApellido (String apellido){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
