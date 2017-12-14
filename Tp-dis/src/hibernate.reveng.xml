@@ -57,4 +57,5 @@ Contributor(s):
   <table-filter match-name="AulaMultimedio"/>
   <table-filter match-name="Administrador"/>
   <table-filter match-name="Docente"/>
+  <table-filter match-name="FechasPeriodo"/>
 </hibernate-reverse-engineering>

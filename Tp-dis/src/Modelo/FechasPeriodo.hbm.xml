@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/11/2017 21:00:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.FechasPeriodo" table="FechasPeriodo" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+        <id name="anio" type="int">
+            <column name="anio" />
+            <generator class="assigned" />
+        </id>
+        <property name="inicioPrimerCuatrimestre" type="date">
+                <column name="inicioPrimerCuatrimestre" length="10" />
+        </property>
+        <property name="finPrimerCuatrimestre" type="date">
+                <column name="finPrimerCuatrimestre" length="10" />
+        </property>
+        <property name="inicioSegundoCuatrimestre" type="date">
+                <column name="inicioSegundoCuatrimestre" length="10" />
+        </property>
+        <property name="finSegundoCuatrimestre" type="date">
+                <column name="finSegundoCuatrimestre" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

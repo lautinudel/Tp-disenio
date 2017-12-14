@@ -11,6 +11,7 @@ import Modelo.AulaMultimedio;
 import Modelo.AulaSinRecursosAdicionales;
 import Modelo.TipoAula;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -34,7 +35,7 @@ public class AulaDAO {
         Query query = session.createQuery("SELECT a FROM Aula a WHERE capacidad >= :cantAlumnos");
         query.setParameter("cantAlumnos", cantAlumnos);
         List<Aula> listaAulas = query.list();
-        
+        session.close();
         ArrayList<Aula> retorno = new ArrayList<>();
         for(Aula a : listaAulas){
             switch (tipoAula){
@@ -68,6 +69,57 @@ public class AulaDAO {
             listaAulas = query.list();
             retorno.addAll(listaAulas);
         }
+        session.close();
         return retorno;
+    }
+    
+    public List<Aula> consultaObtenerDisponibilidadEsporadica(Date dia, Date horaInicio, Date horaFin){
+        
+        java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
+        java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
+        java.sql.Time sqlHoraFin = new java.sql.Time(horaFin.getTime());
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                    "SELECT DISTINCT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "(((r.activo = 1) AND "+
+                    "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
+                    "NOT(d.id.horaInicio >= :variableHoraInicio AND d.id.horaFin <= :variableHoraFin) AND "+
+                    "((d.id.horaInicio < :variableHoraInicio AND d.id.horaInicio > :variableHoraFin) OR "+
+                    "(d.id.horaInicio > :variableHoraInicio AND d.id.horaFin < :variableHoraInicio)))))) OR "+
+                    "(r.activo = 0)");
+        query.setParameter("variableDia", sqlDia);
+        query.setParameter("variableHoraInicio", sqlHoraInicio);
+        query.setParameter("variableHoraFin", sqlHoraFin);
+        List<Aula> retorno = query.list();
+        session.close();
+        return retorno;
+    }
+    
+    public List<Aula> consultaObtenerDisponibilidadSinReservas(){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query queryAulaSinReservas = session.createSQLQuery(
+            "SELECT a.numeroAula " +
+            "FROM Aula a, (SELECT a.numeroAula " +
+            "				FROM Aula a " +
+            "                where a.numeroAula NOT IN( " +
+            "						(SELECT DISTINCT e.Aula_numeroAula " +
+            "						 FROM  DiaReservaEsporadica e " +
+            "					 UNION DISTINCT " +
+            "						SELECT DISTINCT p.Aula_numeroAula " +
+            "						FROM DiaReservaPeriodica p) " +
+            "				)) t " +
+            "WHERE t.numeroAula = a.numeroAula; ");
+        
+        List<Object> numerosAulasSinReserva = queryAulaSinReservas.list();
+        session.close();
+        return this.getAulas(numerosAulasSinReserva);
     }
 }

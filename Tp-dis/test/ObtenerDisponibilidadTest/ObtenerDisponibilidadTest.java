@@ -7,6 +7,7 @@ package ObtenerDisponibilidadTest;
 
 import Gestores.GestorAula;
 import Modelo.Aula;
+import Modelo.DiaReservaEsporadica;
 import Modelo.PeriodoEnum;
 import Modelo.TipoAula;
 import Modelo.TipoReserva;
@@ -169,15 +170,21 @@ public class ObtenerDisponibilidadTest {
         System.out.println(horasInicio);
         System.out.println(horasFin);
         
+        ArrayList<Date> unDia = new ArrayList<>();
+        unDia.add(date6);
+        ArrayList<Date> unDiaHI = new ArrayList<>();
+        unDiaHI.add(time6);
+        ArrayList<Date> unDiaHF = new ArrayList<>();
+        unDiaHF.add(timeFin6);
         
         GestorAula gestorAula = new GestorAula();
-        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
-        for(int i = 0; i<aulasDisp.size();i++){
+        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, unDia, unDiaHI, unDiaHF, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
+        /*for(int i = 0; i<aulasDisp.size();i++){
             for(int j=0; j<aulasDisp.get(i).size();j++){
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }
+        }*/
         
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
@@ -271,8 +278,45 @@ public class ObtenerDisponibilidadTest {
             System.out.println(piso);
         }*/
         
-        
-        
-        exit(0);
+       /*
+       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+       Session session;
+       session = sesion.openSession();
+       Query query = session.createQuery("SELECT d FROM DiaReservaEsporadica d");
+       List<DiaReservaEsporadica> listaReservas = query.list();
+       session.close();
+       
+       System.out.println(listaReservas.get(0).getId().getDia());
+       System.out.println(listaReservas.get(0).getId().getHoraInicio());
+       System.out.println(listaReservas.get(0).getId().getHoraFin());
+       
+       System.out.println(date1);
+       System.out.println(time1);*/
+       
+       /*
+       java.util.Date utilDate = new java.util.Date();
+       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+       System.out.println("utilDate:" + utilDate);
+       System.out.println("sqlDate:" + sqlDate);
+       
+       java.sql.Time sqlHora = new java.sql.Time(time1.getTime());
+       System.out.println("sqlHora:" + sqlHora);*/
+       
+       /*
+       java.sql.Date sqlDate = new java.sql.Date(date6.getTime());
+       java.sql.Time sqlTime= new java.sql.Time(time6.getTime());
+       SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+       Session session;
+       session = sesion.openSession();
+       Query query = session.createQuery("SELECT d FROM DiaReservaEsporadica d WHERE d.id.dia = :diaParam AND d.id.horaInicio = :horaParam");
+       query.setParameter("diaParam", sqlDate);
+       query.setParameter("horaParam", sqlTime);
+       List<DiaReservaEsporadica> listaReservas = query.list();
+       session.close();
+       System.out.println(listaReservas.get(0).getId().getAulaNumeroAula());
+       System.out.println(listaReservas);*/
+       
+       
+       exit(0);
     }
 }

@@ -61,5 +61,6 @@ Contributor(s):
     <mapping resource="Modelo/Administrador.hbm.xml"/>
     <mapping resource="Modelo/ReservaPeriodica.hbm.xml"/>
     <mapping resource="Modelo/DiaReservaPeriodica.hbm.xml"/>
+    <mapping resource="Modelo/FechasPeriodo.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

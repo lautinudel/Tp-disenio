@@ -5,6 +5,7 @@
  */
 package Gestores;
 
+//import java.sql.Date;
 import Modelo.Aula;
 import Modelo.DiaReservaEsporadica;
 import Modelo.PeriodoEnum;
@@ -35,13 +36,10 @@ public class GestorAula {
             TipoReserva tipoReserva, ArrayList<Date> dias, ArrayList<Date> horaInicio,
             ArrayList<Date> horaFin, PeriodoEnum periodo,
             int cantAlumnos, TipoAula tipoAula){
-        
+        AulaDAO aulaDao = new AulaDAO();
         ArrayList<ArrayList<Aula>> aulas = new ArrayList();
+        List<Aula> listaAulas = new ArrayList();
         ArrayList<Aula> copia;
-        
-        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
-        Session session;
-        session = sesion.openSession();
         
         /*
         Format formatterDia = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,47 +51,27 @@ public class GestorAula {
             /*
             diaString = formatterDia.format(dias.get(i));
             horaInicioString = formatterHora.format(horaInicio.get(i));
-            horaFinString = formatterHora.format(horaFin.get(i));
-            */
+            horaFinString = formatterHora.format(horaFin.get(i));*/
             
-            Query query = session.createQuery(
-                    "SELECT DISTINCT a "+
-                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
-                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
-                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
-                    "(((r.activo = 1) AND "+
-                    "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
-                    "NOT(d.id.horaInicio >= :variableHoraInicio AND d.id.horaFin <= :variableHoraFin) AND "+
-                    "((d.id.horaInicio < :variableHoraInicio AND d.id.horaInicio > :variableHoraFin) OR "+
-                    "(d.id.horaInicio > :variableHoraInicio AND d.id.horaFin < :variableHoraInicio)))))) OR "+
-                    "(r.activo = 0)");
-            query.setParameter("variableDia", dias.get(i));
-            query.setParameter("variableHoraInicio", horaInicio.get(i));
-            query.setParameter("variableHoraFin", horaFin.get(i));
-            List<Aula> listaAulas = query.list();
+            
+            //Consulta aulas disponibles:
+            listaAulas = aulaDao.consultaObtenerDisponibilidadEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i));
+            
+            for(int k = 0; k<listaAulas.size();k++){
+                System.out.print(listaAulas.get(k).getNumeroAula()+" ");
+            }
+            
+            System.out.print("\n");
+            
             copia = new ArrayList<>(listaAulas);
             aulas.add(i, copia);
             listaAulas.clear();
         }
         
         //Consulta aulas sin reserva:
-        Query queryAulaSinReservas = session.createSQLQuery(
-            "SELECT a.numeroAula " +
-            "FROM Aula a, (SELECT a.numeroAula " +
-            "				FROM Aula a " +
-            "                where a.numeroAula NOT IN( " +
-            "						(SELECT DISTINCT e.Aula_numeroAula " +
-            "						 FROM  DiaReservaEsporadica e " +
-            "					 UNION DISTINCT " +
-            "						SELECT DISTINCT p.Aula_numeroAula " +
-            "						FROM DiaReservaPeriodica p) " +
-            "				)) t " +
-            "WHERE t.numeroAula = a.numeroAula; ");
+        List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas();
         
-        List<Object> numerosAulasSinReserva = queryAulaSinReservas.list();
-               
-        AulaDAO aulaDao = new AulaDAO();
-        ArrayList<Aula> aulasSinReserva = aulaDao.getAulas(numerosAulasSinReserva);
+        //Consulta aulas del tipo y capacidad:
         List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
         //Aulas sin reserva
