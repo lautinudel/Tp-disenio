@@ -1037,10 +1037,11 @@ public class RegistrarReserva extends javax.swing.JPanel {
             dialogo.setVisible(false);
             this.remove(dialogo);
             MenuPrincipalBedel panelMenu = new MenuPrincipalBedel();
+            panelMenu.setImage("/Imagenes/fondoabs.jpg");
             topFrame.add(panelMenu, BorderLayout.CENTER);
             this.setVisible(false);
             topFrame.remove(this);
-            topFrame.setSize(500,500);             
+            topFrame.setSize(500,550);             
         });
         
         botonesDialogo.get(1).addActionListener((ActionEvent e) -> {

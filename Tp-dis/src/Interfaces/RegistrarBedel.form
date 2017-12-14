@@ -99,36 +99,54 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabelNombre">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Nombre"/>
         <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelApellido">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Apellido"/>
         <Property name="toolTipText" type="java.lang.String" value="2 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelTurno">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Turno"/>
         <Property name="toolTipText" type="java.lang.String" value="Elija un turno de la lista."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUsuario">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Usuario"/>
         <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas y n&#xfa;meros."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelContrasenia">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
         <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelConfirmacionContrasenia">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Confirmar contrase&#xf1;a"/>
         <Property name="toolTipText" type="java.lang.String" value="6 a 32 caracteres. May&#xfa;sculas, min&#xfa;sculas, n&#xfa;meros y especiales (@#$%&amp;*)."/>
       </Properties>
@@ -137,6 +155,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Registrar Bedel"/>
       </Properties>

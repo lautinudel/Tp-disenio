@@ -11,9 +11,12 @@ import Modelo.Bedel;
 import Modelo.TurnoEnum;
 import Persistencia.BedelDAO;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -57,13 +60,16 @@ public class BuscarBedel extends javax.swing.JPanel {
         jButtonModificar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
 
-        jLabelBusquedaDeBedeles.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelBusquedaDeBedeles.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelBusquedaDeBedeles.setForeground(new java.awt.Color(255, 255, 255));
         jLabelBusquedaDeBedeles.setText("Busqueda de bedeles");
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Apellido");
 
         jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Turno");
 
         jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
@@ -120,44 +126,41 @@ public class BuscarBedel extends javax.swing.JPanel {
                 .addComponent(jButtonBuscar)
                 .addGap(36, 36, 36))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(jLabelBusquedaDeBedeles))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBoxApellido)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jCheckBoxApellido)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jCheckBoxTurno)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBoxTurno)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelBusquedaDeBedeles)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonAtras)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonModificar)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonAtras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonModificar)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonEliminar)
-                .addGap(26, 26, 26))
+                        .addComponent(jButtonEliminar)
+                        .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(28, 28, 28)
                 .addComponent(jLabelBusquedaDeBedeles)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -177,7 +180,7 @@ public class BuscarBedel extends javax.swing.JPanel {
                     .addComponent(jButtonAtras)
                     .addComponent(jButtonModificar)
                     .addComponent(jButtonEliminar))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -318,6 +321,7 @@ public class BuscarBedel extends javax.swing.JPanel {
             dialogo.setVisible(false);
             this.remove(dialogo);
             MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+            panelMenu.setImage("/Imagenes/fondoabs.jpg");
             topFrame.add(panelMenu, BorderLayout.CENTER);
             this.setVisible(false);
             topFrame.remove(this);
@@ -337,6 +341,7 @@ public class BuscarBedel extends javax.swing.JPanel {
                 Bedel b = bedeles.get(this.jTableBedeles.getSelectedRow());
                 JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                 ModificarBedel mb = new ModificarBedel(b);
+                mb.setImage("/Imagenes/fondoabs.jpg");
                 topFrame.add(mb, BorderLayout.CENTER);
                 this.setVisible(false);
                 topFrame.remove(this);
@@ -355,9 +360,25 @@ public class BuscarBedel extends javax.swing.JPanel {
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
-           topFrame.mensajeEmergente("Error", "Funcionalidad en desarrollo"); 
+           topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida."); 
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
+    //codigo de la imagen de fondo ----------------------------------------
+    private Image fondo=null;
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo,0,0,getWidth(),getHeight(),null);
+    }
+    
+    public void setImage(String image){
+        if (image!=null) {
+            fondo=new ImageIcon(getClass().getResource(image)).getImage();
+        }
+    }
+    //-----------------------------------------------------------------------
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAtras;

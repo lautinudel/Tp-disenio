@@ -11,8 +11,11 @@ import Modelo.Bedel;
 import Modelo.ClaveBedel;
 import Modelo.TurnoEnum;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -71,19 +74,26 @@ public class ModificarBedel extends javax.swing.JPanel {
         jButtonAtras = new javax.swing.JButton();
         jButtonAceptar = new javax.swing.JButton();
 
-        jLabelModificarBedel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelModificarBedel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelModificarBedel.setForeground(new java.awt.Color(255, 255, 255));
         jLabelModificarBedel.setText("Modificar bedel");
 
+        jLabelNombre.setForeground(new java.awt.Color(255, 255, 255));
         jLabelNombre.setText("Nombre");
 
+        jLabelApellido.setForeground(new java.awt.Color(255, 255, 255));
         jLabelApellido.setText("Apellido");
 
+        jLabelTurno.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTurno.setText("Turno");
 
+        jLabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUsuario.setText("Usuario");
 
+        jLabelPass.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPass.setText("Contraseña");
 
+        jLabelConfirmarPass.setForeground(new java.awt.Color(255, 255, 255));
         jLabelConfirmarPass.setText("Confirmar contraseña");
 
         jTextFieldNombre.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
@@ -181,7 +191,7 @@ public class ModificarBedel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAtras)
                     .addComponent(jButtonAceptar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -201,6 +211,7 @@ public class ModificarBedel extends javax.swing.JPanel {
             dialogo.setVisible(false);
             this.remove(dialogo);
             MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+            panelMenu.setImage("/Imagenes/fondoabs.jpg");
             topFrame.add(panelMenu, BorderLayout.CENTER);
             this.setVisible(false);
             topFrame.remove(this);
@@ -236,6 +247,7 @@ public class ModificarBedel extends javax.swing.JPanel {
                          dialogo.setVisible(false);
                          this.remove(dialogo);
                          MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+                         panelMenu.setImage("/Imagenes/fondoabs.jpg");
                          topFrame.add(panelMenu, BorderLayout.CENTER);
                          this.setVisible(false);
                          topFrame.remove(this);
@@ -263,6 +275,21 @@ public class ModificarBedel extends javax.swing.JPanel {
        
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
+    //codigo de la imagen de fondo ----------------------------------------
+    private Image fondo=null;
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo,0,0,getWidth(),getHeight(),null);
+    }
+    
+    public void setImage(String image){
+        if (image!=null) {
+            fondo=new ImageIcon(getClass().getResource(image)).getImage();
+        }
+    }
+    //-----------------------------------------------------------------------
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;

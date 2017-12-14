@@ -10,9 +10,12 @@ import Persistencia.BedelDAO;
 import Gestores.GestorPoliticas;
 import Gestores.GestorValidacion;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -55,25 +58,32 @@ public class RegistrarBedel extends javax.swing.JPanel {
         jTextFieldContrasenia = new javax.swing.JPasswordField();
         jTextFieldConfirmacionContrasenia = new javax.swing.JPasswordField();
 
+        jLabelNombre.setForeground(new java.awt.Color(255, 255, 255));
         jLabelNombre.setText("Nombre");
         jLabelNombre.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
+        jLabelApellido.setForeground(new java.awt.Color(255, 255, 255));
         jLabelApellido.setText("Apellido");
         jLabelApellido.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
+        jLabelTurno.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTurno.setText("Turno");
         jLabelTurno.setToolTipText("Elija un turno de la lista.");
 
+        jLabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUsuario.setText("Usuario");
         jLabelUsuario.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas y números.");
 
+        jLabelContrasenia.setForeground(new java.awt.Color(255, 255, 255));
         jLabelContrasenia.setText("Contraseña");
         jLabelContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
+        jLabelConfirmacionContrasenia.setForeground(new java.awt.Color(255, 255, 255));
         jLabelConfirmacionContrasenia.setText("Confirmar contraseña");
         jLabelConfirmacionContrasenia.setToolTipText("6 a 32 caracteres. Mayúsculas, minúsculas, números y especiales (@#$%&*).");
 
         jLabelRegistrarBedel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelRegistrarBedel.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRegistrarBedel.setText("Registrar Bedel");
 
         jTextFieldNombre.setToolTipText("2 a 32 caracteres. Mayúsculas, minúsculas y números.");
@@ -257,6 +267,7 @@ public class RegistrarBedel extends javax.swing.JPanel {
             dialogo.setVisible(false);
             this.remove(dialogo);
             MenuPrincipalAdmin panelMenu = new MenuPrincipalAdmin();
+            panelMenu.setImage("/Imagenes/fondoabs.jpg");
             topFrame.add(panelMenu, BorderLayout.CENTER);
             this.setVisible(false);
             topFrame.remove(this);
@@ -269,6 +280,22 @@ public class RegistrarBedel extends javax.swing.JPanel {
         });
     }//GEN-LAST:event_jButtonAtrasActionPerformed
 
+    
+    //codigo de la imagen de fondo ----------------------------------------
+    private Image fondo=null;
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo,0,0,getWidth(),getHeight(),null);
+    }
+    
+    public void setImage(String image){
+        if (image!=null) {
+            fondo=new ImageIcon(getClass().getResource(image)).getImage();
+        }
+    }
+    //-----------------------------------------------------------------------
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;

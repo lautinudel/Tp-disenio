@@ -6,9 +6,13 @@
 package Interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import static java.lang.System.exit;
+import java.net.URL;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -24,6 +28,11 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
      */
     public MenuPrincipalBedel() {
         initComponents();
+        
+        String path = "/Imagenes/menu.png";  
+        URL url = this.getClass().getResource(path);  
+        ImageIcon icon = new ImageIcon(url);
+        imagen.setIcon(icon);
     }
 
     /**
@@ -48,22 +57,40 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         jToggleButtonListadoDeReservas = new javax.swing.JToggleButton();
         jToggleButtonListadoDeReservasDia = new javax.swing.JToggleButton();
         jToggleButtonListadoDeReservasCurso = new javax.swing.JToggleButton();
+        imagen = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
-        jLabelMenuPrincipal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelMenuPrincipal.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelMenuPrincipal.setForeground(new java.awt.Color(255, 255, 255));
         jLabelMenuPrincipal.setText("Menu Principal");
 
+        jLabelNuevaReserva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelNuevaReserva.setForeground(new java.awt.Color(255, 255, 255));
         jLabelNuevaReserva.setText("Nueva reserva");
 
+        jLabelBuscarAula.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelBuscarAula.setForeground(new java.awt.Color(255, 255, 255));
         jLabelBuscarAula.setText("Buscar Aula");
 
+        jLabelListadoDeReservas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelListadoDeReservas.setForeground(new java.awt.Color(255, 255, 255));
         jLabelListadoDeReservas.setText("Listado de reservas");
 
+        jLabelListadoDeReservasDia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelListadoDeReservasDia.setForeground(new java.awt.Color(255, 255, 255));
         jLabelListadoDeReservasDia.setText("Listado de reservas (dia)");
 
+        jLabelListadoDeReservasCurso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelListadoDeReservasCurso.setForeground(new java.awt.Color(255, 255, 255));
         jLabelListadoDeReservasCurso.setText("Listado de reservas (curso)");
 
+        jButtonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonSalir.setText("Cerrar sesión");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,10 +106,25 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         });
 
         jToggleButtonBuscarAula.setText(">");
+        jToggleButtonBuscarAula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonBuscarAulaActionPerformed(evt);
+            }
+        });
 
         jToggleButtonListadoDeReservas.setText(">");
+        jToggleButtonListadoDeReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonListadoDeReservasActionPerformed(evt);
+            }
+        });
 
         jToggleButtonListadoDeReservasDia.setText(">");
+        jToggleButtonListadoDeReservasDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonListadoDeReservasDiaActionPerformed(evt);
+            }
+        });
 
         jToggleButtonListadoDeReservasCurso.setText(">");
         jToggleButtonListadoDeReservasCurso.addActionListener(new java.awt.event.ActionListener() {
@@ -91,73 +133,109 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("------------------------------------------------------------");
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("-----------------------------------------------------------------");
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("-----------------------------------------------------");
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("----------------------------------------------");
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("------------------------------------------");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelBuscarAula)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jToggleButtonBuscarAula))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelNuevaReserva)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonNuevaReserva))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelNuevaReserva)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelBuscarAula)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelListadoDeReservas)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelListadoDeReservasDia)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelListadoDeReservasCurso)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jToggleButtonListadoDeReservasCurso))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(3, 3, 3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButtonListadoDeReservasCurso)
+                            .addComponent(jToggleButtonListadoDeReservasDia)
+                            .addComponent(jToggleButtonListadoDeReservas)
+                            .addComponent(jToggleButtonBuscarAula)
+                            .addComponent(jButtonNuevaReserva)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelListadoDeReservas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jToggleButtonListadoDeReservas))
+                                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelListadoDeReservasDia)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jToggleButtonListadoDeReservasDia))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jLabelMenuPrincipal)
-                        .addGap(0, 126, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButtonSalir)
-                .addGap(18, 18, 18))
+                                .addComponent(jLabelMenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addContainerGap()
+                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelMenuPrincipal)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNuevaReserva)
-                    .addComponent(jButtonNuevaReserva))
+                    .addComponent(jButtonNuevaReserva)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelBuscarAula)
-                    .addComponent(jToggleButtonBuscarAula))
+                    .addComponent(jToggleButtonBuscarAula)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelListadoDeReservas)
-                    .addComponent(jToggleButtonListadoDeReservas))
+                    .addComponent(jToggleButtonListadoDeReservas)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelListadoDeReservasDia)
+                    .addComponent(jLabel4)
                     .addComponent(jToggleButtonListadoDeReservasDia))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelListadoDeReservasCurso)
+                    .addComponent(jLabel5)
                     .addComponent(jToggleButtonListadoDeReservasCurso))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addComponent(jButtonSalir)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -187,12 +265,18 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
 
     private void jToggleButtonListadoDeReservasCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonListadoDeReservasCursoActionPerformed
         // TODO add your handling code here:
+        
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida."); 
+           
+        /*
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         ListaDeReservaParaCurso listaRC = new ListaDeReservaParaCurso();
         topFrame.add(listaRC, BorderLayout.CENTER);
         this.setVisible(false);
         topFrame.remove(this);
-        topFrame.setSize(600,600);
+        topFrame.setSize(600,600);*/
+
     }//GEN-LAST:event_jToggleButtonListadoDeReservasCursoActionPerformed
 
     private void jButtonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevaReservaActionPerformed
@@ -206,11 +290,50 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
         topFrame.setSize(700,600); 
     }//GEN-LAST:event_jButtonNuevaReservaActionPerformed
 
+    private void jToggleButtonBuscarAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonBuscarAulaActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida."); 
+    }//GEN-LAST:event_jToggleButtonBuscarAulaActionPerformed
+
+    private void jToggleButtonListadoDeReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonListadoDeReservasActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida.");
+    }//GEN-LAST:event_jToggleButtonListadoDeReservasActionPerformed
+
+    private void jToggleButtonListadoDeReservasDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonListadoDeReservasDiaActionPerformed
+        // TODO add your handling code here:
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+           topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida."); 
+    }//GEN-LAST:event_jToggleButtonListadoDeReservasDiaActionPerformed
+    
+    //codigo de la imagen de fondo
+    private Image fondo=null;
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo,0,0,getWidth(),getHeight(),null);
+    }
+    
+    public void setImage(String image){
+        if (image!=null) {
+            fondo=new ImageIcon(getClass().getResource(image)).getImage();
+        }
+    }
+    //
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonNuevaReserva;
     private javax.swing.JButton jButtonSalir;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelBuscarAula;
     private javax.swing.JLabel jLabelListadoDeReservas;
     private javax.swing.JLabel jLabelListadoDeReservasCurso;

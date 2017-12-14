@@ -146,16 +146,18 @@ public class IniciarSesion extends javax.swing.JPanel {
                 switch (retornoMensajes) {
                 case 1:
                     MenuPrincipalBedel menuBedel = new MenuPrincipalBedel();
+                    menuBedel.setImage("/Imagenes/fondoabs.jpg");
                     topFrame.add(menuBedel, BorderLayout.CENTER);
                     this.setVisible(false);
                     topFrame.remove(this);
-                    topFrame.setSize(500,500);
+                    topFrame.setSize(500,550);
                     break;
                 case 2:
                     topFrame.mensajeEmergente("Error", "La contraseña es incorrecta. Vuelva a intentarlo.");
                     break;
                 case 3:
                     MenuPrincipalAdmin menuAdmin = new MenuPrincipalAdmin();
+                    menuAdmin.setImage("/Imagenes/fondoabs.jpg");
                     topFrame.add(menuAdmin, BorderLayout.CENTER);
                     this.setVisible(false);
                     topFrame.remove(this);
