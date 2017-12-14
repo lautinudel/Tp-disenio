@@ -1061,13 +1061,13 @@ public class RegistrarReserva extends javax.swing.JPanel {
         if(!this.fecha.getText().isEmpty()){
             /*Obtengo la fecha*/
             String textoFecha = this.fecha.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             //Validar que la fecha contenga solo numeros y /
             if(gestorVal.validarFormatoFecha(textoFecha)){
                 try {
                     fechaDato = sdf.parse(textoFecha);
                 } catch (ParseException ex) {
-                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
+                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es yyyy/MM/dd (Ej: 2017/12/05).");
                 }
             }else{
                 topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");

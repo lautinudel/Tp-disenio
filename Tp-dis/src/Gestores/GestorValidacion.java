@@ -22,11 +22,11 @@ public class GestorValidacion {
     
     public boolean validarFormatoFecha(String textoFecha){
         Date fechaDato;
-        String formato = "\\d{2}/\\d{2}/\\d{4}";
+        String formato = "\\d{4}/\\d{2}/\\d{2}";
         //Si cumplen con el patron sigo con las comprobaciones de los numeros
         if(Pattern.matches(formato, textoFecha)){
             //Convierto en date al texto fecha ingresada
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             try {
                 fechaDato = sdf.parse(textoFecha);
             } catch (ParseException ex) {

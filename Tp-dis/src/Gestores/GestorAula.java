@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,70 +36,40 @@ public class GestorAula {
     
     
     public ArrayList<ArrayList<Aula>> obtenerDisponibilidadDeAula(
-            TipoReserva tipoReserva, ArrayList<Date> dias, ArrayList<Date> horaInicio,
+            ArrayList<Date> dias, ArrayList<Date> horaInicio,
             ArrayList<Date> horaFin, PeriodoEnum periodo,
             int cantAlumnos, TipoAula tipoAula){
         AulaDAO aulaDao = new AulaDAO();
         ArrayList<ArrayList<Aula>> aulas = new ArrayList();
-        List<Aula> listaAulas = new ArrayList();
-        ArrayList<Aula> copia;
+        List<Aula> listaAulasDisponiblesEsporadica = new ArrayList();
+        List<Aula> listaAulasDisponiblesPeriodica = new ArrayList();
+        ArrayList<Aula> copia1, copia2;
         
-        /*
-        Format formatterDia = new SimpleDateFormat("yyyy-MM-dd");
-        Format formatterHora = new SimpleDateFormat("hh:mm:ss");
-        String diaString, horaInicioString, horaFinString;
-        */
-        
+                
         for(int i=0; i<dias.size(); i++){
-            /*
-            diaString = formatterDia.format(dias.get(i));
-            horaInicioString = formatterHora.format(horaInicio.get(i));
-            horaFinString = formatterHora.format(horaFin.get(i));*/
             
+            listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
+            listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
             
-            //Consulta aulas disponibles:
-            listaAulas = aulaDao.consultaObtenerDisponibilidadEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
+            copia1 = new ArrayList<>(listaAulasDisponiblesEsporadica);
+            copia2 = new ArrayList<>(listaAulasDisponiblesPeriodica);
             
-            /*for(int k = 0; k<listaAulas.size();k++){
-                System.out.print(listaAulas.get(k).getNumeroAula()+" ");
-            }
+            aulas.add(i, copia1);
+            aulas.get(i).addAll(copia2);
             
-            System.out.print("\n");*/
-            
-            copia = new ArrayList<>(listaAulas);
-            aulas.add(i, copia);
-            listaAulas.clear();
+            listaAulasDisponiblesEsporadica.clear();
+            listaAulasDisponiblesPeriodica.clear();
         }
         
-        //Consulta aulas sin reserva:
-        List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas();
+        //LO QUE PASA ES QUE LOS OBJETOS AULAS SON DISTINTOS POR MAS QUE TENGAS MISMOS DATOS
+        //HACELO VOS, ME VOY A ESTUDIAR SUPERIOR, ESTO YA ES UN ERROR TONTO
         
-        //Consulta aulas del tipo y capacidad:
-        //List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
+        //Consulta aulas sin reserva:
+        List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas(cantAlumnos, tipoAula);
         
         //Aulas sin reserva
         for(int h=0; h<aulas.size(); h++)
             aulas.get(h).addAll(aulasSinReserva);
-        /*
-        //Verificacion de capacidad y tipo de aula:
-        boolean bandera = false;
-        Iterator<Aula> iter;
-        for(int j=0; j<aulas.size(); j++){
-            iter = aulas.get(j).iterator();
-            while (iter.hasNext()){
-                Aula a = iter.next();
-                    for (Aula b: aulasCapacidadTipo){
-                        bandera = false;
-                        if(b.getNumeroAula()==a.getNumeroAula()){
-                            bandera = true;
-                            break;
-                        }                        
-                    }
-                    if(!bandera){
-                        iter.remove();
-                    }
-            } 
-        }*/
         
         return aulas;
     }

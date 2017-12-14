@@ -9,10 +9,13 @@ import Modelo.Aula;
 import Modelo.AulaInformatica;
 import Modelo.AulaMultimedio;
 import Modelo.AulaSinRecursosAdicionales;
+import Modelo.DiaSemana;
 import Modelo.TipoAula;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,6 +30,7 @@ public class AulaDAO {
         
     }
     
+    /*
     public List<Aula> obtenerListaDeAulas(TipoAula tipoAula, int cantAlumnos){
         //recupero las aulas
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -55,7 +59,7 @@ public class AulaDAO {
         }
         
         return retorno;
-    }
+    }*/
     
     public ArrayList<Aula> getAulas(List<Object>nroAulas){
         ArrayList<Aula> retorno = new ArrayList<>();
@@ -73,7 +77,7 @@ public class AulaDAO {
         return retorno;
     }
     
-    public List<Aula> consultaObtenerDisponibilidadEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
+    public List<Aula> consultaEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
         
         java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
         java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
@@ -103,7 +107,61 @@ public class AulaDAO {
         return retorno;
     }
     
-    public List<Aula> consultaObtenerDisponibilidadSinReservas(){
+    public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
+        
+        //java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
+        java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
+        java.sql.Time sqlHoraFin = new java.sql.Time(horaFin.getTime());
+        
+        //De Date a String para el nombre del Día
+        String diaString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dia);
+        DiaSemana diaEnum = null;
+        switch(diaString){
+            case "lunes":
+                diaEnum = DiaSemana.Lunes;
+                break;
+            case "martes":
+                diaEnum = DiaSemana.Martes;
+                break;
+            case "miércoles":
+                diaEnum = DiaSemana.Miercoles;
+                break;
+            case "jueves":
+                diaEnum = DiaSemana.Jueves;
+                break;
+            case "viernes":
+                diaEnum = DiaSemana.Viernes;
+                break;
+            case "sábado":
+                diaEnum = DiaSemana.Sabado;
+                break;
+        }
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                    "SELECT DISTINCT a "+
+                    "FROM Aula a, DiaReservaPeriodica d, ReservaPeriodica r "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaPeriodicaIdReservaPeriodica = r.idReservaPeriodica AND "+
+                    "(((r.activo = 1) AND "+
+                    "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin)))) OR "+
+                    "(r.activo = 0)) "+
+                    "AND a.capacidad >= :variableCapacidad "+
+                    "AND r.tipoAula = :variableTipoAula");
+        query.setParameter("variableDia", diaEnum);
+        query.setParameter("variableHoraInicio", sqlHoraInicio);
+        query.setParameter("variableHoraFin", sqlHoraFin);
+        query.setParameter("variableCapacidad", capacidad);
+        query.setParameter("variableTipoAula", tipoAula);
+        List<Aula> retorno = query.list();
+        session.close();
+        return retorno;
+    }
+    
+    public List<Aula> consultaObtenerDisponibilidadSinReservas(int cantAlumnos, TipoAula tipoAula){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -122,6 +180,27 @@ public class AulaDAO {
         
         List<Object> numerosAulasSinReserva = queryAulaSinReservas.list();
         session.close();
-        return this.getAulas(numerosAulasSinReserva);
+        
+        ArrayList<Aula> aulas = this.getAulas(numerosAulasSinReserva);
+        ArrayList<Aula> retorno = new ArrayList<>();
+        
+        for(Aula a : aulas){
+            switch (tipoAula){
+                case Informatica:
+                    if(a.getAulaInformatica() != null)
+                        retorno.add(a);
+                    break;
+                case Multimedios:
+                    if(a.getAulaMultimedio() != null)
+                        retorno.add(a);
+                    break;
+                case SinRecursos:
+                    if(a.getAulaSinRecursosAdicionales() != null)
+                        retorno.add(a);
+                    break;
+            }
+        }
+        
+        return retorno;
     }
 }

@@ -90,12 +90,12 @@ public class ObtenerDisponibilidadTest {
               //--------------------------------------------------------------
         //--------------------------------------------------------------
         //Probando metodo ObtenerDisponibilidad
-        String dia1 = "2018-01-12";
-        String dia2 = "2018-02-13";
-        String dia3 = "2017-12-21";
-        String dia4 = "2018-03-05";
-        String dia5 = "2018-05-07";
-        String dia6 = "2017-08-15";
+        String dia1 = "2018-01-12"; //Viernes
+        String dia2 = "2018-02-13"; //Martes
+        String dia3 = "2017-12-21"; //Jueves
+        String dia4 = "2018-03-05"; //Lunes
+        String dia5 = "2018-05-07"; //Lunes
+        String dia6 = "2017-08-15"; //Martes
         DateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
         Date date1=null, date2=null, date3=null, date4=null, date5=null, date6=null;
         try {
@@ -120,13 +120,13 @@ public class ObtenerDisponibilidadTest {
         String hora1 = "15:29:00";
         String hora2 = "21:08:00";
         String hora3 = "07:09:00";
-        String hora4 = "11:11:00";
+        String hora4 = "14:30:00";
         String hora5 = "12:58:00";
         String hora6 = "19:45:00";
         String horaFin1 = "17:29:00";
         String horaFin2 = "22:08:00";
         String horaFin3 = "10:09:00";
-        String horaFin4 = "14:11:00";
+        String horaFin4 = "18:00:00";
         String horaFin5 = "13:58:00";
         String horaFin6 = "21:15:00";
         DateFormat formatoHora = new SimpleDateFormat("hh:mm:ss");
@@ -178,7 +178,7 @@ public class ObtenerDisponibilidadTest {
         unDiaHF.add(timeFin6);
         
         GestorAula gestorAula = new GestorAula();
-        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
+        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(dias, horasInicio, horasFin, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
             for(int j=0; j<aulasDisp.get(i).size();j++){
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
@@ -315,6 +315,41 @@ public class ObtenerDisponibilidadTest {
        session.close();
        System.out.println(listaReservas.get(0).getId().getAulaNumeroAula());
        System.out.println(listaReservas);*/
+       
+       /*
+       String diaLunes = "2017-11-27"; //Lunes
+        String diaMartes = "2017-11-28"; //Martes
+        String diaMiercoles = "2017-11-29"; //Miercoles
+        String diaJueves = "2017-11-30"; //Jueves
+        String diaViernes = "2017-12-1"; //Viernes
+        String diaSabado = "2017-12-2"; //Sabado
+        DateFormat formatoDiaSemana = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLunes=null, dateMartes=null, dateMiercoles=null, dateJueves=null, dateViernes=null, dateSabado=null;
+        try {
+            dateLunes = formatoDiaSemana.parse(diaLunes);
+            dateMartes = formatoDiaSemana.parse(diaMartes);
+            dateMiercoles = formatoDiaSemana.parse(diaMiercoles);
+            dateJueves = formatoDiaSemana.parse(diaJueves);
+            dateViernes = formatoDiaSemana.parse(diaViernes);
+            dateSabado = formatoDiaSemana.parse(diaSabado);
+        } catch (ParseException ex) {
+            Logger.getLogger(ObtenerDisponibilidadTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       String diaLunesString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateLunes);
+       String diaMartesString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateMartes);
+       String diaMiercolesString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateMiercoles);
+       String diaJuevesString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateJueves);
+       String diaViernesString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateViernes);
+       String diaSabadoString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dateSabado);
+       
+       System.out.println(diaLunesString);
+       System.out.println(diaMartesString);
+       System.out.println(diaMiercolesString);
+       System.out.println(diaJuevesString);
+       System.out.println(diaViernesString);
+       System.out.println(diaSabadoString);
+       */
+       
        
        
        exit(0);
