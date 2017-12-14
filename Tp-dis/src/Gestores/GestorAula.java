@@ -55,13 +55,13 @@ public class GestorAula {
             
             
             //Consulta aulas disponibles:
-            listaAulas = aulaDao.consultaObtenerDisponibilidadEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i));
+            listaAulas = aulaDao.consultaObtenerDisponibilidadEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
             
-            for(int k = 0; k<listaAulas.size();k++){
+            /*for(int k = 0; k<listaAulas.size();k++){
                 System.out.print(listaAulas.get(k).getNumeroAula()+" ");
             }
             
-            System.out.print("\n");
+            System.out.print("\n");*/
             
             copia = new ArrayList<>(listaAulas);
             aulas.add(i, copia);
@@ -72,12 +72,12 @@ public class GestorAula {
         List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas();
         
         //Consulta aulas del tipo y capacidad:
-        List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
+        //List<Aula> aulasCapacidadTipo = aulaDao.obtenerListaDeAulas(tipoAula, cantAlumnos);
         
         //Aulas sin reserva
         for(int h=0; h<aulas.size(); h++)
             aulas.get(h).addAll(aulasSinReserva);
-        
+        /*
         //Verificacion de capacidad y tipo de aula:
         boolean bandera = false;
         Iterator<Aula> iter;
@@ -96,7 +96,7 @@ public class GestorAula {
                         iter.remove();
                     }
             } 
-        }
+        }*/
         
         return aulas;
     }

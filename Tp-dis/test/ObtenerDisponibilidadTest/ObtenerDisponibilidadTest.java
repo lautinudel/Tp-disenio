@@ -178,13 +178,13 @@ public class ObtenerDisponibilidadTest {
         unDiaHF.add(timeFin6);
         
         GestorAula gestorAula = new GestorAula();
-        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, unDia, unDiaHI, unDiaHF, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
-        /*for(int i = 0; i<aulasDisp.size();i++){
+        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(TipoReserva.Esporadica, dias, horasInicio, horasFin, PeriodoEnum.Anual, 35, TipoAula.SinRecursos);
+        for(int i = 0; i<aulasDisp.size();i++){
             for(int j=0; j<aulasDisp.get(i).size();j++){
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }*/
+        }
         
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();

@@ -73,7 +73,7 @@ public class AulaDAO {
         return retorno;
     }
     
-    public List<Aula> consultaObtenerDisponibilidadEsporadica(Date dia, Date horaInicio, Date horaFin){
+    public List<Aula> consultaObtenerDisponibilidadEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
         
         java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
         java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
@@ -89,13 +89,15 @@ public class AulaDAO {
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
                     "(((r.activo = 1) AND "+
                     "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
-                    "NOT(d.id.horaInicio >= :variableHoraInicio AND d.id.horaFin <= :variableHoraFin) AND "+
-                    "((d.id.horaInicio < :variableHoraInicio AND d.id.horaInicio > :variableHoraFin) OR "+
-                    "(d.id.horaInicio > :variableHoraInicio AND d.id.horaFin < :variableHoraInicio)))))) OR "+
-                    "(r.activo = 0)");
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin)))) OR "+
+                    "(r.activo = 0)) "+
+                    "AND a.capacidad >= :variableCapacidad "+
+                    "AND r.tipoAula = :variableTipoAula");
         query.setParameter("variableDia", sqlDia);
         query.setParameter("variableHoraInicio", sqlHoraInicio);
         query.setParameter("variableHoraFin", sqlHoraFin);
+        query.setParameter("variableCapacidad", capacidad);
+        query.setParameter("variableTipoAula", tipoAula);
         List<Aula> retorno = query.list();
         session.close();
         return retorno;
