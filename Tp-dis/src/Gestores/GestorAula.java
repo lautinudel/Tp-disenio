@@ -73,9 +73,8 @@ public class GestorAula {
             listaAulasDisponiblesEsporadica.clear();
             listaAulasDisponiblesPeriodica.clear();
         }
-        
-        //LO QUE PASA ES QUE LOS OBJETOS AULAS SON DISTINTOS POR MAS QUE TENGAS MISMOS DATOS
-        //HACELO VOS, ME VOY A ESTUDIAR SUPERIOR, ESTO YA ES UN ERROR TONTO
+       
+        //FALTA ELIMINAR DUPLICADOS
         
         //Consulta aulas sin reserva:
         List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas(cantAlumnos, tipoAula);
