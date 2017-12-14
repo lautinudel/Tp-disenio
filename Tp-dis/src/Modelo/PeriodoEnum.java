@@ -10,5 +10,5 @@ package Modelo;
  * @author Temp
  */
 public enum PeriodoEnum {
-    PrimerCuatrimestre, SegundoCuatrimestre, Anual
+    PrimerCuatrimestre, SegundoCuatrimestre, Anual, Ninguno
 }

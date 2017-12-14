@@ -10,7 +10,9 @@ import Modelo.AulaInformatica;
 import Modelo.AulaMultimedio;
 import Modelo.AulaSinRecursosAdicionales;
 import Modelo.DiaSemana;
+import Modelo.PeriodoEnum;
 import Modelo.TipoAula;
+import Modelo.TipoReserva;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,7 +109,7 @@ public class AulaDAO {
         return retorno;
     }
     
-    public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
+    public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula, PeriodoEnum periodo){
         
         //java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
         java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
@@ -137,27 +139,34 @@ public class AulaDAO {
                 break;
         }
         
+         List<Aula> retorno=null;
+        
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
+        
         Query query = session.createQuery(
                     "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaPeriodica d, ReservaPeriodica r "+
                     "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaPeriodicaIdReservaPeriodica = r.idReservaPeriodica AND "+
-                    "(((r.activo = 1) AND "+
+                    "(((r.activo = 1) AND (r.periodo = :periodo OR r.periodo = 'Anual') AND"+
                     "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
                     "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin)))) OR "+
                     "(r.activo = 0)) "+
                     "AND a.capacidad >= :variableCapacidad "+
                     "AND r.tipoAula = :variableTipoAula");
+        query.setParameter("periodo", periodo);
         query.setParameter("variableDia", diaEnum);
         query.setParameter("variableHoraInicio", sqlHoraInicio);
         query.setParameter("variableHoraFin", sqlHoraFin);
         query.setParameter("variableCapacidad", capacidad);
         query.setParameter("variableTipoAula", tipoAula);
-        List<Aula> retorno = query.list();
+        
+        retorno = query.list();
+        
         session.close();
+        
         return retorno;
     }
     
