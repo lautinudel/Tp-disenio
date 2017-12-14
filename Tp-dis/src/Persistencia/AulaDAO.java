@@ -150,10 +150,10 @@ public class AulaDAO {
                     "FROM Aula a, DiaReservaPeriodica d, ReservaPeriodica r "+
                     "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaPeriodicaIdReservaPeriodica = r.idReservaPeriodica AND "+
-                    "(((r.activo = 1) AND (r.periodo = :periodo OR r.periodo = 'Anual') AND"+
+                    "(((r.activo = 1) AND (r.periodo = :periodo OR r.periodo = 'Anual') AND "+
                     "(d.id.dia != :variableDia OR (d.id.dia = :variableDia AND "+
                     "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin)))) OR "+
-                    "(r.activo = 0)) "+
+                    "((r.activo = 1) AND (r.periodo != :periodo AND r.periodo != 'Anual')) OR (r.activo = 0)) "+
                     "AND a.capacidad >= :variableCapacidad "+
                     "AND r.tipoAula = :variableTipoAula");
         query.setParameter("periodo", periodo);
