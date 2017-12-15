@@ -14,6 +14,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import java.util.ArrayList; 
+import java.util.Date;
 
 /**
  *
@@ -24,6 +26,24 @@ public class GestorReserva {
     public GestorReserva() {
     }
     
+    public Boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
+ 
+        GestorValidacion gestorVal = new GestorValidacion();
+ 
+        return gestorVal.valUnicidad(fechaAValidar, horaAValidar, fechas, horariosInicio);
+ 
+    }
+ 
+    
+ 
+    public Boolean validarDiasPosterioresAlActual(Date fecha){
+ 
+        GestorValidacion gestorVal = new GestorValidacion();
+ 
+        return gestorVal.validarDias(fecha);
+ 
+    }
+ 
     
     public Boolean reservaEsporadicaActiva(int idReservaEsporadica){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();

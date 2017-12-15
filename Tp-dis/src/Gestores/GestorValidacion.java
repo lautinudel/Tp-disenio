@@ -5,6 +5,7 @@
  */
 package Gestores;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,13 +21,17 @@ public class GestorValidacion {
     public GestorValidacion() {
     }
     
+    
+    
     public boolean validarFormatoFecha(String textoFecha){
         Date fechaDato;
-        String formato = "\\d{4}/\\d{2}/\\d{2}";
+        String formato = "\\d{4}-\\d{2}-\\d{2}";
+ 
         //Si cumplen con el patron sigo con las comprobaciones de los numeros
         if(Pattern.matches(formato, textoFecha)){
             //Convierto en date al texto fecha ingresada
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+ 
             try {
                 fechaDato = sdf.parse(textoFecha);
             } catch (ParseException ex) {
@@ -57,7 +62,90 @@ public class GestorValidacion {
             }
     }
     
+     public Boolean validarDias(Date fecha){
+ 
+        java.util.Date fechaActual = new Date();
+ 
+        //compareTo devuelve 0 si son iguales, un numero menor a 0 si fecha>fechaActual y un numero mayor a 0 si fecha<fechaActual
+ 
+        if (fechaActual.compareTo(fecha)<0){
+ 
+            return true;
+ 
+        }else{
+ 
+            return false;
+ 
+        }
+ 
+        
+ 
+    }
+ 
     
+ 
+    public Boolean valUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
+ 
+        boolean esUnico = false;
+ 
+        //Validar que las listas no estén vacias
+ 
+        //Si las fechas están vacias los horarios también tendrían que estar vacias (lo pongo por las dudas)
+ 
+        //Si los array están vacios es unico
+ 
+        if(!fechas.isEmpty() && !horariosInicio.isEmpty()){
+ 
+            //Si no contiene a la fecha es unico 
+ 
+            if (!fechas.contains(fechaAValidar)){
+ 
+                //esUnico = true;
+ 
+                return true;
+ 
+            }else{
+ 
+                //Sino si el horario inicio es diferente es unico
+ 
+                //Necesito el indice para validar el horario
+ 
+                int fila = -1;
+ 
+                int i=0;
+ 
+                while (fila == -1 && i < fechas.size()){
+ 
+                    if(fechas.get(i).equalsIgnoreCase(fechaAValidar)){
+ 
+                        fila = i;
+ 
+                    }
+ 
+                }
+ 
+                if(!horariosInicio.get(fila).equalsIgnoreCase(horaAValidar)){
+ 
+                    //esUnico = true;
+ 
+                    return true;
+ 
+                }
+ 
+            }
+ 
+        }else{
+ 
+            return true;
+ 
+        }
+ 
+    
+ 
+        return esUnico;
+ 
+    }
+ 
     
     public boolean validarFormatoHora(String textoHora){
         String hora = textoHora.substring(0, 2);//El indice de fin no lo incluye
@@ -68,10 +156,6 @@ public class GestorValidacion {
         if(Pattern.matches(formato, textoHora)){
             int hh = Integer.parseInt(hora);
             int mm = Integer.parseInt(minutos);
-            System.out.println("hh: "+hh+" hora: "+hora+" minutos: "+minutos+" mm: "+mm+
-                    " textoHora posicion 0: "+textoHora.charAt(0)+
-                    " textoHora posicion 1: "+textoHora.charAt(1)+" textoHora posicion 2: "+textoHora.charAt(2)+
-                    " textoHora posicion 3: "+textoHora.charAt(3)+" textoHora posicion 4: "+textoHora.charAt(4));
             //Si la hora esta dentro de las 0-23 y los minutos entre 0-59
             if(hh>=0 && hh<24 && mm>=0 && mm<60){
                 return true;               

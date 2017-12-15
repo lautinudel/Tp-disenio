@@ -52,17 +52,9 @@ public class GestorAula {
             listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
             
             //Busca las aulas disponibles según las reservas periódicas:
-            //Se agregó un Array de periodos (un periodo para cada dia.)
-            //Si el periodo es "Ninguno", quiere decir que la fecha no cae en ningún período.
-            //Por ejemplo: una reserva en enero.
-            //Entonces se ignora la búsqueda de solapamientos con reservas periódicas, porque
-            //  no es posible que exista una reserva periódica fuera de los periódos.
-            //Si la fecha que se quiere reservar cae dentro de un período, se evalúa la consulta.
-            //Siempre se evalúa en caso de ser reserva períodica.
-            //El Array de períodos debe cargarse en el GestorReserva dependiendo las fechas intorducidas.
-            
             if(periodos.get(i)!=PeriodoEnum.Ninguno)
                 listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
+            
             
             copia1 = new ArrayList<>(listaAulasDisponiblesEsporadica);
             copia2 = new ArrayList<>(listaAulasDisponiblesPeriodica);
@@ -74,7 +66,14 @@ public class GestorAula {
             listaAulasDisponiblesPeriodica.clear();
         }
        
-        //FALTA ELIMINAR DUPLICADOS
+        
+        //CONSERVAR SOLO DUPLICADOS
+        for(int i=0;i<aulas.size();i++){
+            if(periodos.get(i)!=PeriodoEnum.Ninguno){
+                this.mantenerRepetidos(aulas.get(i));
+                this.eliminarRepetidosPos(aulas.get(i));
+            }
+        }
         
         //Consulta aulas sin reserva:
         List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas(cantAlumnos, tipoAula);
@@ -85,4 +84,45 @@ public class GestorAula {
         
         return aulas;
     }
+    public void mantenerRepetidos(ArrayList<Aula> lista){
+        boolean encontrado=false;
+        
+       for(int i=0;i<lista.size();i++){
+           encontrado=false;
+          for(int j=0;j<lista.size();j++){
+              if(i!=j){
+              if(lista.get(i).getNumeroAula()==lista.get(j).getNumeroAula()){
+                  encontrado=true;
+              }}
+             
+                      
+          } 
+          if(!encontrado){
+                 lista.remove(i);
+                 if(i!=0) i--;
+             }
+        }
+         
+    }
+    
+    public void eliminarRepetidosPos (ArrayList<Aula> lista){
+        
+        for(int i=0;i<lista.size();i++){
+          for(int j=0;j<lista.size();j++){
+              if(i!=j){
+              if(lista.get(i).getNumeroAula()==lista.get(j).getNumeroAula()){
+                  lista.remove(j);
+                  j--;
+              }}
+                      
+          }  
+        }
+        
+        
+        
+    }
+    
+    
 }
+
+

@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Gestores.GestorReserva;
 import Gestores.GestorValidacion;
 import Modelo.PeriodoEnum;
 import Modelo.TipoAula;
@@ -1054,23 +1055,26 @@ public class RegistrarReserva extends javax.swing.JPanel {
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         Date fechaDato = null;
         Date horaInicioDato = null;
+        Date diaYHora = null; 
         int duracionDato = 0;
         int cantAlumnos = 0;
+        boolean diasPosteriores = false; 
         GestorValidacion gestorVal = new GestorValidacion();
+        GestorReserva gestorReserva = new GestorReserva();
         //Si el campo de la fecha no esta vacio
         if(!this.fecha.getText().isEmpty()){
             /*Obtengo la fecha*/
             String textoFecha = this.fecha.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            //Validar que la fecha contenga solo numeros y /
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+            //Validar que la fecha contenga solo numeros y -
             if(gestorVal.validarFormatoFecha(textoFecha)){
                 try {
                     fechaDato = sdf.parse(textoFecha);
                 } catch (ParseException ex) {
-                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es yyyy/MM/dd (Ej: 2017/12/05).");
+                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es yyyy-MM-dd (Ej: 2017-12-05).");
                 }
             }else{
-                topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la fecha es dd/MM/yyyy (Ej: 05/12/2017).");
+                topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la fecha es yyyy-MM-dd (Ej: 2017-12-05).");
             }
             
             
@@ -1083,12 +1087,23 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 if(gestorVal.validarFormatoHora(textoHora)){
                     try {
                         horaInicioDato = sdfhora.parse(textoHora);
+                        //Obtener dia y hora  
+                        //El concat me devuelve otro String 
+                        String textoDiaYHora = textoFecha.concat(" ").concat(textoHora); 
+                        SimpleDateFormat sdfDiaYHora = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+                        diaYHora = sdfDiaYHora.parse(textoDiaYHora);
                     } catch (ParseException ex) {
                         Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
                     } 
                 }else{
                     topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la hora de inicio es hh:mm (Ej: 15:30).");
                 }
+                
+                if(!gestorReserva.validarDiasPosterioresAlActual(diaYHora)){ 
+                    topFrame.mensajeEmergente("Fecha inválida", "La fecha ingresada debe ser posterior a la fecha actual."); 
+                }else{ 
+                    diasPosteriores=true; 
+                } 
                     
                 //Si el campo de duracion no está en Seleccione
                 if (!this.duracion.getSelectedItem().toString().equalsIgnoreCase("Seleccione")){
@@ -1124,7 +1139,15 @@ public class RegistrarReserva extends javax.swing.JPanel {
         }else{
             topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
         }
-        if(fechaDato != null && horaInicioDato != null && duracionDato != 0 && cantAlumnos != 0){
+        ArrayList<String> fechas = new ArrayList<String>(); 
+        ArrayList<String> horasInicio = new ArrayList<String>(); 
+         
+        llenarFechas(fechas); 
+        llenarHorasInicio(horasInicio); 
+         
+        boolean unico = gestorReserva.validarUnicidad(this.fecha.getText(),this.horaInicio.getText(), fechas, horasInicio);
+        
+        if( unico && diasPosteriores && fechaDato != null && horaInicioDato != null && duracionDato != 0 && cantAlumnos != 0 && this.tabla.getRowCount() < 5){ 
             Object row[] = {this.fecha.getText(),this.horaInicio.getText(),duracion.getSelectedItem().toString(),aula,cantAlumnos}; 
             /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
             ((DefaultTableModel)this.tabla.getModel()).addRow(row);
@@ -1133,9 +1156,33 @@ public class RegistrarReserva extends javax.swing.JPanel {
             this.horaInicio.setText("");
             this.cantidadAlumnos.setText("");
             this.tipoAula.setSelectedItem("Aula sin recursos adicionales");
+        }else{ 
+            if(!unico){ 
+                topFrame.mensajeEmergente("Fecha o Horario Incorrectos", "Ya se ha ingresado una reserva para la misma fecha y horario."); 
+            } 
+            if(this.tabla.getRowCount() >= 5){ 
+                topFrame.mensajeEmergente("Cantidad máxima", "Se ha alcanzado la máxima cantidad permitida de reservas. " 
+                        + "Por favor confirme las reservas para poder proseguir."); 
+            } 
         }
+        
+        
+        
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
+    private void llenarHorasInicio (ArrayList<String> fechas){ 
+        for(int i=0; i<tabla.getRowCount() ; i++){ 
+            //Por cada fila guardo el horario de inicio 
+            fechas.add(this.tabla.getModel().getValueAt(i, 1).toString()); 
+        } 
+    }
+    
+    private void llenarFechas (ArrayList<String> fechas){ 
+        for(int i=0; i<tabla.getRowCount() ; i++){ 
+            //Por cada fila guardo la fecha 
+            fechas.add(this.tabla.getModel().getValueAt(i, 0).toString()); 
+        } 
+    }
     
     
     private void tipoAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoAulaActionPerformed
