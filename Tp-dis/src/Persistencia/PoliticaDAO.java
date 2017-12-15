@@ -30,7 +30,7 @@ public class PoliticaDAO {
         session = sesion.openSession();
         Query query = session.createQuery("SELECT p " +
                                           "FROM PoliticaClave p "+
-                                          "WHERE p.activo = 1");
+                                          "WHERE p.vigente = 1");
         /*Convierto la consulta en una lista - siempre en esta consulta voy a tener una sola respuesta (id_politica es PK)*/
         politica = (ArrayList<PoliticaClave>) query.list();
         session.close();
