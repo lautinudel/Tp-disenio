@@ -6,6 +6,7 @@
 package Gestores;
 
 
+import Modelo.ActividadUniversitaria;
 import Modelo.Docente;
 import Modelo.ReservaEsporadica;
 import Modelo.ReservaPeriodica;
@@ -54,7 +55,12 @@ public class GestorReserva {
         boolean actUniv = actividadDao.verificarExistencia(catedraDato); //true
         
         //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
-        if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && !listaDocente.isEmpty() && actUniv){
+        boolean encontrado=false;
+        for(ActividadUniversitaria au : listaDocente.get(0).getActividadUniversitarias()){
+            if(au.getNombre().equals(catedraDato)) encontrado=true;
+        }
+        if(encontrado){
+           if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && !listaDocente.isEmpty() && actUniv){
             
             return 0;
         }else{
@@ -73,7 +79,9 @@ public class GestorReserva {
                 return 3;
             }
         }
-        return 4;
+         
+        }else return 4;
+        return 5;
     }
     
     public boolean validarStringSoloConNumeros(String cadena){
