@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -28,23 +30,39 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     /**
      * Creates new form ReservaAulasDisponibles
      */
-    public ReservaAulasDisponibles(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles) {
+    public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles) {
         initComponents();
-        cargarDatosPeriodica(dias, horaInicio, aulasDisponibles);
+        cargarDatosPeriodica(diasTexto, dias, horaFin, horaInicio, aulasDisponibles);
     }
     
     
     
-    private void cargarDatosPeriodica(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles){
+    private void cargarDatosPeriodica(ArrayList<String> diasTexto, ArrayList<Date> dias,ArrayList<Date> horaInicio, ArrayList<Date> horaFin, ArrayList<ArrayList<Aula>> aulasDisponibles){
         
-        for(int i=0;i<dias.size();i++){
+        ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
+        ArrayList<String> horaFinTexto = convertirArrayDeDateAArrayStringFormatoHora(horaFin);
+        
+        for(int i=0;i<diasTexto.size();i++){
             for(int j=0;j<aulasDisponibles.get(i).size();j++){
-                Object row[] = {false,dias.get(i),horaInicio.get(i),aulasDisponibles.get(i).get(j)}; 
+                Object row[] = {false,diasTexto.get(i),horaInicioTexto.get(i),horaFinTexto.get(i),aulasDisponibles.get(i).get(j)}; 
                 /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
                 ((DefaultTableModel)this.jTable1.getModel()).addRow(row);
             }
         }
     } 
+    
+    
+    private ArrayList<String> convertirArrayDeDateAArrayStringFormatoHora(ArrayList<Date> horaInicio){
+        ArrayList<String> retorno = new ArrayList();
+        Format formatter = new SimpleDateFormat("hh:mm");
+        String horaString;
+        for(int i=0;i<horaInicio.size();i++){
+           //De Date a String para FECHA:
+            horaString = formatter.format(horaInicio.get(i));
+            retorno.add(horaString);
+        }
+        return retorno;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,14 +92,14 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Selección", "Fecha", "Hora de inicio", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Televisor", "Computadoras", "DVD", "Proyector"
+                "Selección", "Fecha", "Hora de inicio", "Hora de fin", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Televisor", "Computadoras", "DVD", "Proyector"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false, false, false, false, false
+                true, false, false, true, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

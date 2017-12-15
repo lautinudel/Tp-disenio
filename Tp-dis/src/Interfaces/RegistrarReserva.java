@@ -198,7 +198,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabel5.setText("Modalidad:");
         jLabel5.setToolTipText("Elija una modalidad de la lista.");
 
-        tipoAula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aula sin recursos adicionales", "Aula multimedio", "Aula informatica", " " }));
+        tipoAula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aula sin recursos adicionales", "Aula multimedio", "Aula informatica" }));
         tipoAula.setToolTipText("Elija una modalidad de la lista.");
         tipoAula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -822,6 +822,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         
         GestorAula gestorAula = new GestorAula(); 
         GestorReserva gestorReserva = new GestorReserva();
+        GestorValidacion gestorVal = new GestorValidacion();
         int cantAlumnos = 0;
         PeriodoEnum periodo = PeriodoEnum.Ninguno;
         FechasPeriodo fechasPeriodo = new FechasPeriodo();
@@ -847,6 +848,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         //Modalidad
         String modalidad = this.listaModalidad.getSelectedItem().toString();
         if(modalidad.equals("Periodica")){
+            
             //Cantidad de alumnos
             //Obtengo un String del jTextField, el replaceAll elimina los espacios (si los tuviera) y parseInt lo convierte en int
             if(!this.cantidadAlumnos.getText().isEmpty()){
@@ -913,102 +915,140 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
+            SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+            
             //HoraInicio
             //Si ingresaron algún horario y el checkbox del dia está activado...
-            if (!this.horaInicioLunes.getText().isEmpty() && this.jCheckBoxLunes.isSelected()){
+            if (!this.horaInicioLunes.getText().isEmpty() && this.jCheckBoxLunes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioLunes.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioLunes.getText()));
             }else{
-                if(this.jCheckBoxLunes.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxLunes.isSelected() && this.horaInicioLunes.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxLunes.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioLunes.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
                 }                
             }
-            if (!this.horaInicioMartes.getText().isEmpty() && this.jCheckBoxMartes.isSelected()){
+            if (!this.horaInicioMartes.getText().isEmpty() && this.jCheckBoxMartes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMartes.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMartes.getText()));
             }else{
-                if(this.jCheckBoxMartes.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxMartes.isSelected() && this.horaInicioMartes.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Martes.");
-                } 
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxMartes.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioMartes.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
+                }                
             }
-            if (!this.horaInicioMiercoles.getText().isEmpty() && this.jCheckBoxMiercoles.isSelected()){
+            if (!this.horaInicioMiercoles.getText().isEmpty() && this.jCheckBoxMiercoles.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMiercoles.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioMiercoles.getText()));
             }else{
-                if(this.jCheckBoxMiercoles.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxMiercoles.isSelected() && this.horaInicioMiercoles.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Miércoles.");
-                } 
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxMiercoles.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioMiercoles.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
+                }                
             }
-            if (!this.horaInicioJueves.getText().isEmpty() && this.jCheckBoxJueves.isSelected()){
+            if (!this.horaInicioJueves.getText().isEmpty() && this.jCheckBoxJueves.isSelected() && gestorVal.validarFormatoHora(this.horaInicioJueves.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioJueves.getText()));
             }else{
-                if(this.jCheckBoxJueves.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxJueves.isSelected() && this.horaInicioJueves.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Jueves.");
-                } 
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxJueves.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioJueves.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
+                }                
             }
-            if (!this.horaInicioViernes.getText().isEmpty() && this.jCheckBoxViernes.isSelected()){
+            if (!this.horaInicioViernes.getText().isEmpty() && this.jCheckBoxViernes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioViernes.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioViernes.getText()));
             }else{
-                if(this.jCheckBoxViernes.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxViernes.isSelected() && this.horaInicioViernes.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Viernes.");
-                } 
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxViernes.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioViernes.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
+                }                
             }
-            if (!this.horaInicioSabado.getText().isEmpty() && this.jCheckBoxSabado.isSelected()){
+            if (!this.horaInicioSabado.getText().isEmpty() && this.jCheckBoxSabado.isSelected() && gestorVal.validarFormatoHora(this.horaInicioSabado.getText())){
                 horaInicio.add(convertirStringADateFormatoHora(this.horaInicioSabado.getText()));
             }else{
-                if(this.jCheckBoxSabado.isSelected()){
+                //Si el checkBox está activado pero el jTextField está vacio
+                if(this.jCheckBoxSabado.isSelected() && this.horaInicioSabado.getText().isEmpty()){
                     //Mostrar mensaje de que falta la hora inicio
-                topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Sábado.");
-                } 
+                    topFrame.mensajeEmergente("Falta datos", "Debe ingresar una hora inicio para el día Lunes.");
+                }else{
+                    //Si el checkBox está activado pero el jTextField no cumple con el formato
+                    if(this.jCheckBoxSabado.isSelected() && !gestorVal.validarFormatoHora(this.horaInicioSabado.getText())){
+                        topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    }
+                }                
             }
-            //HoraFin
-           
-            if (!this.duracionLunes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxLunes.isSelected()){
+            //HoraFin           
+            if (!this.duracionLunes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxLunes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioLunes.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioLunes.getText(),this.duracionLunes.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxLunes.isSelected()){
+                if(this.jCheckBoxLunes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioLunes.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Lunes.");
                 }
             }
-            if (!this.duracionMartes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMartes.isSelected()){
+            if (!this.duracionMartes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMartes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMartes.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioMartes.getText(),this.duracionMartes.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxMartes.isSelected()){
+                if(this.jCheckBoxMartes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMartes.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Martes.");
                 }
             }
-            if (!this.duracionMiercoles.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMiercoles.isSelected()){
+            if (!this.duracionMiercoles.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxMiercoles.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMiercoles.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioMiercoles.getText(),this.duracionMiercoles.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxMiercoles.isSelected()){
+                if(this.jCheckBoxMiercoles.isSelected() && gestorVal.validarFormatoHora(this.horaInicioMiercoles.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Miércoles.");
                 }
             }
-            if (!this.duracionJueves.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxJueves.isSelected()){
+            if (!this.duracionJueves.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxJueves.isSelected() && gestorVal.validarFormatoHora(this.horaInicioJueves.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioJueves.getText(),this.duracionJueves.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxJueves.isSelected()){
+                if(this.jCheckBoxJueves.isSelected() && gestorVal.validarFormatoHora(this.horaInicioJueves.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Jueves.");
                 }
             }
-            if (!this.duracionViernes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxViernes.isSelected()){
+            if (!this.duracionViernes.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxViernes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioViernes.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioViernes.getText(),this.duracionViernes.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxViernes.isSelected()){
+                if(this.jCheckBoxViernes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioViernes.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Viernes.");
                 }
             }
-            if (!this.duracionSabado.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxSabado.isSelected()){
+            if (!this.duracionSabado.getSelectedItem().toString().equalsIgnoreCase("Seleccione") && this.jCheckBoxSabado.isSelected() && gestorVal.validarFormatoHora(this.horaInicioSabado.getText())){
                 horaFin.add(sumarMinutosAHoraInicio(this.horaInicioSabado.getText(),this.duracionSabado.getSelectedItem().toString()));
             }else{
-                if(this.jCheckBoxSabado.isSelected()){
+                if(this.jCheckBoxSabado.isSelected() && gestorVal.validarFormatoHora(this.horaInicioSabado.getText())){
                     //Mostrar mensaje de que falta la duracion
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Sábado.");
                 }
@@ -1057,9 +1097,8 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         //Busco disponibilidad de aulas                                                                                         
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
-                        ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
                         
-                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulasDisponibles);
+                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
                         this.setVisible(false);
@@ -1078,7 +1117,6 @@ public class RegistrarReserva extends javax.swing.JPanel {
                             int cantAlumnosFila;
                             
                             ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
-                            ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
                                                         
                             for(int i=0;i<dias.size();i++){
                                 diaFila.add(dias.get(i));
@@ -1099,13 +1137,13 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                 
                             }
                             
-                            ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulas);
+                            ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas);
                             panelAulas.setImage("/Imagenes/fondoabs.jpg");
                             topFrame.add(panelAulas, BorderLayout.CENTER);
                             this.setVisible(false);
                             topFrame.remove(this);
                             topFrame.setSize(1100,500);
-                            }
+                        }
                             //Sino Imprimo todos los dias y horarios solapados
                             //Trasnformo el Array de dias en un string
                             String mensaje = "Se ha detectado que ya existe reserva para: \n";
@@ -1192,10 +1230,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
         //Convierto el String en int
         int duracionMinutos = Integer.parseInt(textoDuracion);
         //Sumo los minutos a la horaInicio
-        return sumarHorasFecha(horaInicio, duracionMinutos);   
+        return sumarMinutosAUnDate(horaInicio, duracionMinutos);   
     }
     
-    private Date sumarHorasFecha(Date fecha, int minutos){
+    private Date sumarMinutosAUnDate(Date fecha, int minutos){
 	Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha); // Configuramos la fecha que se recibe
         calendar.add(Calendar.MINUTE, minutos);  // numero de minutos a añadir
@@ -1204,14 +1242,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
     }
        
     private Date convertirStringADateFormatoHora(String hora){
-        Date date = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        Date horaInicioDato = null;
+        SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
         try {
-            date = sdf.parse(hora);
-        } catch (ParseException ex) {
+            horaInicioDato = sdfhora.parse(hora);
+        }catch (ParseException ex) {
             Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       return date;
+        } 
+        return horaInicioDato;
     }
     
     private Date convertirStringADateFormatoFecha(String fecha){
@@ -1278,10 +1316,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 try {
                     fechaDato = sdf.parse(textoFecha);
                 } catch (ParseException ex) {
-                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es yyyy-MM-dd (Ej: 2017-12-05).");
+                    
                 }
             }else{
-                topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la fecha es yyyy-MM-dd (Ej: 2017-12-05).");
+                topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la fecha es yyyy-MM-dd (Ej: 2017-12-05).");
             }
                        
             //Si el campo de horaInicio no está vacio
@@ -1289,7 +1327,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 /*Obtengo la horaInicio*/
                 SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
                 String textoHora = this.horaInicio.getText();
-                //Validar que la fecha contenfa solo numeros y : 
+                //Validar que la hora contenga solo numeros y : 
                 if(gestorVal.validarFormatoHora(textoHora)){
                     try {
                         horaInicioDato = sdfhora.parse(textoHora);
@@ -1302,7 +1340,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
                     } 
                 }else{
-                    topFrame.mensajeEmergente("Formato Incorrecto o Datos incorrectos", "Verifique los datos ingresados y tenga en cuenta que el formato para la hora de inicio es hh:mm (Ej: 15:30).");
+                    topFrame.mensajeEmergente("Formato Incorrecto", "El formato para la hora de inicio es hh:mm (Ej: 15:30).");
                 }
                 
                 if(!gestorReserva.validarDiasPosterioresAlActual(diaYHora)){ 

@@ -167,21 +167,25 @@ public class GestorValidacion {
  
     
     public boolean validarFormatoHora(String textoHora){
-        String hora = textoHora.substring(0, 2);//El indice de fin no lo incluye
-        String minutos = textoHora.substring(3);
+        if(textoHora.length() == 5){
+            String hora = textoHora.substring(0, 2);//El indice de fin no lo incluye
+            String minutos = textoHora.substring(3);
         
-        String formato = "\\d{2}:\\d{2}";
-        //Si cumplen con el patron sigo con las comprobaciones de los numeros
-        if(Pattern.matches(formato, textoHora)){
-            int hh = Integer.parseInt(hora);
-            int mm = Integer.parseInt(minutos);
-            //Si la hora esta dentro de las 0-23 y los minutos entre 0-59
-            if(hh>=0 && hh<24 && mm>=0 && mm<60){
-                return true;               
-            }else{
+            String formato = "\\d{2}:\\d{2}";
+            //Si cumplen con el patron sigo con las comprobaciones de los numeros
+            if(Pattern.matches(formato, textoHora)){
+                int hh = Integer.parseInt(hora);
+                int mm = Integer.parseInt(minutos);
+                //Si la hora esta dentro de las 0-23 y los minutos entre 0-59
+                if(hh>=0 && hh<24 && mm>=0 && mm<60){
+                    return true;               
+                }else{
+                    return false;
+                }                 
+            }else{  //Si no cumple el formato devuelvo false
                 return false;
-            }                 
-        }else{  //Si no cumple el formato devuelvo false
+            }
+        }else{
             return false;
         }
     }
