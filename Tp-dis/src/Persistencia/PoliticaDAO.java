@@ -26,13 +26,14 @@ public class PoliticaDAO {
         ArrayList <PoliticaClave> politica = new ArrayList();
         //Conección a la BD y consulta
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
-        Session s = sesion.openSession();
-        Transaction tx = s.beginTransaction();
-        Query q = s.createQuery("from PoliticaClave PC where PC.vigente = 1");
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery("SELECT p " +
+                                          "FROM PoliticaClave p "+
+                                          "WHERE p.activo = 1");
         /*Convierto la consulta en una lista - siempre en esta consulta voy a tener una sola respuesta (id_politica es PK)*/
-        politica = (ArrayList<PoliticaClave>) q.list();
-        tx.commit();
-        s.close();
+        politica = (ArrayList<PoliticaClave>) query.list();
+        session.close();
         /*Devuelvo el único elemento de mi ArrayList*/
         return politica.get(0);
         

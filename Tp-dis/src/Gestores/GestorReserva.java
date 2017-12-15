@@ -8,6 +8,8 @@ package Gestores;
 
 import Modelo.ReservaEsporadica;
 import Modelo.ReservaPeriodica;
+import Persistencia.ActividadUniversitarioDao;
+import Persistencia.DocenteDao;
 import Persistencia.NewHibernateUtil;
 import java.util.List;
 import org.hibernate.Query;
@@ -26,7 +28,15 @@ public class GestorReserva {
     public GestorReserva() {
     }
     
-    public Boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
+    public boolean validarUnicidad(Date fechaAValidar, Date horaAValidar){
+        GestorValidacion gestorVal = new GestorValidacion();
+ 
+        return gestorVal.valUnicidad(fechaAValidar, horaAValidar);
+ 
+    }
+    
+    
+    public boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
  
         GestorValidacion gestorVal = new GestorValidacion();
  
@@ -34,9 +44,40 @@ public class GestorReserva {
  
     }
  
+    public int validarTipoDeDatos(String docenteApellido, String docenteNombre, String catedraDato, String emailDato){
+        GestorValidacion gestorVal = new GestorValidacion();
+        DocenteDao docenteDao = new DocenteDao();
+        ActividadUniversitarioDao actividadDao = new ActividadUniversitarioDao();
+        //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
+        if(gestorVal.validarApellido(docenteNombre) && gestorVal.validarApellido(docenteApellido) && 
+                !docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).isEmpty() &&
+                !actividadDao.verificarExistencia(catedraDato)){
+            return 0;
+        }else{
+            //Si los campos nombre o apellido contienen más que letras o no empiezan con mayuscula inicial
+            if(!gestorVal.validarStringNombreyApellido(docenteNombre) || !gestorVal.validarStringNombreyApellido(docenteApellido)){
+                return 1;
+            }
+            //Si no existe el docente( la lista que devuelve está vacia o no contiene un unico elemento)
+            if(docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).isEmpty() || 
+                 docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).size()  != 1){
+                return 2;
+            }
+            //Si no existe la actividad
+            if(!actividadDao.verificarExistencia(catedraDato)){
+                return 3;
+            }
+        }
+        return 4;
+    }
     
- 
-    public Boolean validarDiasPosterioresAlActual(Date fecha){
+    public boolean validarStringSoloConNumeros(String cadena){
+        GestorValidacion gestorVal = new GestorValidacion();
+        return gestorVal.validarStringSoloConNumeros(cadena);
+    }
+    
+    
+    public boolean validarDiasPosterioresAlActual(Date fecha){
  
         GestorValidacion gestorVal = new GestorValidacion();
  
@@ -45,7 +86,7 @@ public class GestorReserva {
     }
  
     
-    public Boolean reservaEsporadicaActiva(int idReservaEsporadica){
+    public boolean reservaEsporadicaActiva(int idReservaEsporadica){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -58,7 +99,7 @@ public class GestorReserva {
             return true;
     }
     
-    public Boolean reservaPeriodicaActiva(int idReservaPeriodica){
+    public boolean reservaPeriodicaActiva(int idReservaPeriodica){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();

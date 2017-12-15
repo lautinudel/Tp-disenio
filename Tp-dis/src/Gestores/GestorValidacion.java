@@ -6,11 +6,14 @@
 package Gestores;
 
 
+import Persistencia.ReservaEsporadicaDao;
+import Persistencia.ReservaPeriodicaDao;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
+import jdk.nashorn.internal.runtime.regexp.joni.Matcher;
 
 /**
  *
@@ -52,7 +55,15 @@ public class GestorValidacion {
         }
     }
     
-    
+    public boolean validarStringNombreyApellido(String nombre){
+        Pattern pat = Pattern.compile("[A-Z][a-z]*");
+        java.util.regex.Matcher mat = pat.matcher(nombre);
+        if (mat.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public boolean validarStringSoloConNumeros(String cantidad){
             try {
 		Integer.parseInt(cantidad);
@@ -82,7 +93,15 @@ public class GestorValidacion {
  
     }
  
-    
+    public boolean valUnicidad(Date fechaAValidar, Date horaAValidar){
+        ReservaPeriodicaDao reservaPeriodicaDao = new ReservaPeriodicaDao();
+        ReservaEsporadicaDao reservaEsporadicaDao = new ReservaEsporadicaDao();
+        
+        //Comprueb unicidad  en las reservas -- Si ambas me devuelven true (no hay solapamiento) se manda true en cualquier otro caso se manda false
+        return (reservaEsporadicaDao.unicaReserva(fechaAValidar,  horaAValidar) && 
+                reservaPeriodicaDao.unicaReserva(fechaAValidar,  horaAValidar));
+        
+    }
  
     public Boolean valUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
  
@@ -150,7 +169,7 @@ public class GestorValidacion {
     public boolean validarFormatoHora(String textoHora){
         String hora = textoHora.substring(0, 2);//El indice de fin no lo incluye
         String minutos = textoHora.substring(3);
-        Date horaDato;
+        
         String formato = "\\d{2}:\\d{2}";
         //Si cumplen con el patron sigo con las comprobaciones de los numeros
         if(Pattern.matches(formato, textoHora)){
