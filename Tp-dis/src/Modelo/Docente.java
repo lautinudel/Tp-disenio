@@ -75,7 +75,7 @@ public class Docente  implements java.io.Serializable {
     public void setActivo(Byte activo) {
         this.activo = activo;
     }
-    public Set<ActividadUniversitaria> getActividadUniversitarias() {
+    public Set getActividadUniversitarias() {
         return this.actividadUniversitarias;
     }
     
