@@ -6,7 +6,6 @@
 package Gestores;
 
 
-import Modelo.Docente;
 import Modelo.ReservaEsporadica;
 import Modelo.ReservaPeriodica;
 import Persistencia.ActividadUniversitariaDAO;
@@ -49,13 +48,10 @@ public class GestorReserva {
         GestorValidacion gestorVal = new GestorValidacion();
         DocenteDao docenteDao = new DocenteDao();
         ActividadUniversitariaDAO actividadDao = new ActividadUniversitariaDAO();
-        List<Docente> listaDocente = docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato); //size=1
-        
-        boolean actUniv = actividadDao.verificarExistencia(catedraDato); //true
-        
         //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
-        if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && !listaDocente.isEmpty() && actUniv){
-            
+        if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && 
+                !docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).isEmpty() &&
+                !actividadDao.verificarExistencia(catedraDato)){
             return 0;
         }else{
             //Si los campos nombre o apellido contienen más que letras o no empiezan con mayuscula inicial
@@ -63,13 +59,12 @@ public class GestorReserva {
                 return 1;
             }
             //Si no existe el docente( la lista que devuelve está vacia o no contiene un unico elemento)
-            
-            if(listaDocente.isEmpty() || 
-                 listaDocente.size()  != 1){
+            if(docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).isEmpty() || 
+                 docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).size()  != 1){
                 return 2;
             }
             //Si no existe la actividad
-            if(!actUniv){
+            if(!actividadDao.verificarExistencia(catedraDato)){
                 return 3;
             }
         }

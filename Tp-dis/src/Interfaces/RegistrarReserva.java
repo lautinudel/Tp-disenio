@@ -1046,20 +1046,19 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 }
             }
         }
-        //System.out.println("Llego");
+        
         //Valido el nombre, apellido, catedra, email, existencia de docente y de catedra y relacion entre actividad y docente.
         int retorno = gestorReserva.validarTipoDeDatos(docenteApellido,docenteNombre,catedraDato, emailDato);
             
         switch(retorno){
             case 0: 
                     //Si la reserva es periodica
-                    if( tipoReserva == TipoReserva.Periodica){  //FALTA VALIDAR QUE EL DOCENTE DE LA ACT UNIVERSITARIA
-                        //Busco disponibilidad de aulas      
-                        //System.out.println("Llego");
+                    if( tipoReserva == TipoReserva.Periodica){
+                        //Busco disponibilidad de aulas                                                                                         
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
                         ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
-                        System.out.println(aulasDisponibles.size());
+                        
                         ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulasDisponibles);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);

@@ -50,11 +50,11 @@ public class GestorAula {
             
             //Busca las aulas disponibles según las reservas esporádicas:
             listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
-            //System.out.println(listaAulasDisponiblesEsporadica.size());
+            
             //Busca las aulas disponibles según las reservas periódicas:
             if(periodos.get(i)!=PeriodoEnum.Ninguno)
                 listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
-            //System.out.println(listaAulasDisponiblesPeriodica.size());
+            
             
             copia1 = new ArrayList<>(listaAulasDisponiblesEsporadica);
             copia2 = new ArrayList<>(listaAulasDisponiblesPeriodica);
