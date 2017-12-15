@@ -244,13 +244,13 @@ public class AulaDAO {
         Query queryAulaSinReservas = session.createSQLQuery(
             "SELECT a.numeroAula " +
             "FROM Aula a, (SELECT a.numeroAula " +
-            "				FROM Aula a " +
+            "				FROM aula a " +
             "                where a.numeroAula NOT IN( " +
             "						(SELECT DISTINCT e.Aula_numeroAula " +
-            "						 FROM  DiaReservaEsporadica e " +
+            "						 FROM  diareservaesporadica e " +
             "					 UNION DISTINCT " +
             "						SELECT DISTINCT p.Aula_numeroAula " +
-            "						FROM DiaReservaPeriodica p) " +
+            "						FROM diareservaperiodica p) " +
             "				)) t " +
             "WHERE t.numeroAula = a.numeroAula; ");
         

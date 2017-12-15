@@ -43,8 +43,8 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://johnny.heliohost.org:3306/ayrtonco_tp_disenio?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">ayrtonco</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">admin</property>
     <property name="hibernate.connection.password">admin1234</property>
     <mapping resource="Modelo/Docente.hbm.xml"/>
     <mapping resource="Modelo/Bedel.hbm.xml"/>

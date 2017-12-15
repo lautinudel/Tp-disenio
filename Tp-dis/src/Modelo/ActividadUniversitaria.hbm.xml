@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 03/11/2017 21:00:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Modelo.ActividadUniversitaria" table="ActividadUniversitaria" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
+    <class name="Modelo.ActividadUniversitaria" table="actividaduniversitaria" catalog="ayrtonco_tp_disenio" optimistic-lock="version">
         <id name="idActividad" type="java.lang.Integer">
             <column name="idActividad" />
             <generator class="identity" />
