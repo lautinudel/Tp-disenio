@@ -8,7 +8,7 @@ package Gestores;
 
 import Modelo.ReservaEsporadica;
 import Modelo.ReservaPeriodica;
-import Persistencia.ActividadUniversitarioDao;
+import Persistencia.ActividadUniversitariaDAO;
 import Persistencia.DocenteDao;
 import Persistencia.NewHibernateUtil;
 import java.util.List;
@@ -47,9 +47,9 @@ public class GestorReserva {
     public int validarTipoDeDatos(String docenteApellido, String docenteNombre, String catedraDato, String emailDato){
         GestorValidacion gestorVal = new GestorValidacion();
         DocenteDao docenteDao = new DocenteDao();
-        ActividadUniversitarioDao actividadDao = new ActividadUniversitarioDao();
+        ActividadUniversitariaDAO actividadDao = new ActividadUniversitariaDAO();
         //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
-        if(gestorVal.validarApellido(docenteNombre) && gestorVal.validarApellido(docenteApellido) && 
+        if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && 
                 !docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato).isEmpty() &&
                 !actividadDao.verificarExistencia(catedraDato)){
             return 0;

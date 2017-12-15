@@ -6,6 +6,7 @@
 package Interfaces;
 
 import Gestores.GestorAula;
+import Gestores.GestorPeriodo;
 import Gestores.GestorReserva;
 import Gestores.GestorValidacion;
 import Modelo.Aula;
@@ -817,13 +818,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
         ArrayList<Date> horaInicio = new ArrayList();
         ArrayList<Date> horaFin = new ArrayList();
         ArrayList<PeriodoEnum> periodos = new ArrayList();
+        ArrayList<TipoAula> tipoAulas = new ArrayList();
+        
         GestorAula gestorAula = new GestorAula(); 
         GestorReserva gestorReserva = new GestorReserva();
-        ArrayList arregloCantAlumnos = new ArrayList();
         int cantAlumnos = 0;
         PeriodoEnum periodo = PeriodoEnum.Ninguno;
         FechasPeriodo fechasPeriodo = new FechasPeriodo();
-        
+        TipoReserva tipoReserva = null;
 
         //Recupero...
         //Apellido
@@ -857,8 +859,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             }else{
                 topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
             }
-            
-            TipoReserva tipoReserva = TipoReserva.Periodica;
+            tipoReserva = TipoReserva.Periodica;
             //Periodo
             //Cuatrimestre (si no esta vacio)
             if (this.listaPeriodo.getSelectedItem().toString().equals("Cuatrimestral")){
@@ -871,22 +872,46 @@ public class RegistrarReserva extends javax.swing.JPanel {
             }
             //Dias
             if (this.jCheckBoxLunes.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Lunes"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("lunes"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (this.jCheckBoxMartes.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Martes"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("martes"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (this.jCheckBoxMiercoles.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Miercoles"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("miércoles"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (this.jCheckBoxJueves.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Jueves"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("jueves"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (this.jCheckBoxViernes.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Viernes"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("viernes"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (this.jCheckBoxSabado.isSelected()){
-                dias.add(convertirStringADateFormatoFecha("Sabado"));
+                try {
+                    dias.add(convertirStringADateFormatoFechaDia("sábado"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(RegistrarReserva.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             //HoraInicio
             //Si ingresaron algún horario y el checkbox del dia está activado...
@@ -991,12 +1016,12 @@ public class RegistrarReserva extends javax.swing.JPanel {
             for (int i=0; i< dias.size(); i++){
                 periodos.add(periodo);
             }
-            for(int i=0; i<dias.size(); i++){
-                arregloCantAlumnos.add(this.cantidadAlumnos);            
-            }
         }else{  //Si no es periodica es esporádica (no hay otra alternativa) y si tiene al menos una fila
             if(tabla.getRowCount()>0){
-                TipoReserva tipoReserva = TipoReserva.Esporadica;
+                tipoReserva = TipoReserva.Esporadica;
+                GestorPeriodo gestorPeriodo = new GestorPeriodo();
+                fechasPeriodo = gestorPeriodo.getPeriodo();
+                
                 Date inicioPrimerCuatrimestre = fechasPeriodo.getInicioPrimerCuatrimestre();
                 Date finPrimerCuatrimestre = fechasPeriodo.getFinPrimerCuatrimestre();
                 Date inicioSegundoCuatrimestre = fechasPeriodo.getInicioSegundoCuatrimestre();
@@ -1008,7 +1033,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     dias.add(convertirStringADateFormatoFecha(this.tabla.getModel().getValueAt(i, 0).toString()));
                     horaInicio.add(convertirStringADateFormatoHora(this.tabla.getModel().getValueAt(i, 1).toString()));
                     horaFin.add(sumarMinutosAHoraInicio(this.tabla.getModel().getValueAt(i, 1).toString(),this.tabla.getModel().getValueAt(i, 2).toString()));
-                    arregloCantAlumnos.add(this.tabla.getModel().getValueAt(i, 4));
+                    tipoAulas.add(convertirATipoAula(this.tabla.getModel().getValueAt(i, 3).toString()));
                     if(dias.get(i).compareTo(inicioPrimerCuatrimestre)>=0 && dias.get(i).compareTo(finPrimerCuatrimestre)<=0){
                         periodos.add(PeriodoEnum.PrimerCuatrimestre);
                     }else{
@@ -1022,25 +1047,18 @@ public class RegistrarReserva extends javax.swing.JPanel {
             }
         }
         
-        //Valido el nombre, apellido, catedra, email, existencia de docente y de catedra.
+        //Valido el nombre, apellido, catedra, email, existencia de docente y de catedra y relacion entre actividad y docente.
         int retorno = gestorReserva.validarTipoDeDatos(docenteApellido,docenteNombre,catedraDato, emailDato);
             
         switch(retorno){
-            case 0: //Validar Unicidad
-                    ArrayList<Date> diasSolapados = new ArrayList<Date>();
-                    ArrayList<Date> horariosSolapados = new ArrayList<Date>();
-                    for(int i=0;i<dias.size();i++){
-                        if(!gestorReserva.validarUnicidad(dias.get(i), horaInicio.get(i))){
-                            diasSolapados.add(dias.get(i));
-                            horariosSolapados.add(horaInicio.get(i));
-                        }
-                    }
-                    //Si no hay dias solapados (lo de los horarios está demás)
-                    if(diasSolapados.isEmpty() && horariosSolapados.isEmpty()){
-                        //Busco disponibilidad de aulas                                                                                         //ACA HAY QUE MANDAR UN ARRAY CON LA CANTIDAD DE ALUNMOS!!!! (arregloCantAlumnos)
+            case 0: 
+                    //Si la reserva es periodica
+                    if( tipoReserva == TipoReserva.Periodica){
+                        //Busco disponibilidad de aulas                                                                                         
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
                         ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
+                        
                         ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulasDisponibles);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
@@ -1048,18 +1066,68 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         topFrame.remove(this);
                         topFrame.setSize(1100,500);
                     }else{
-                        //Sino Imprimo todos los dias y horarios solapados
-                        //Trasnformo el Array de dias en un string
-                        String mensaje = "Se ha detectado que ya existe reserva para: \n";
-                        topFrame.mensajeEmergente("Dias con problemas", mensaje.concat(obtenerStringDeUnArrayDeDate(dias,horaInicio)));
-                    }
-                    break;
+                        //Si no hay dias solapados (lo de los horarios está demás) y la reserva es esporadica
+                        
+                            ArrayList<ArrayList<Aula>> aulasDisponibles = new ArrayList (new ArrayList());
+                            ArrayList<ArrayList<Aula>> aulas = new ArrayList (new ArrayList());
+                            ArrayList<Date> diaFila = new ArrayList();
+                            ArrayList<Date> horaInicioFila = new ArrayList();
+                            ArrayList<Date> horaFinFila = new ArrayList();
+                            ArrayList<PeriodoEnum> periodoFila = new ArrayList();
+                            TipoAula tipoAulaFila;
+                            int cantAlumnosFila;
+                            
+                            ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
+                            ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
+                                                        
+                            for(int i=0;i<dias.size();i++){
+                                diaFila.add(dias.get(i));
+                                horaInicioFila.add(horaInicio.get(i));
+                                horaFinFila.add(horaFin.get(i));
+                                periodoFila.add(periodos.get(i));
+                                cantAlumnosFila = (int) this.tabla.getModel().getValueAt(i, 4);
+                                tipoAulaFila = tipoAulas.get(i);
+                                //En cada indice voy a tener el dia y todas las reservas disponibles
+                                aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila, tipoAulaFila);
+                                aulas.add(aulasDisponibles.get(i));
+                                aulasDisponibles.clear();
+                                diaFila.clear();
+                                horaInicioFila.clear();
+                                horaFinFila.clear();
+                                periodoFila.clear();
+                                
+                            }
+                            
+                            ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulas);
+                            panelAulas.setImage("/Imagenes/fondoabs.jpg");
+                            topFrame.add(panelAulas, BorderLayout.CENTER);
+                            this.setVisible(false);
+                            topFrame.remove(this);
+                            topFrame.setSize(1100,500);
+                            }
+                            //Sino Imprimo todos los dias y horarios solapados
+                            //Trasnformo el Array de dias en un string
+                            String mensaje = "Se ha detectado que ya existe reserva para: \n";
+                            topFrame.mensajeEmergente("Dias con problemas", mensaje.concat(obtenerStringDeUnArrayDeDate(dias,horaInicio)));
+                        
+                        break;
             case 1: topFrame.mensajeEmergente("Datos Incorrectos", "El nombre y el apellido debe contener solo letras.");break;
             case 2: topFrame.mensajeEmergente("Docente no registrado", "El docente ingresado no se encuentra registrado. Por favor verifique que se halla ingresado correctamente los datos.");break;
             case 3: topFrame.mensajeEmergente("Actividad Incorrecta", "No se encuentra la actividad universitaria ingresada.");break;
         }
            
     }//GEN-LAST:event_aceptarActionPerformed
+    
+    private TipoAula convertirATipoAula(String tipo){
+        TipoAula tipoAulaConvertido = TipoAula.SinRecursos;
+        switch (tipo){
+           case "Aula informatica": tipoAulaConvertido = TipoAula.Informatica;break;
+           case "Aula multimedio": tipoAulaConvertido = TipoAula.Multimedios;break;
+           case "Aula sin recursos adicionales": tipoAulaConvertido = TipoAula.SinRecursos;break;
+        }
+        return tipoAulaConvertido;
+    }
+    
     private ArrayList<String> convertirArrayDeDateAArrayStringFormatoDia(ArrayList<Date> dias){
         ArrayList<String> retorno = new ArrayList<String>();
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -1142,6 +1210,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
         }
        return date;
     }
+    
+    private Date convertirStringADateFormatoFechaDia(String diaSemana) throws ParseException{
+        SimpleDateFormat dayFormat = new SimpleDateFormat("E", new Locale("es", "ES"));
+        Date date = dayFormat.parse(diaSemana);
+       return date;
+    }
+    
+    
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
         // TODO add your handling code here:
         

@@ -41,7 +41,7 @@ public class BedelDAO {
         if(session.get(Bedel.class, username)!=null) r=true; 
         else r=false;
         tx.commit();*/
-        Query query = session.createQuery("FROM Bedel WHERE username = :username");
+        Query query = session.createQuery("SELECT b FROM Bedel b WHERE username = :username");
         query.setParameter("username", username);
         List<Bedel> lista = query.list();
         if(!lista.isEmpty()) r=true;
@@ -57,7 +57,7 @@ public class BedelDAO {
         /*Transaction tx = session.beginTransaction();
         b=(Bedel)session.get(Bedel.class, username);
         tx.commit();*/
-        Query query = session.createQuery("FROM Bedel WHERE username = :username");
+        Query query = session.createQuery("SELECT b FROM Bedel b WHERE username = :username");
         query.setParameter("username", username);
         List<Bedel> lista = query.list();
         b=lista.get(0);

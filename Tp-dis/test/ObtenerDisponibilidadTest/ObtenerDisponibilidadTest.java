@@ -6,6 +6,7 @@
 package ObtenerDisponibilidadTest;
 
 import Gestores.GestorAula;
+import Interfaces.RegistrarReserva;
 import Modelo.Aula;
 import Modelo.DiaReservaEsporadica;
 import Modelo.PeriodoEnum;
@@ -39,7 +40,7 @@ import org.hibernate.SessionFactory;
  */
 public class ObtenerDisponibilidadTest {
     
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ParseException {
         /*
         AulaDAO dao = new AulaDAO();
         List<Aula> lista = dao.obtenerListaDeAulas(TipoAula.SinRecursos, 20);
@@ -185,7 +186,7 @@ public class ObtenerDisponibilidadTest {
         ArrayList<Date> unDiaHF = new ArrayList<>();
         unDiaHF.add(timeFin6);
         
-        
+        /*
         GestorAula gestorAula = new GestorAula();
         ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(dias, horasInicio, horasFin, periodos, 35, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
@@ -194,7 +195,7 @@ public class ObtenerDisponibilidadTest {
             }
             System.out.print("\n");
         }
-        
+        */
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
         prueba.add(0, dias);
@@ -358,8 +359,18 @@ public class ObtenerDisponibilidadTest {
        System.out.println(diaViernesString);
        System.out.println(diaSabadoString);
        */
+       String diaLunes = "lunes";
+       //Date datechiripiorca = null;
        
-       
+       SimpleDateFormat dayFormat = new SimpleDateFormat("E", new Locale("es", "ES"));
+        Date datechiripiorca = dayFormat.parse(diaLunes);
+        
+        
+        System.out.println(datechiripiorca);
+        
+        Date today = new Date();
+        System.out.println(today);
+        
        exit(0);
     }
 }

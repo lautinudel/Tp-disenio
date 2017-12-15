@@ -30,19 +30,22 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
      */
     public ReservaAulasDisponibles(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles) {
         initComponents();
-        cargarDatos(dias, horaInicio, aulasDisponibles);
+        cargarDatosPeriodica(dias, horaInicio, aulasDisponibles);
     }
     
-    private void cargarDatos(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles){
+    
+    
+    private void cargarDatosPeriodica(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles){
         
         for(int i=0;i<dias.size();i++){
             for(int j=0;j<aulasDisponibles.size();j++){
-                Object row[] = {dias.get(i),horaInicio.get(i),aulasDisponibles.get(i).get(j)}; 
+                Object row[] = {false,dias.get(i),horaInicio.get(i),aulasDisponibles.get(i).get(j)}; 
                 /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
                 ((DefaultTableModel)this.jTable1.getModel()).addRow(row);
             }
         }
     } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,12 +74,19 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Fecha", "Hora de inicio", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Televisor", "Computadoras", "DVD", "Proyector"
+                "Selección", "Fecha", "Hora de inicio", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Televisor", "Computadoras", "DVD", "Proyector"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, true, false
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
