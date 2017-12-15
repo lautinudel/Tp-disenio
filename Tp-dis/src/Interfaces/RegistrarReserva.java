@@ -1056,7 +1056,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     if( tipoReserva == TipoReserva.Periodica){
                         //Busco disponibilidad de aulas                                                                                         
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
-                        ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
+                        ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
                         ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
                         
                         ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto,horaInicioTexto, aulasDisponibles);
@@ -1087,9 +1087,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                 periodoFila.add(periodos.get(i));
                                 cantAlumnosFila = (int) this.tabla.getModel().getValueAt(i, 4);
                                 tipoAulaFila = tipoAulas.get(i);
-                                //En cada indice voy a tener el dia y todas las reservas disponibles
+                                //Voy a tener un solo dia y todas las aulas disponibles
                                 aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila, tipoAulaFila);
-                                aulas.add(aulasDisponibles.get(i));
+                                            //Agrego la unica posicion del array
+                                aulas.add(aulasDisponibles.get(0));
                                 aulasDisponibles.clear();
                                 diaFila.clear();
                                 horaInicioFila.clear();
@@ -1114,6 +1115,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             case 1: topFrame.mensajeEmergente("Datos Incorrectos", "El nombre y el apellido debe contener solo letras.");break;
             case 2: topFrame.mensajeEmergente("Docente no registrado", "El docente ingresado no se encuentra registrado. Por favor verifique que se halla ingresado correctamente los datos.");break;
             case 3: topFrame.mensajeEmergente("Actividad Incorrecta", "No se encuentra la actividad universitaria ingresada.");break;
+            case 4: topFrame.mensajeEmergente("Actividad Incorrecta", "El docente ingresado no da la actividad universitaria ingresada");
         }
            
     }//GEN-LAST:event_aceptarActionPerformed
@@ -1126,6 +1128,18 @@ public class RegistrarReserva extends javax.swing.JPanel {
            case "Aula sin recursos adicionales": tipoAulaConvertido = TipoAula.SinRecursos;break;
         }
         return tipoAulaConvertido;
+    }
+    
+    private ArrayList<String> convertirArrayDeDateAArrayStringFormatoDiaSemana(ArrayList<Date> dias){
+        ArrayList<String> retorno = new ArrayList<String>();
+        SimpleDateFormat diaSemana = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
+        String diaString;
+        for(int i=0;i<dias.size();i++){
+           //De Date a String para FECHA:
+            diaString = diaSemana.format(dias.get(i));
+            retorno.add(diaString);
+        }
+        return retorno;
     }
     
     private ArrayList<String> convertirArrayDeDateAArrayStringFormatoDia(ArrayList<Date> dias){

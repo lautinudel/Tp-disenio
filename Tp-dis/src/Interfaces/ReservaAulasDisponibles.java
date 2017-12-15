@@ -38,7 +38,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     private void cargarDatosPeriodica(ArrayList<String> dias,ArrayList<String> horaInicio, ArrayList<ArrayList<Aula>> aulasDisponibles){
         
         for(int i=0;i<dias.size();i++){
-            for(int j=0;j<aulasDisponibles.size();j++){
+            for(int j=0;j<aulasDisponibles.get(i).size();j++){
                 Object row[] = {false,dias.get(i),horaInicio.get(i),aulasDisponibles.get(i).get(j)}; 
                 /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
                 ((DefaultTableModel)this.jTable1.getModel()).addRow(row);

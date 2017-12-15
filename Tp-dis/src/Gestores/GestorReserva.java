@@ -69,8 +69,8 @@ public class GestorReserva {
            if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && !listaDocente.isEmpty() && actUniv){
  
  
-            return 0;
-        }else{
+                return 0;
+            }else{
             //Si los campos nombre o apellido contienen más que letras o no empiezan con mayuscula inicial
             if(!gestorVal.validarStringNombreyApellido(docenteNombre) || !gestorVal.validarStringNombreyApellido(docenteApellido)){
                 return 1;
@@ -85,7 +85,7 @@ public class GestorReserva {
  
                 return 3;
             }
-        }
+            }
         }else return 4;
  
         return 5;
