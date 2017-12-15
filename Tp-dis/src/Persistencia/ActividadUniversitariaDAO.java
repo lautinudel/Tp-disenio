@@ -45,7 +45,8 @@ public class ActividadUniversitariaDAO {
             session.close();
             return true;
         }else{
-            return true;
+            session.close();
+            return false;
         }
     }
 }
