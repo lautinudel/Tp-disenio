@@ -1158,7 +1158,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                             //Si no hay dias con conflicto
                             if(diasConConflicto.isEmpty() && horaInicioConConflicto.isEmpty()){
                                 
-                                //NO VUELVE DE ESTO!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                //el problema es el tipo aula!!!!!!!!!!!
                                 ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, tipoAulaDato);
                                 
                                  

@@ -53,6 +53,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
             row[2] = horaInicioTexto.get(i);
             //Hora de fin
             row[3] = horaFinTexto.get(i);
+            //En este for esta el problema
             for(int j=0;j<aulasDisponibles.get(i).size();j++){
                 //Piso
                 switch (aulasDisponibles.get(i).get(j).getPiso()){
@@ -74,22 +75,26 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     case 0: row[8] = "No"; break;
                     case 1: row[8] = "Si"; break;
                 }  
+                             
+                            
                 if(tipoAula == TipoAula.SinRecursos){
+                    System.out.println(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores());
                     row[9] = aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores();
-                    for(int k = 10; k<cantColumnas; i++){
+                    /*for(int k = 10; k<cantColumnas; i++){
                         row[k] = "N/A";
-                    }
+                    }*/
                 }
+                
                 if(tipoAula == TipoAula.Informatica){
-                    row[9] = "N/A";
+                    //row[9] = "N/A";
                     row[10] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
                     row[11] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion();
-                    for(int k = 11; k<cantColumnas; i++){
+                    /*for(int k = 11; k<cantColumnas; i++){
                         row[k] = "N/A";
-                    }
+                    }*/
                 }
                 if(tipoAula == TipoAula.Multimedios){
-                    row[9] = "N/A";
+                    //row[9] = "N/A";
                     row[10] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
                     row[11] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
                     row[12] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor();
