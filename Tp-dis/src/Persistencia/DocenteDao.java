@@ -33,6 +33,7 @@ public class DocenteDao {
         query.setParameter("variableEmail", email);
         
         List<Docente> retorno = query.list();
+        
         int temp = retorno.get(0).getActividadUniversitarias().size();
  
         temp = retorno.get(0).getReservaEsporadicas().size();

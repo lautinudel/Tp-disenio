@@ -827,6 +827,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         PeriodoEnum periodo = PeriodoEnum.Ninguno;
         FechasPeriodo fechasPeriodo = new FechasPeriodo();
         TipoReserva tipoReserva = null;
+        boolean tablaVacia = false;
 
         //Recupero...
         //Apellido
@@ -916,8 +917,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 }
             }
             
-            SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
-            
+                       
             //HoraInicio
             //Si ingresaron algún horario y el checkbox del dia está activado...
             if (!this.horaInicioLunes.getText().isEmpty() && this.jCheckBoxLunes.isSelected() && gestorVal.validarFormatoHora(this.horaInicioLunes.getText())){
@@ -1057,6 +1057,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                 periodos.add(periodo);
             }
         }else{  //Si no es periodica es esporádica (no hay otra alternativa) y si tiene al menos una fila
+            tablaVacia = false;
             if(tabla.getRowCount()>0){
                 tipoReserva = TipoReserva.Esporadica;
                 GestorPeriodo gestorPeriodo = new GestorPeriodo();
@@ -1084,6 +1085,9 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         }
                     }
                 }
+            }else{
+                tablaVacia = true;
+                topFrame.mensajeEmergente("Error", "No se ha ingresado ninguna reserva");
             }
         }
         
@@ -1098,15 +1102,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
                         
-                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles);
+                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles, tipoAulaDato);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
                         this.setVisible(false);
                         topFrame.remove(this);
                         topFrame.setSize(1100,500);
                     }else{
-                        //Si no hay dias solapados (lo de los horarios está demás) y la reserva es esporadica
-                        
+                        if(!tablaVacia){
                             ArrayList<ArrayList<Aula>> aulasDisponibles = new ArrayList (new ArrayList());
                             ArrayList<ArrayList<Aula>> aulas = new ArrayList (new ArrayList());
                             ArrayList<Date> diaFila = new ArrayList();
@@ -1137,18 +1140,42 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                 
                             }
                             
-                            ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas);
-                            panelAulas.setImage("/Imagenes/fondoabs.jpg");
-                            topFrame.add(panelAulas, BorderLayout.CENTER);
-                            this.setVisible(false);
-                            topFrame.remove(this);
-                            topFrame.setSize(1100,500);
+                            //Si hay alguna fecha que no tiene aula para la reserva
+                            ArrayList<Date> diasConConflicto = new ArrayList();
+                            ArrayList<Date> horaInicioConConflicto = new ArrayList();
+                            
+                            for(int i=0;i<dias.size();i++){ 
+                                //Si no hay aulas...
+                                if(aulas.get(i).isEmpty()){ 
+                                    //Agrego al dia en el array 
+                                    diasConConflicto.add(dias.get(i)); 
+                                    //... y también la hora Inicio
+                                    horaInicioConConflicto.add(horaInicio.get(i)); 
+                                } 
+                            } 
+                            
+                                                        
+                            //Si no hay dias con conflicto
+                            if(diasConConflicto.isEmpty() && horaInicioConConflicto.isEmpty()){
+                                
+                                //NO VUELVE DE ESTO!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, tipoAulaDato);
+                                
+                                 
+                                panelAulas.setImage("/Imagenes/fondoabs.jpg");
+                                topFrame.add(panelAulas, BorderLayout.CENTER);
+                                this.setVisible(false);
+                                topFrame.remove(this);
+                                topFrame.setSize(1100,500);
+                            }else{
+                                //Sino Imprimo todos los dias y horarios solapados
+                                //Transformo el Array de dias en un string
+                                String mensaje = "Se ha detectado que ya existe reserva para: \n";
+                                                                                    
+                                topFrame.mensajeEmergente("Dias con problemas",mensaje.concat(obtenerStringDeUnArrayDeDate(diasConConflicto,horaInicioConConflicto)));
+                            }   
                         }
-                            //Sino Imprimo todos los dias y horarios solapados
-                            //Trasnformo el Array de dias en un string
-                            String mensaje = "Se ha detectado que ya existe reserva para: \n";
-                            topFrame.mensajeEmergente("Dias con problemas", mensaje.concat(obtenerStringDeUnArrayDeDate(dias,horaInicio)));
-                        
+                    }    
                         break;
             case 1: topFrame.mensajeEmergente("Datos Incorrectos", "El nombre y el apellido debe contener solo letras.");break;
             case 2: topFrame.mensajeEmergente("Docente no registrado", "El docente ingresado no se encuentra registrado. Por favor verifique que se halla ingresado correctamente los datos.");break;
@@ -1197,7 +1224,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
     
     private ArrayList<String> convertirArrayDeDateAArrayStringFormatoHora(ArrayList<Date> horaInicio){
         ArrayList<String> retorno = new ArrayList<String>();
-        Format formatter = new SimpleDateFormat("hh:mm");
+        Format formatter = new SimpleDateFormat("HH:mm");
         String horaString;
         for(int i=0;i<horaInicio.size();i++){
            //De Date a String para FECHA:
@@ -1210,7 +1237,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
     private String obtenerStringDeUnArrayDeDate(ArrayList<Date> dias,ArrayList<Date> horaInicio){
        String retorno = null;
        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-       Format formatter2 = new SimpleDateFormat("hh:mm");
+       Format formatter2 = new SimpleDateFormat("HH:mm");
        String diaString , horaString;
        for(int i=0;i<dias.size();i++){
            //Transformar el dia y horario en String
@@ -1226,11 +1253,11 @@ public class RegistrarReserva extends javax.swing.JPanel {
     
     private Date sumarMinutosAHoraInicio (String textoHoraInicio,String textoDuracion){
         //Convierto el String en Date
-        Date horaInicio = convertirStringADateFormatoHora(textoHoraInicio);
+        Date horaInicioConvertido = convertirStringADateFormatoHora(textoHoraInicio);
         //Convierto el String en int
         int duracionMinutos = Integer.parseInt(textoDuracion);
         //Sumo los minutos a la horaInicio
-        return sumarMinutosAUnDate(horaInicio, duracionMinutos);   
+        return sumarMinutosAUnDate(horaInicioConvertido, duracionMinutos);   
     }
     
     private Date sumarMinutosAUnDate(Date fecha, int minutos){
@@ -1243,7 +1270,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
        
     private Date convertirStringADateFormatoHora(String hora){
         Date horaInicioDato = null;
-        SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdfhora = new SimpleDateFormat("HH:mm");
         try {
             horaInicioDato = sdfhora.parse(hora);
         }catch (ParseException ex) {
@@ -1325,7 +1352,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
             //Si el campo de horaInicio no está vacio
             if(!this.horaInicio.getText().isEmpty()){
                 /*Obtengo la horaInicio*/
-                SimpleDateFormat sdfhora = new SimpleDateFormat("hh:mm");
+                SimpleDateFormat sdfhora = new SimpleDateFormat("HH:mm");
                 String textoHora = this.horaInicio.getText();
                 //Validar que la hora contenga solo numeros y : 
                 if(gestorVal.validarFormatoHora(textoHora)){
@@ -1436,7 +1463,6 @@ public class RegistrarReserva extends javax.swing.JPanel {
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         int row = this.tabla.getSelectedRow(); //fila seleccionada
         if(row >= 0){
-            JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
             DefaultTableModel modelo = (DefaultTableModel)tabla.getModel(); 
             modelo.removeRow(row); 
        }

@@ -29,13 +29,13 @@ public class GestorReserva {
 
     public GestorReserva() {
     }
-    
+    /*
     public boolean validarUnicidad(Date fechaAValidar, Date horaAValidar){
         GestorValidacion gestorVal = new GestorValidacion();
  
         return gestorVal.valUnicidad(fechaAValidar, horaAValidar);
  
-    }
+    }*/
     
     
     public boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){

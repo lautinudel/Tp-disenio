@@ -7,6 +7,7 @@ package Interfaces;
 
 import Gestores.GestorAula;
 import Modelo.Aula;
+import Modelo.TipoAula;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -30,21 +31,71 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     /**
      * Creates new form ReservaAulasDisponibles
      */
-    public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles) {
+    public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles, TipoAula tipoAula) {
         initComponents();
-        cargarDatosPeriodica(diasTexto, dias, horaFin, horaInicio, aulasDisponibles);
+        cargarDatosPeriodica(diasTexto, dias, horaFin, horaInicio, aulasDisponibles, tipoAula);
     }
     
     
     
-    private void cargarDatosPeriodica(ArrayList<String> diasTexto, ArrayList<Date> dias,ArrayList<Date> horaInicio, ArrayList<Date> horaFin, ArrayList<ArrayList<Aula>> aulasDisponibles){
-        
+    private void cargarDatosPeriodica(ArrayList<String> diasTexto, ArrayList<Date> dias,ArrayList<Date> horaInicio, ArrayList<Date> horaFin, ArrayList<ArrayList<Aula>> aulasDisponibles, TipoAula tipoAula){
+        int cantColumnas = this.jTable1.getColumnCount();
         ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
         ArrayList<String> horaFinTexto = convertirArrayDeDateAArrayStringFormatoHora(horaFin);
+        Object row[] = new Object[cantColumnas];
         
         for(int i=0;i<diasTexto.size();i++){
+            //Seleccion
+            row[0] = false;
+            //Fecha
+            row[1] = diasTexto.get(i);
+            //Hora de inicio
+            row[2] = horaInicioTexto.get(i);
+            //Hora de fin
+            row[3] = horaFinTexto.get(i);
             for(int j=0;j<aulasDisponibles.get(i).size();j++){
-                Object row[] = {false,diasTexto.get(i),horaInicioTexto.get(i),horaFinTexto.get(i),aulasDisponibles.get(i).get(j)}; 
+                //Piso
+                switch (aulasDisponibles.get(i).get(j).getPiso()){
+                    case 0: row[4] = "Planta baja"; break;
+                    case 1: row[4] = "Primer piso"; break;
+                    case 2: row[4] = "Segundo piso"; break;
+                    case 3: row[4] = "Tercer piso"; break;
+                }
+                //Aula disponible
+                row[5] = aulasDisponibles.get(i).get(j).getNumeroAula();
+                //Capacidad
+                row[6] = aulasDisponibles.get(i).get(j).getCapacidad();
+                //Tipo Pizarron
+                switch (aulasDisponibles.get(i).get(j).getTipoPizarron()){
+                    case 0: row[7] = "Para tiza"; break;
+                    case 1: row[7] = "Para tinta"; break;
+                }
+                switch(aulasDisponibles.get(i).get(j).getAireAcondicionado()){
+                    case 0: row[8] = "No"; break;
+                    case 1: row[8] = "Si"; break;
+                }  
+                if(tipoAula == TipoAula.SinRecursos){
+                    row[9] = aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores();
+                    for(int k = 10; k<cantColumnas; i++){
+                        row[k] = "N/A";
+                    }
+                }
+                if(tipoAula == TipoAula.Informatica){
+                    row[9] = "N/A";
+                    row[10] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
+                    row[11] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion();
+                    for(int k = 11; k<cantColumnas; i++){
+                        row[k] = "N/A";
+                    }
+                }
+                if(tipoAula == TipoAula.Multimedios){
+                    row[9] = "N/A";
+                    row[10] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
+                    row[11] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
+                    row[12] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor();
+                    row[13] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getDvd();
+                }
+                
                 /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
                 ((DefaultTableModel)this.jTable1.getModel()).addRow(row);
             }
@@ -52,13 +103,13 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     } 
     
     
-    private ArrayList<String> convertirArrayDeDateAArrayStringFormatoHora(ArrayList<Date> horaInicio){
+    private ArrayList<String> convertirArrayDeDateAArrayStringFormatoHora(ArrayList<Date> horas){
         ArrayList<String> retorno = new ArrayList();
-        Format formatter = new SimpleDateFormat("hh:mm");
+        Format formatter = new SimpleDateFormat("HH:mm");
         String horaString;
-        for(int i=0;i<horaInicio.size();i++){
+        for(int i=0;i<horas.size();i++){
            //De Date a String para FECHA:
-            horaString = formatter.format(horaInicio.get(i));
+            horaString = formatter.format(horas.get(i));
             retorno.add(horaString);
         }
         return retorno;
@@ -92,14 +143,14 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Selección", "Fecha", "Hora de inicio", "Hora de fin", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Televisor", "Computadoras", "DVD", "Proyector"
+                "Selección", "Fecha", "Hora de inicio", "Hora de fin", "Piso", "Aula disponible", "Capacidad", "Tipo pizarron", "Aire acondicionado", "Ventilador", "Computadoras", "Proyector", "Televisor", "DVD"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, true, false, false, false, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

@@ -92,7 +92,7 @@ public class GestorValidacion {
         
  
     }
- 
+ /*
     public boolean valUnicidad(Date fechaAValidar, Date horaAValidar){
         ReservaPeriodicaDao reservaPeriodicaDao = new ReservaPeriodicaDao();
         ReservaEsporadicaDao reservaEsporadicaDao = new ReservaEsporadicaDao();
@@ -101,7 +101,7 @@ public class GestorValidacion {
         return (reservaEsporadicaDao.unicaReserva(fechaAValidar,  horaAValidar) && 
                 reservaPeriodicaDao.unicaReserva(fechaAValidar,  horaAValidar));
         
-    }
+    }*/
  
     public Boolean valUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
  
