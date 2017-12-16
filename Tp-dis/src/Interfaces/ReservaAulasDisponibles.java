@@ -76,29 +76,41 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     case 1: row[8] = "Si"; break;
                 }  
                              
-                            
-                if(tipoAula == TipoAula.SinRecursos){
-                    System.out.println(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores());
-                    row[9] = aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores();
-                    /*for(int k = 10; k<cantColumnas; i++){
-                        row[k] = "N/A";
-                    }*/
-                }
                 
-                if(tipoAula == TipoAula.Informatica){
-                    //row[9] = "N/A";
-                    row[10] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
-                    row[11] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion();
-                    /*for(int k = 11; k<cantColumnas; i++){
-                        row[k] = "N/A";
-                    }*/
+                //Aulas sin recursos adicionales
+                if(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales() != null){
+                    switch(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores()){
+                        case 0: row[9] = "No"; break;
+                        case 1: row[9] = "Si"; break;
+                    } 
                 }
-                if(tipoAula == TipoAula.Multimedios){
-                    //row[9] = "N/A";
-                    row[10] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
-                    row[11] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora();
-                    row[12] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor();
-                    row[13] = aulasDisponibles.get(i).get(j).getAulaMultimedio().getDvd();
+                //Aula informatica
+                if(aulasDisponibles.get(i).get(j).getAulaInformatica() != null){
+                    row[10] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
+                    
+                    switch(aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion()){
+                        case 0: row[11] = "No"; break;
+                        case 1: row[11] = "Si"; break;
+                    }
+                }
+                //Aula Multimedio
+                if(aulasDisponibles.get(i).get(j).getAulaMultimedio() != null){
+                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora()){
+                        case 0: row[10] = "No"; break;
+                        case 1: row[10] = "Si"; break;
+                    }
+                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getCanion()){
+                        case 0: row[11] = "No"; break;
+                        case 1: row[11] = "Si"; break;
+                    }
+                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor()){
+                        case 0: row[12] = "No"; break;
+                        case 1: row[12] = "Si"; break;
+                    }
+                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getDvd()){
+                        case 0: row[13] = "No"; break;
+                        case 1: row[13] = "Si"; break;
+                    }
                 }
                 
                 /*Recupero el modelo de la tabla y agrego las filas a la tabla*/
