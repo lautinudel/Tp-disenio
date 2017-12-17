@@ -44,7 +44,7 @@ public class GestorAutenticacion {
                     }else cAnterior=c;
                 }            
             }
-                    
+                  
             //verifico si la clave concuerda
             if(cb.getId().getValor().equals(pass) && cb.getId().getBedelUsername().equals(b.getUsername())){
                 //ir al menu de bedel

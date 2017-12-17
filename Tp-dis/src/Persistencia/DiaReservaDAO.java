@@ -28,6 +28,7 @@ public class DiaReservaDAO {
         session.save(diaReserva);
         tx.commit();
         session.close();
+       
     }
     
     public void registrar(DiaReservaEsporadica diaReserva){

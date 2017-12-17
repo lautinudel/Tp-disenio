@@ -94,7 +94,8 @@ public class GestorBedel {
                     ClaveBedelId clave = new ClaveBedelId(pass,username,new Date());
                     ClaveBedel claveBedel = new ClaveBedel(clave,b);
                     b.getClaveBedels().add(claveBedel);
-                    bedeldao.modificarBedel(nombre, apellido, username, turno, claveBedel);
+                    if(turno.equals("Mañana")) bedeldao.modificarBedel(nombre, apellido, username, "Maniana", claveBedel);
+                    else bedeldao.modificarBedel(nombre, apellido, username, turno, claveBedel);
                 }else return 1;
                     
             }else{ //no se cambio la pass

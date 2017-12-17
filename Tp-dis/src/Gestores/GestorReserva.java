@@ -66,19 +66,40 @@ public class GestorReserva {
         GestorValidacion gestorVal = new GestorValidacion();
         GestorDocente gestorDocente = new GestorDocente();
         GestorActividad gestorActividad = new GestorActividad();
-        List<Docente> listaDocente = gestorDocente.verificarExistencia(docenteApellido, docenteNombre, emailDato); //size=1
+        
  
-        boolean actUniv = gestorActividad.verificarExistencia(catedraDato); //true
+        boolean actUniv = gestorActividad.verificarExistencia(catedraDato); 
         //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
         boolean encontrado=false;
  
-        for(ActividadUniversitaria au : listaDocente.get(0).getActividadUniversitarias()){
+        /*for(ActividadUniversitaria au : listaDocente.get(0).getActividadUniversitarias()){
  
             if(au.getNombre().equals(catedraDato)) encontrado=true;
  
-        }
- 
-        if(encontrado){
+        }*/
+        
+        if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido)){ //valido campo nombre y apellido del docente
+            boolean existeDocente = gestorDocente.verificarExistencia(docenteApellido, docenteNombre, emailDato);
+            if(existeDocente){
+                if(actUniv){
+                    Docente d = gestorDocente.obtenerDocente(docenteApellido, docenteNombre, emailDato);
+                    for(ActividadUniversitaria au: d.getActividadUniversitarias()){
+                        if(au.getNombre().equals(catedraDato)) encontrado=true;
+                    }
+                    if(encontrado)return 0;
+                    else return 4;
+                }else{
+                    return 3;
+                }
+            }else{
+                return 2;
+            }
+        }else{
+           return 1; 
+        } 
+        
+        
+        /*if(encontrado){
  
            if(gestorVal.validarNombre(docenteNombre) && gestorVal.validarApellido(docenteApellido) && !listaDocente.isEmpty() && actUniv){
  
@@ -99,9 +120,9 @@ public class GestorReserva {
                 return 3;
             }
             }
-        }else return 4;
+        }else return 4;*/
  
-        return 5;
+        
  
     }
     

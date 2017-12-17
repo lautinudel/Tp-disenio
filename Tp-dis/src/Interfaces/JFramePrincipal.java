@@ -26,13 +26,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     
     
-    public Bedel getBedel() {
-        return bedel;
-    }
-
-    public void setBedel(Bedel bedel) {
-        this.bedel = bedel;
-    }
+   
     /**
      * Creates new form JFramePrincipal
      */
@@ -137,7 +131,13 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    public Bedel getBedel() {
+        return bedel;
+    }
 
+    public void setBedel(Bedel bedel) {
+        this.bedel = bedel;
+    }
     public void mensajeEmergente(String titulo, String mensaje){
         JDialog dialogo = new JDialog(this, titulo);
         JLabel etiqueta = new JLabel(mensaje);

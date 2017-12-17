@@ -12,11 +12,11 @@ public class ReservaEsporadica  implements java.io.Serializable {
 
 
      private Integer idReservaEsporadica;
-     private ActividadUniversitaria actividadUniversitaria;
-     private Bedel bedel;
-     private Docente docente;
-     private Integer cantidadAlumnos;
-     private TipoAula tipoAula;
+     private ActividadUniversitaria actividadUniversitaria;//
+     private Bedel bedel;//
+     private Docente docente;//
+     private Integer cantidadAlumnos;//
+     private TipoAula tipoAula;//
      private Set diaReservaEsporadicas = new HashSet(0);
      private Byte activo;
      

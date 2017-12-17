@@ -199,13 +199,13 @@ public class GestorValidacion {
         retorno[1]=1;
         retorno[2]=1;
         
-        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]"))
+        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") || nombre.matches("(.*)[%+-;&$=*#!¡](.*)"))
             retorno[0]=0;
         
-        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]"))
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
             retorno[1]=0;
         
-        if(usuario.length()<6 || usuario.length()>32 || usuario.matches(".*\\d.*") || usuario.matches("[\\p{Punct}]"))
+        if(usuario.length()<6 || usuario.length()>32 || usuario.matches(".*\\d.*") || usuario.matches("[\\p{Punct}]") || usuario.matches("(.*)[%+-;&$=*#!¡](.*)"))
             retorno[2]=0;
         
        return retorno; 
@@ -213,14 +213,22 @@ public class GestorValidacion {
     
     public boolean validarApellido (String apellido){
         
-        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-](.*)"))
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
+            return false;
+        else return true;
+        
+    }
+    
+    public boolean validarApellidoCaracEspeciales (String apellido){
+        
+        if(/*apellido.length()<2 || apellido.length()>32 ||*/ apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
             return false;
         else return true;
         
     }
     
     public boolean validarNombre(String nombre){
-        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]"))
+        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") || nombre.matches("(.*)[%+-;&$=*#!¡](.*)"))
             return false;
         else return true;
     }

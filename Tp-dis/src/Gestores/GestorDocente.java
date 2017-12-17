@@ -21,7 +21,7 @@ public class GestorDocente {
         DocenteDao docenteDao = new DocenteDao();
         return docenteDao.obtenerDocente(docenteApellido, docenteNombre, emailDato);
     }
-    public List<Docente> verificarExistencia(String docenteApellido, String docenteNombre, String emailDato){
+    public boolean verificarExistencia(String docenteApellido, String docenteNombre, String emailDato){
         DocenteDao docenteDao = new DocenteDao();
         return docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato);
     }

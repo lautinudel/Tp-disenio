@@ -59,10 +59,10 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
      */
     public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, 
                                     ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles, 
-                                    int cantAlumnos, String docenteApellido, String actividad, PeriodoEnum periodo) {
+                                    int cantAlumnos, String docenteApellido,String docenteNombre, String actividad, PeriodoEnum periodo, String emailDato, Bedel b) {
         initComponents();
         
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        //JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
         GestorDocente gestorDocente = new GestorDocente();
         GestorActividad gestorActividad = new GestorActividad(); 
         GestorBedel gestorBedel = new GestorBedel();
@@ -73,9 +73,9 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
         this.horaFin = horaFin;
         this.aulasDisponibles = aulasDisponibles;
         this.cantAlumnos = cantAlumnos;
-        this.docente = gestorDocente.obtenerDocente(docenteApellido, docenteApellido, actividad);
+        this.docente = gestorDocente.obtenerDocente(docenteApellido, docenteNombre, emailDato);
         this.actividad = gestorActividad.obtenerIdActividad(actividad);
-        this.bedel = topFrame.getBedel();
+        this.bedel = b;
         this.periodo = periodo;
                 
         cargarDatos();
@@ -380,8 +380,9 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     reservaE.setActividadUniversitaria(this.actividad);
                     reservaE.setBedel(this.bedel);
                     reservaE.setCantidadAlumnos(cantAlumnos);
+                    //SETEAR ID RESERVA
                     //reservaE.setDiaReservaEsporadicas();
-                    
+                   
                     
                     idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
                     idReserva.setDia(this.dias.get(j));
@@ -391,8 +392,10 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     
                     diaReserva.setAula(aulasDisponibles.get(j).get(k));
                     diaReserva.setId(idReserva);
-                    diaReserva.setReservaEsporadica(reservaE);
-                    
+                    diaReserva.setReservaEsporadica(reservaE); //tira null
+                    /*System.out.println(diaReserva.getAula().getNumeroAula());
+                    System.out.println(diaReserva.getId().getAulaNumeroAula());
+                    System.out.println(diaReserva.getReservaEsporadica().getIdReservaEsporadica());*/
                     
                     gestorReserva.registrarReserva(reservaE);
                     gestorDiaReserva.registrarDias(diaReserva);

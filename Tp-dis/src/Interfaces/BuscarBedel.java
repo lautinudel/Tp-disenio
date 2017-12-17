@@ -79,6 +79,11 @@ public class BuscarBedel extends javax.swing.JPanel {
             }
         });
 
+        jTableBedeles = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int vColIndex) {
+                return false;
+            }
+        };
         jTableBedeles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -87,6 +92,8 @@ public class BuscarBedel extends javax.swing.JPanel {
                 "Apellido", "Nombre", "Turno", "Usuario"
             }
         ));
+        jTableBedeles.setFocusable(false);
+        jTableBedeles.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableBedeles);
 
         jButtonBuscar.setText("Buscar");
@@ -209,6 +216,7 @@ public class BuscarBedel extends javax.swing.JPanel {
                  
                 if(!bedeles.isEmpty()){
                     //muestro en tabla
+                    
                    for(int i=0;i<bedeles.size();i++){
                        if(bedeles.get(i).getTurnoTrabaja().equals(TurnoEnum.Maniana)){
                            Object row[] = {bedeles.get(i).getApellido(),bedeles.get(i).getNombre(), "Mañana", bedeles.get(i).getUsername()};
@@ -377,6 +385,9 @@ public class BuscarBedel extends javax.swing.JPanel {
             fondo=new ImageIcon(getClass().getResource(image)).getImage();
         }
     }
+    
+    
+    
     //-----------------------------------------------------------------------
     
 

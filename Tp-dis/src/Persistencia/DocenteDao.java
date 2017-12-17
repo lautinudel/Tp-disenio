@@ -23,7 +23,7 @@ public class DocenteDao {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        Query query = session.createQuery("SELECT d" +
+        Query query = session.createQuery("SELECT d " +
                                           "FROM Docente d "+
                                           "WHERE d.id.apellido  = :variableApellido AND "+
                                                 "d.nombre = :variableNombre AND d.email = :variableEmail");
@@ -33,12 +33,16 @@ public class DocenteDao {
         
         //Cuando uso este método ya se que existe un único docente por lo que me devuelve una lista de una sola posición
         List<Docente> retorno = query.list();
+        if(!retorno.isEmpty()){
+        int temp= retorno.get(0).getActividadUniversitarias().size();
+        int temp1 = retorno.get(0).getReservaEsporadicas().size();
+        int temp2 = retorno.get(0).getReservaPeriodicas().size();}
         session.close();
         return retorno.get(0);
         
     }
     
-    public List<Docente> verificarExistencia(String apellido, String nombre, String email){
+    public boolean verificarExistencia(String apellido, String nombre, String email){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -51,15 +55,20 @@ public class DocenteDao {
         query.setParameter("variableEmail", email);
         
         List<Docente> retorno = query.list();
+        int temp;
+        /*for(int i=0;i<retorno.size();i++){
+            temp= retorno.get(i).getActividadUniversitarias().size();
+            temp = retorno.get(i).getReservaEsporadicas().size();
+            temp = retorno.get(i).getReservaPeriodicas().size();
+        }*/
         session.close();
+        if(retorno.isEmpty()) return false;
+        else return true;
         
-        if( !retorno.isEmpty() || retorno.size()  == 1){
-            int temp = retorno.get(0).getActividadUniversitarias().size();
-            temp = retorno.get(0).getReservaEsporadicas().size();
-            temp = retorno.get(0).getReservaPeriodicas().size();
-        }
         
-        return retorno;
+        
+        
+        
     }
     
     

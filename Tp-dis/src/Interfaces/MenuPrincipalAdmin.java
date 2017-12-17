@@ -154,6 +154,7 @@ public class MenuPrincipalAdmin extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        System.out.println(topFrame.getBedel().getApellido());
         RegistrarBedel panelRegistro = new RegistrarBedel();
         panelRegistro.setImage("/Imagenes/fondoabs.jpg");
         topFrame.add(panelRegistro, BorderLayout.CENTER);

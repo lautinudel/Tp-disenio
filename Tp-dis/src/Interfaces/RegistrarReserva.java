@@ -230,11 +230,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
         jLabelDuracion2.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDuracion2.setText("Duración (minutos):");
 
+        fecha.setToolTipText("Formato: YYYY-MM-DD");
         fecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fechaActionPerformed(evt);
             }
         });
+
+        horaInicio.setToolTipText("Formato: HH:MM");
 
         jButtonEliminar.setText("Eliminar de la lista");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -1109,7 +1112,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                         ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
                         
-                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnos, docenteApellido, catedraDato, periodo);
+                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnos, docenteApellido,docenteNombre, catedraDato, periodo, emailDato, topFrame.getBedel());
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
                         this.setVisible(false);
@@ -1164,9 +1167,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                                         
                             //Si no hay dias con conflicto
                             if(diasConConflicto.isEmpty() && horaInicioConConflicto.isEmpty()){
-                                ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnos,docenteApellido, catedraDato, PeriodoEnum.Ninguno);
+                                ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnos,docenteApellido,docenteNombre, catedraDato, PeriodoEnum.Ninguno, emailDato,topFrame.getBedel());
                                 panelAulas.setImage("/Imagenes/fondoabs.jpg");
                                 topFrame.add(panelAulas, BorderLayout.CENTER);
+                                
                                 this.setVisible(false);
                                 topFrame.remove(this);
                                 topFrame.setSize(1100,500);

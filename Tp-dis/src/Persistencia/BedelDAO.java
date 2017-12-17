@@ -126,7 +126,8 @@ public class BedelDAO {
         session = sesion.openSession();
         //Transaction tx = session.beginTransaction();
         //List<Bedel> lista = session.createCriteria(Bedel.class).add(Restrictions.like("apellido", "%"+apellido+"%") ).list();
-         Query query = session.createQuery("FROM Bedel WHERE apellido = :apellido");
+        // Query query = session.createQuery("FROM Bedel WHERE apellido = :apellido"); 
+        Query query = session.createQuery("FROM Bedel WHERE apellido LIKE CONCAT('%',:apellido,'%')");
         query.setParameter("apellido", apellido);
         List<Bedel> lista = query.list();
        // tx.commit();

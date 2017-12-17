@@ -282,6 +282,7 @@ public class MenuPrincipalBedel extends javax.swing.JPanel {
     private void jButtonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevaReservaActionPerformed
         // TODO add your handling code here:
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        
         RegistrarReserva panelRegistro = new RegistrarReserva();
         panelRegistro.setImage("/Imagenes/fondoabs.jpg");
         topFrame.add(panelRegistro, BorderLayout.CENTER);
