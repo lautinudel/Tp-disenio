@@ -20,6 +20,11 @@ import java.util.List;
  */
 public class GestorBedel {
     
+    public Bedel obtenerBedel(String username){
+        BedelDAO bedelDao = new BedelDAO();
+        return bedelDao.obtenerBedel(username);
+    }
+    
     public int registrarBedel(String nombre, String apellido, 
             String turno, String username, String pass, String passConfirmado){
    

@@ -31,6 +31,20 @@ public class ActividadUniversitariaDAO {
         session.close();
         return lista; 
     }
+    public ActividadUniversitaria obtenerActividad(String nombreActividad){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery("SELECT a " +
+                                          "FROM ActividadUniversitaria a "+
+                                          "WHERE a.nombre = :variableActividad ");
+        query.setParameter("variableActividad", nombreActividad);
+        //Cuando uso esto ya se que existe la actividad por lo que la lista sol tiene un solo elemento
+        List<ActividadUniversitaria> retorno = query.list();
+        session.close();
+        return retorno.get(0);
+       
+    }
     
     public boolean verificarExistencia(String actividad){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();

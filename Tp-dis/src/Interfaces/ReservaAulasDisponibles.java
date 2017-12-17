@@ -5,8 +5,24 @@
  */
 package Interfaces;
 
+import Gestores.GestorActividad;
 import Gestores.GestorAula;
+import Gestores.GestorBedel;
+import Gestores.GestorDiaReserva;
+import Gestores.GestorDocente;
+import Gestores.GestorReserva;
+import Modelo.ActividadUniversitaria;
 import Modelo.Aula;
+import Modelo.Bedel;
+import Modelo.DiaReservaEsporadica;
+import Modelo.DiaReservaEsporadicaId;
+import Modelo.DiaReservaPeriodica;
+import Modelo.DiaReservaPeriodicaId;
+import Modelo.DiaSemana;
+import Modelo.Docente;
+import Modelo.PeriodoEnum;
+import Modelo.ReservaEsporadica;
+import Modelo.ReservaPeriodica;
 import Modelo.TipoAula;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -27,87 +43,116 @@ import javax.swing.table.DefaultTableModel;
  * @author Temp
  */
 public class ReservaAulasDisponibles extends javax.swing.JPanel {
-
+    ArrayList<String> diasTexto;
+    ArrayList<Date> dias;
+    ArrayList<Date> horaInicio;
+    ArrayList<Date> horaFin;
+    ArrayList<ArrayList<Aula>> aulasDisponibles;
+    
+    int cantAlumnos;
+    Docente docente;
+    ActividadUniversitaria actividad;
+    Bedel bedel;
+    PeriodoEnum periodo;
     /**
      * Creates new form ReservaAulasDisponibles
      */
-    public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles, TipoAula tipoAula) {
+    public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, 
+                                    ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles, 
+                                    int cantAlumnos, String docenteApellido, String actividad, PeriodoEnum periodo) {
         initComponents();
-        cargarDatosPeriodica(diasTexto, dias, horaFin, horaInicio, aulasDisponibles, tipoAula);
+        
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        GestorDocente gestorDocente = new GestorDocente();
+        GestorActividad gestorActividad = new GestorActividad(); 
+        GestorBedel gestorBedel = new GestorBedel();
+                
+        this.diasTexto = diasTexto;
+        this.dias = dias;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.aulasDisponibles = aulasDisponibles;
+        this.cantAlumnos = cantAlumnos;
+        this.docente = gestorDocente.obtenerDocente(docenteApellido, docenteApellido, actividad);
+        this.actividad = gestorActividad.obtenerIdActividad(actividad);
+        this.bedel = topFrame.getBedel();
+        this.periodo = periodo;
+                
+        cargarDatos();
     }
     
     
     
-    private void cargarDatosPeriodica(ArrayList<String> diasTexto, ArrayList<Date> dias,ArrayList<Date> horaInicio, ArrayList<Date> horaFin, ArrayList<ArrayList<Aula>> aulasDisponibles, TipoAula tipoAula){
+    private void cargarDatos(){
         int cantColumnas = this.jTable1.getColumnCount();
-        ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(horaInicio);
-        ArrayList<String> horaFinTexto = convertirArrayDeDateAArrayStringFormatoHora(horaFin);
+        ArrayList<String> horaInicioTexto = convertirArrayDeDateAArrayStringFormatoHora(this.horaInicio);
+        ArrayList<String> horaFinTexto = convertirArrayDeDateAArrayStringFormatoHora(this.horaFin);
         Object row[] = new Object[cantColumnas];
         
-        for(int i=0;i<diasTexto.size();i++){
+        for(int i=0;i<this.diasTexto.size();i++){
             //Seleccion
             row[0] = false;
             //Fecha
-            row[1] = diasTexto.get(i);
+            row[1] = this.diasTexto.get(i);
             //Hora de inicio
             row[2] = horaInicioTexto.get(i);
             //Hora de fin
             row[3] = horaFinTexto.get(i);
             //En este for esta el problema
-            for(int j=0;j<aulasDisponibles.get(i).size();j++){
+            for(int j=0;j<this.aulasDisponibles.get(i).size();j++){
                 //Piso
-                switch (aulasDisponibles.get(i).get(j).getPiso()){
+                switch (this.aulasDisponibles.get(i).get(j).getPiso()){
                     case 0: row[4] = "Planta baja"; break;
                     case 1: row[4] = "Primer piso"; break;
                     case 2: row[4] = "Segundo piso"; break;
                     case 3: row[4] = "Tercer piso"; break;
                 }
                 //Aula disponible
-                row[5] = aulasDisponibles.get(i).get(j).getNumeroAula();
+                row[5] = this.aulasDisponibles.get(i).get(j).getNumeroAula();
                 //Capacidad
-                row[6] = aulasDisponibles.get(i).get(j).getCapacidad();
+                row[6] = this.aulasDisponibles.get(i).get(j).getCapacidad();
                 //Tipo Pizarron
-                switch (aulasDisponibles.get(i).get(j).getTipoPizarron()){
+                switch (this.aulasDisponibles.get(i).get(j).getTipoPizarron()){
                     case 0: row[7] = "Para tiza"; break;
                     case 1: row[7] = "Para tinta"; break;
                 }
-                switch(aulasDisponibles.get(i).get(j).getAireAcondicionado()){
+                switch(this.aulasDisponibles.get(i).get(j).getAireAcondicionado()){
                     case 0: row[8] = "No"; break;
                     case 1: row[8] = "Si"; break;
                 }  
                              
                 
                 //Aulas sin recursos adicionales
-                if(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales() != null){
-                    switch(aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores()){
+                if(this.aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales() != null){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaSinRecursosAdicionales().getVentiladores()){
                         case 0: row[9] = "No"; break;
                         case 1: row[9] = "Si"; break;
                     } 
                 }
                 //Aula informatica
-                if(aulasDisponibles.get(i).get(j).getAulaInformatica() != null){
-                    row[10] = aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
+                if(this.aulasDisponibles.get(i).get(j).getAulaInformatica() != null){
+                    row[10] = this.aulasDisponibles.get(i).get(j).getAulaInformatica().getCantidadPc();
                     
-                    switch(aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion()){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaInformatica().getCanion()){
                         case 0: row[11] = "No"; break;
                         case 1: row[11] = "Si"; break;
                     }
                 }
                 //Aula Multimedio
-                if(aulasDisponibles.get(i).get(j).getAulaMultimedio() != null){
-                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora()){
+                if(this.aulasDisponibles.get(i).get(j).getAulaMultimedio() != null){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaMultimedio().getComputadora()){
                         case 0: row[10] = "No"; break;
                         case 1: row[10] = "Si"; break;
                     }
-                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getCanion()){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaMultimedio().getCanion()){
                         case 0: row[11] = "No"; break;
                         case 1: row[11] = "Si"; break;
                     }
-                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor()){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaMultimedio().getTelevisor()){
                         case 0: row[12] = "No"; break;
                         case 1: row[12] = "Si"; break;
                     }
-                    switch(aulasDisponibles.get(i).get(j).getAulaMultimedio().getDvd()){
+                    switch(this.aulasDisponibles.get(i).get(j).getAulaMultimedio().getDvd()){
                         case 0: row[13] = "No"; break;
                         case 1: row[13] = "Si"; break;
                     }
@@ -145,8 +190,8 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Atras = new javax.swing.JButton();
+        Confirmar = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -178,21 +223,23 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Atrás");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Atras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Atras.setText("Atrás");
+        Atras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AtrasActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Confirmar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Confirmar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Confirmar.setText("Confirmar");
+        Confirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ConfirmarActionPerformed(evt);
             }
         });
 
@@ -207,9 +254,9 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(Atras)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))))
+                                .addComponent(Confirmar))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -232,13 +279,13 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Confirmar)
+                    .addComponent(Atras, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         // TODO add your handling code here:
         
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
@@ -263,11 +310,153 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
             this.remove(dialogo);
         });
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_AtrasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarActionPerformed
+        /*Verifico que se halla seleccionado una sola aula para cada día y horario
+         y por cada reserva la guardo en la bd
+        Para cada reserva necesito: 
+            Si es Esporadica -> cantidadAlumnos, Bedel_username, Docente_dni, Docente_apellido, ActividadUniversitaria_idActividad y el tipoAula
+                  DiaReservaEsporadica -> id_reservaEsporadica, horaInicio, horaFin, dia(date), Aula_numeroAula
+            Si es Periodica -> cantidadAlumnos, periodo, Bedel_username, ActividadUniversitaria_idActividad,Docente_apellido,Docente_dni, tipoAula
+                DiaReservaPeriodica -> id_reservaPeriodica, Aula_numeroAula, dia (String), horaInicio, horaFin, anio        
+        */
+        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        
+        GestorDiaReserva gestorDiaReserva = new GestorDiaReserva();
+        GestorReserva gestorReserva = new GestorReserva();
+        ArrayList<String> fechaTabla = new ArrayList();
+        ArrayList<String> horaInicioTabla = new ArrayList();
+        //Almaceno el numero de fila en donde están las fechas válidas
+        ArrayList<Integer> fila = new ArrayList();
+        
+        TipoAula tipoAula;
+        int i = 0;
+        boolean hayRepetidos = false;
+        
+        while(i<this.jTable1.getRowCount() && !hayRepetidos){
+            if((Boolean)jTable1.getModel().getValueAt(i, 0) && 
+                    (!fechaTabla.contains(jTable1.getModel().getValueAt(i, 1).toString()) ||
+                    (fechaTabla.contains(jTable1.getModel().getValueAt(i, 1).toString()) && 
+                    !horaInicioTabla.contains(jTable1.getModel().getValueAt(i, 2).toString())))){
+                fila.add(i);
+                fechaTabla.add(jTable1.getModel().getValueAt(i, 1).toString());
+                horaInicioTabla.add(jTable1.getModel().getValueAt(i, 2).toString());
+            }else{
+                if((Boolean)jTable1.getModel().getValueAt(i, 0)){
+                    String mensaje = "Se ha seleccionado más de un aula para una misma reserva (Fila ";
+                    topFrame.mensajeEmergente("Error", mensaje.concat(String.valueOf(i+1)).concat(")."));
+                    fechaTabla.clear();
+                    horaInicioTabla.clear();
+                    fila.clear();
+                    hayRepetidos = true;
+                }
+            }
+            i++;
+        }
+        //Recorro el array filas Y saco los datos para la realizar la reserva y el DiaReserva
+        //Si el periodo es ninguno entonces es una reserva esporadica
+        if(this.periodo == PeriodoEnum.Ninguno){
+            ReservaEsporadica reservaE = new ReservaEsporadica();
+            DiaReservaEsporadica diaReserva = new DiaReservaEsporadica();
+            DiaReservaEsporadicaId idReserva = new DiaReservaEsporadicaId();
+            
+            //Por cada fecha 
+            for(int j = 0; j < this.dias.size();j++){
+                //Me fijo que aula fue elegida
+                for(int k = 0; k<fila.size();j++){
+                    if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
+                        tipoAula = TipoAula.SinRecursos;
+                    }else{
+                        if(aulasDisponibles.get(j).get(k).getAulaMultimedio() != null){
+                            tipoAula = TipoAula.Multimedios;
+                        }else{
+                            tipoAula = TipoAula.Informatica;
+                        }
+                    }
+                    
+                    reservaE.setDocente(this.docente);
+                    reservaE.setTipoAula(tipoAula);
+                    reservaE.setActividadUniversitaria(this.actividad);
+                    reservaE.setBedel(this.bedel);
+                    reservaE.setCantidadAlumnos(cantAlumnos);
+                    //reservaE.setDiaReservaEsporadicas();
+                    
+                    
+                    idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
+                    idReserva.setDia(this.dias.get(j));
+                    idReserva.setHoraInicio(this.horaInicio.get(j));
+                    idReserva.setHoraFin(this.horaFin.get(j));
+                    //idReserva.setReservaEsporadicaIdReservaEsporadica();??
+                    
+                    diaReserva.setAula(aulasDisponibles.get(j).get(k));
+                    diaReserva.setId(idReserva);
+                    diaReserva.setReservaEsporadica(reservaE);
+                    
+                    
+                    gestorReserva.registrarReserva(reservaE);
+                    gestorDiaReserva.registrarDias(diaReserva);
+                }
+            }
+        }else{
+           ReservaPeriodica reservaP = new ReservaPeriodica();
+           DiaReservaPeriodica diaReserva = new DiaReservaPeriodica();
+           DiaReservaPeriodicaId idReserva = new DiaReservaPeriodicaId();
+           
+            //Por cada fecha 
+            for(int j = 0; j < this.dias.size();j++){
+                //Me fijo que aula fue elegida
+                for(int k = 0; k<fila.size();j++){
+                    if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
+                        tipoAula = TipoAula.SinRecursos;
+                    }else{
+                        if(aulasDisponibles.get(j).get(k).getAulaMultimedio() != null){
+                            tipoAula = TipoAula.Multimedios;
+                        }else{
+                            tipoAula = TipoAula.Informatica;
+                        }
+                    }
+                    reservaP.setDocente(this.docente);
+                    reservaP.setTipoAula(tipoAula);
+                    reservaP.setActividadUniversitaria(this.actividad);
+                    reservaP.setBedel(this.bedel);
+                    reservaP.setCantidadAlumnos(cantAlumnos);
+                    reservaP.setPeriodo(periodo);
+                    
+                    idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
+                    switch(this.diasTexto.get(j)){
+                        case "lunes": idReserva.setDia(DiaSemana.Lunes);
+                        case "martes": idReserva.setDia(DiaSemana.Martes);
+                        case "miércoles": idReserva.setDia(DiaSemana.Miercoles);
+                        case "jueves": idReserva.setDia(DiaSemana.Jueves);
+                        case "viernes": idReserva.setDia(DiaSemana.Viernes);
+                        case "sabado": idReserva.setDia(DiaSemana.Sabado);
+                    }
+                    
+                    
+                    //No puedo sacarlo del array de dia porque tengo solo el nombre del dia
+                    Date diaActualParaSacarAnio = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+                    String anio = sdf.format(diaActualParaSacarAnio);
+        
+                    idReserva.setAnio(Integer.parseInt(anio));
+                    idReserva.setHoraInicio(this.horaInicio.get(j));
+                    idReserva.setHoraFin(this.horaFin.get(j));
+                    //idReserva.setReservaPeriodicaIdReservaPeriodica();???
+                    
+                    
+                    diaReserva.setAula(aulasDisponibles.get(j).get(k));
+                    diaReserva.setId(idReserva);
+                    diaReserva.setReservaPeriodica(reservaP);
+                    
+                    
+                    gestorReserva.registrarReserva(reservaP);
+                    gestorDiaReserva.registrarDias(diaReserva);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_ConfirmarActionPerformed
 
     //codigo de la imagen de fondo ----------------------------------------
     private Image fondo=null;
@@ -286,8 +475,8 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     //-----------------------------------------------------------------------
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton Atras;
+    private javax.swing.JButton Confirmar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

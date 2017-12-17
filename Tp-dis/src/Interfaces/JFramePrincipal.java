@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Modelo.Bedel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -21,7 +22,17 @@ import javax.swing.WindowConstants;
  * @author L. Nudel
  */
 public class JFramePrincipal extends javax.swing.JFrame {
+    private Bedel bedel;
 
+    
+    
+    public Bedel getBedel() {
+        return bedel;
+    }
+
+    public void setBedel(Bedel bedel) {
+        this.bedel = bedel;
+    }
     /**
      * Creates new form JFramePrincipal
      */

@@ -31,7 +31,7 @@ public class BedelDAO {
     public BedelDAO() {
     }
     
-    
+          
     public Boolean verificarExistencia(String username){
         Boolean r;
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -49,6 +49,7 @@ public class BedelDAO {
         session.close();
         return r;
     }
+    
     public Bedel obtenerBedel ( String username){
         Bedel b ;
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();

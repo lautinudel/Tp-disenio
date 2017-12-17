@@ -5,12 +5,15 @@
  */
 package Persistencia;
 
+import Modelo.DiaReservaEsporadica;
+import Modelo.ReservaEsporadica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -21,6 +24,17 @@ public class ReservaEsporadicaDao {
     public ReservaEsporadicaDao() {
     }
   
+    public void registrar(ReservaEsporadica reserva){
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
+      session.save(reserva);
+      tx.commit();
+      session.close();        
+    }
+            
+    
     public boolean unicaReserva(Date dia, Date horaInicio){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

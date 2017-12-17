@@ -6,6 +6,7 @@
 package Interfaces;
 
 import Gestores.GestorAutenticacion;
+import Gestores.GestorBedel;
 import Modelo.*;
 import Persistencia.*;
 import java.awt.BorderLayout;
@@ -145,6 +146,9 @@ public class IniciarSesion extends javax.swing.JPanel {
                 JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
                 switch (retornoMensajes) {
                 case 1:
+                    GestorBedel gestorBedel = new GestorBedel();
+                    Bedel b = gestorBedel.obtenerBedel(usuario);
+                    topFrame.setBedel(b);
                     MenuPrincipalBedel menuBedel = new MenuPrincipalBedel();
                     menuBedel.setImage("/Imagenes/fondoabs.jpg");
                     topFrame.add(menuBedel, BorderLayout.CENTER);

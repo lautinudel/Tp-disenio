@@ -6,6 +6,7 @@
 package Persistencia;
 
 import Modelo.DiaSemana;
+import Modelo.ReservaPeriodica;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Locale;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -22,6 +24,18 @@ public class ReservaPeriodicaDao {
 
     public ReservaPeriodicaDao() {
     }
+    
+    
+    public void registrar(ReservaPeriodica reserva){
+      SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+      Session session;
+      session = sesion.openSession();
+      Transaction tx = session.beginTransaction();
+      session.save(reserva);
+      tx.commit();
+      session.close();        
+    }
+    
     
     public boolean unicaReserva(Date dia, Date horaInicio){
         //Transformo los date en algo comparable con la bd

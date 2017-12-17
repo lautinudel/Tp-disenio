@@ -13,6 +13,8 @@ import Modelo.ReservaPeriodica;
 import Persistencia.ActividadUniversitariaDAO;
 import Persistencia.DocenteDao;
 import Persistencia.NewHibernateUtil;
+import Persistencia.ReservaEsporadicaDao;
+import Persistencia.ReservaPeriodicaDao;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -45,16 +47,28 @@ public class GestorReserva {
         return gestorVal.valUnicidad(fechaAValidar, horaAValidar, fechas, horariosInicio);
  
     }
- 
+    
+    public void registrarReserva(ReservaEsporadica reserva){
+        ReservaEsporadicaDao reservaDao = new ReservaEsporadicaDao();
+        reservaDao.registrar(reserva);
+        
+    }
+    
+    public void registrarReserva(ReservaPeriodica reserva){
+        ReservaPeriodicaDao reservaDao = new ReservaPeriodicaDao();
+        reservaDao.registrar(reserva);
+        
+    }
+            
+            
+            
     public int validarTipoDeDatos(String docenteApellido, String docenteNombre, String catedraDato, String emailDato){
         GestorValidacion gestorVal = new GestorValidacion();
-        DocenteDao docenteDao = new DocenteDao();
-        ActividadUniversitariaDAO actividadDao = new ActividadUniversitariaDAO();
-        List<Docente> listaDocente = docenteDao.verificarExistencia(docenteApellido, docenteNombre, emailDato); //size=1
+        GestorDocente gestorDocente = new GestorDocente();
+        GestorActividad gestorActividad = new GestorActividad();
+        List<Docente> listaDocente = gestorDocente.verificarExistencia(docenteApellido, docenteNombre, emailDato); //size=1
  
-        
- 
-        boolean actUniv = actividadDao.verificarExistencia(catedraDato); //true
+        boolean actUniv = gestorActividad.verificarExistencia(catedraDato); //true
         //Si el nombre y el apellido son solo texto, si existe el docente y la actividad universitaria devuelvo 0 (caso de exito)
         boolean encontrado=false;
  
@@ -77,7 +91,6 @@ public class GestorReserva {
             }
             //Si no existe el docente( la lista que devuelve está vacia o no contiene un unico elemento)
             if(listaDocente.isEmpty() || listaDocente.size()  != 1){
- 
                 return 2;
             }
             //Si no existe la actividad
