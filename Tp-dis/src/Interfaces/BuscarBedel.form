@@ -109,6 +109,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxApellido">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxApellidoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -124,6 +127,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxTurno">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxTurnoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>

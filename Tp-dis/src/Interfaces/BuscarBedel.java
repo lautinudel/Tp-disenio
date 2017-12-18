@@ -34,6 +34,8 @@ public class BuscarBedel extends javax.swing.JPanel {
      */
     public BuscarBedel() {
         initComponents();
+        this.jTextFieldApellido.setEnabled(false);
+        this.jComboBoxTurno.setEnabled(false);
         this.bedeles= new ArrayList();
     }
 
@@ -64,10 +66,22 @@ public class BuscarBedel extends javax.swing.JPanel {
         jLabelBusquedaDeBedeles.setForeground(new java.awt.Color(255, 255, 255));
         jLabelBusquedaDeBedeles.setText("Busqueda de bedeles");
 
+        jCheckBoxApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxApellidoActionPerformed(evt);
+            }
+        });
+
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Apellido");
 
         jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
+
+        jCheckBoxTurno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxTurnoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Turno");
@@ -204,6 +218,7 @@ public class BuscarBedel extends javax.swing.JPanel {
         GestorValidacion GV = new GestorValidacion();
         //apellido y turno
         if(this.jCheckBoxApellido.isSelected() && this.jCheckBoxTurno.isSelected()){
+            
             //valido apellido
             if(GV.validarApellido(this.jTextFieldApellido.getText())){
                  
@@ -370,6 +385,20 @@ public class BuscarBedel extends javax.swing.JPanel {
         JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
            topFrame.mensajeEmergente("Funcionalidad en desarrollo", "Aún no se ha implementado la funcionalidad requerida."); 
     }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jCheckBoxApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxApellidoActionPerformed
+        // TODO add your handling code here:
+        if(this.jCheckBoxApellido.isSelected()){
+            this.jTextFieldApellido.setEnabled(true);
+        }else this.jTextFieldApellido.setEnabled(false);
+    }//GEN-LAST:event_jCheckBoxApellidoActionPerformed
+
+    private void jCheckBoxTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxTurnoActionPerformed
+        // TODO add your handling code here:
+        if(this.jCheckBoxTurno.isSelected()){
+            this.jComboBoxTurno.setEnabled(true);
+        }else this.jComboBoxTurno.setEnabled(false);
+    }//GEN-LAST:event_jCheckBoxTurnoActionPerformed
 
     //codigo de la imagen de fondo ----------------------------------------
     private Image fondo=null;
