@@ -364,7 +364,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
             //Por cada fecha 
             for(int j = 0; j < this.dias.size();j++){
                 //Me fijo que aula fue elegida
-                for(int k = 0; k<fila.size();j++){
+                for(int k = 0; k<fila.size();k++){
                     if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
                         tipoAula = TipoAula.SinRecursos;
                     }else{
@@ -380,27 +380,30 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     reservaE.setActividadUniversitaria(this.actividad);
                     reservaE.setBedel(this.bedel);
                     reservaE.setCantidadAlumnos(cantAlumnos);
-                    //SETEAR ID RESERVA
-                    //reservaE.setDiaReservaEsporadicas();
+                    reservaE.setIdReservaEsporadica(5);
+                    reservaE.setActivo((byte)1);
+                    
+                
                    
                     
                     idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
                     idReserva.setDia(this.dias.get(j));
                     idReserva.setHoraInicio(this.horaInicio.get(j));
                     idReserva.setHoraFin(this.horaFin.get(j));
-                    //idReserva.setReservaEsporadicaIdReservaEsporadica();??
+                    idReserva.setReservaEsporadicaIdReservaEsporadica(11);
                     
                     diaReserva.setAula(aulasDisponibles.get(j).get(k));
                     diaReserva.setId(idReserva);
-                    diaReserva.setReservaEsporadica(reservaE); //tira null
-                    /*System.out.println(diaReserva.getAula().getNumeroAula());
-                    System.out.println(diaReserva.getId().getAulaNumeroAula());
-                    System.out.println(diaReserva.getReservaEsporadica().getIdReservaEsporadica());*/
+                    diaReserva.setReservaEsporadica(reservaE);
+                    
+                    reservaE.addDRE(diaReserva);
+                    
                     
                     gestorReserva.registrarReserva(reservaE);
                     gestorDiaReserva.registrarDias(diaReserva);
                 }
             }
+            //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
         }else{
            ReservaPeriodica reservaP = new ReservaPeriodica();
            DiaReservaPeriodica diaReserva = new DiaReservaPeriodica();
@@ -409,7 +412,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
             //Por cada fecha 
             for(int j = 0; j < this.dias.size();j++){
                 //Me fijo que aula fue elegida
-                for(int k = 0; k<fila.size();j++){
+                for(int k = 0; k<fila.size();k++){
                     if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
                         tipoAula = TipoAula.SinRecursos;
                     }else{
@@ -425,6 +428,8 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     reservaP.setBedel(this.bedel);
                     reservaP.setCantidadAlumnos(cantAlumnos);
                     reservaP.setPeriodo(periodo);
+                    reservaP.setActivo((byte)1);
+                    reservaP.setIdReservaPeriodica(2);
                     
                     idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
                     switch(this.diasTexto.get(j)){
@@ -445,20 +450,20 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                     idReserva.setAnio(Integer.parseInt(anio));
                     idReserva.setHoraInicio(this.horaInicio.get(j));
                     idReserva.setHoraFin(this.horaFin.get(j));
-                    //idReserva.setReservaPeriodicaIdReservaPeriodica();???
+                    idReserva.setReservaPeriodicaIdReservaPeriodica(2);
                     
                     
                     diaReserva.setAula(aulasDisponibles.get(j).get(k));
                     diaReserva.setId(idReserva);
                     diaReserva.setReservaPeriodica(reservaP);
-                    
+                    reservaP.addDRP(diaReserva);
                     
                     gestorReserva.registrarReserva(reservaP);
                     gestorDiaReserva.registrarDias(diaReserva);
                 }
             }
         }
-        
+        //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
     }//GEN-LAST:event_ConfirmarActionPerformed
 
     //codigo de la imagen de fondo ----------------------------------------

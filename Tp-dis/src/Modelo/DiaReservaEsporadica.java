@@ -10,7 +10,7 @@ public class DiaReservaEsporadica  implements java.io.Serializable {
 
 
      private DiaReservaEsporadicaId id;
-     private Aula aula;
+     private Aula aula;//
      private ReservaEsporadica reservaEsporadica;
 
     public DiaReservaEsporadica() {

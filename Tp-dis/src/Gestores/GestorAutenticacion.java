@@ -33,18 +33,27 @@ public class GestorAutenticacion {
             ClaveBedel cAnterior=null;
             //busco la contraseña mas actual
                     
-            for(ClaveBedel c: b.getClaveBedels()){
+            /*for(ClaveBedel c: b.getClaveBedels()){
                 if(cb==null){
                     cb=c;
                     cAnterior=c;        
                 }else{
-                    if(c.getId().getFecha().compareTo(cAnterior.getId().getFecha())>0){
+                    if(c.getId().getFecha().compareTo(cb.getId().getFecha())>0){
                         cb=c;
                         cAnterior=c;
                     }else cAnterior=c;
                 }            
+            }*/for(ClaveBedel c: b.getClaveBedels()){
+                if(cb==null) cb=c;
+                else{
+                    if(c.getId().getFecha().compareTo(cb.getId().getFecha())>0){
+                        cb=c;
+                    }
+                }
             }
-                  
+            
+            
+              
             //verifico si la clave concuerda
             if(cb.getId().getValor().equals(pass) && cb.getId().getBedelUsername().equals(b.getUsername())){
                 //ir al menu de bedel

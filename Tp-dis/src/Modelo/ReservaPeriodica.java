@@ -11,15 +11,15 @@ import java.util.Set;
 public class ReservaPeriodica  implements java.io.Serializable {
 
 
-     private Integer idReservaPeriodica;
-     private ActividadUniversitaria actividadUniversitaria;
-     private Bedel bedel;
-     private Docente docente;
-     private Integer cantidadAlumnos;
-     private PeriodoEnum periodo;
-     private TipoAula tipoAula;
+     private Integer idReservaPeriodica;//
+     private ActividadUniversitaria actividadUniversitaria;//
+     private Bedel bedel;//
+     private Docente docente;//
+     private Integer cantidadAlumnos;//
+     private PeriodoEnum periodo;//
+     private TipoAula tipoAula;//
      private Set diaReservaPeriodicas = new HashSet(0);
-     private Byte activo;
+     private Byte activo;//
      
 
     public ReservaPeriodica() {
@@ -40,6 +40,9 @@ public class ReservaPeriodica  implements java.io.Serializable {
        this.diaReservaPeriodicas = diaReservaPeriodicas;
        this.tipoAula=tipo;
        this.activo=activo;
+    }
+    public void addDRP(DiaReservaPeriodica drp){
+        this.diaReservaPeriodicas.add(drp);
     }
 
     public Byte getActivo() {

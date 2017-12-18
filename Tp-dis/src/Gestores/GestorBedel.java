@@ -133,10 +133,10 @@ public class GestorBedel {
     
     public ClaveBedel obtenerClaveMasActual(Bedel b){
         ClaveBedel cb=null;
-        ClaveBedel cAnterior=null;
+       // ClaveBedel cAnterior=null;
             //busco la contraseña mas actual
                     
-            for(ClaveBedel c: b.getClaveBedels()){
+           /* for(ClaveBedel c: b.getClaveBedels()){
                 if(cb==null){
                     cb=c;
                     cAnterior=c;        
@@ -146,6 +146,14 @@ public class GestorBedel {
                         cAnterior=c;
                     }else cAnterior=c;
                 }            
+            }*/
+           for(ClaveBedel c: b.getClaveBedels()){
+                if(cb==null) cb=c;
+                else{
+                    if(c.getId().getFecha().compareTo(cb.getId().getFecha())>0){
+                        cb=c;
+                    }
+                }
             }
             
             return cb;

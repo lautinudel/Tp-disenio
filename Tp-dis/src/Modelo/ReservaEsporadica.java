@@ -11,14 +11,14 @@ import java.util.Set;
 public class ReservaEsporadica  implements java.io.Serializable {
 
 
-     private Integer idReservaEsporadica;
+     private Integer idReservaEsporadica;//
      private ActividadUniversitaria actividadUniversitaria;//
      private Bedel bedel;//
      private Docente docente;//
      private Integer cantidadAlumnos;//
      private TipoAula tipoAula;//
      private Set diaReservaEsporadicas = new HashSet(0);
-     private Byte activo;
+     private Byte activo;//
      
 
     public ReservaEsporadica() {
@@ -72,6 +72,9 @@ public class ReservaEsporadica  implements java.io.Serializable {
     }
     public Bedel getBedel() {
         return this.bedel;
+    }
+    public void addDRE(DiaReservaEsporadica dre){
+        this.diaReservaEsporadicas.add(dre);
     }
     
     public void setBedel(Bedel bedel) {
