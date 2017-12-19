@@ -1134,13 +1134,33 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     
                     //Si la reserva es periodica
                     if( tipoReserva == TipoReserva.Periodica){
+                        Date today = new Date();
+                        GestorPeriodo gestorPeriodo = new GestorPeriodo();
+                        List<FechasPeriodo> lista = gestorPeriodo.fechasPeriodoActualYSiguiente();
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(today);
+                        int anio = 0;
+                        
+                        if(today.compareTo(lista.get(0).getFinSegundoCuatrimestre())>=0){
+                            anio=cal.get(Calendar.YEAR)+1;
+                        }else{
+                            anio=cal.get(Calendar.YEAR);
+
+                        }
+                        
+                        System.out.println("ANTES DE OBTENER DISPONIBILIDAD");
+                        for(int i = 0; i<dias.size();i++){
+                            System.out.println(dias.get(i)+" "+horaInicio.get(i)+" "+horaFin.get(i)+" "+periodos.get(i)+" "+cantAlumnosFilaPeriodica.get(0)+" "+tipoAulaDato+" "+tipoReserva+" "+anio);
+                        }
+                        
+                        
                         //Busco disponibilidad de aulas                                                                                         //Si es periodica tiene una sola posiciòn
-                        ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnosFilaPeriodica.get(0), tipoAulaDato);
+                        ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnosFilaPeriodica.get(0), tipoAulaDato, tipoReserva, anio);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
                                 
                         
                         
-                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnosFilaPeriodica, docenteApellido,docenteNombre, catedraDato, periodo, emailDato, topFrame.getBedel(), tipoReserva);
+                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnosFilaPeriodica, docenteApellido,docenteNombre, catedraDato, periodos, emailDato, topFrame.getBedel(), tipoReserva);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
                         this.setVisible(false);
@@ -1168,7 +1188,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                 
                                 tipoAulaFila = tipoAulas.get(i);
                                 //Voy a tener un solo dia y todas las aulas disponibles
-                                aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila.get(i), tipoAulaFila);
+                                aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila.get(i), tipoAulaFila, tipoReserva, 0);
                                             //Agrego la unica posicion del array
                                 aulas.add(aulasDisponibles.get(0));
                                 aulasDisponibles.clear();
@@ -1205,7 +1225,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                     topFrame.remove(this);
                                     topFrame.setSize(1100,500);
                                 }else{*/
-                                    ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnosFila,docenteApellido,docenteNombre, catedraDato, PeriodoEnum.Ninguno, emailDato,topFrame.getBedel(),tipoReserva);
+                                    ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnosFila,docenteApellido,docenteNombre, catedraDato, periodos, emailDato,topFrame.getBedel(),tipoReserva);
                                     panelAulas.setImage("/Imagenes/fondoabs.jpg");
                                     topFrame.add(panelAulas, BorderLayout.CENTER);
                                 

@@ -55,13 +55,15 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
     Docente docente;
     ActividadUniversitaria actividad;
     Bedel bedel;
-    PeriodoEnum periodo;
+    ArrayList<PeriodoEnum> periodo;
+    TipoReserva tipoReserva;
     /**
      * Creates new form ReservaAulasDisponibles
      */
     public ReservaAulasDisponibles(ArrayList<String> diasTexto, ArrayList<Date> dias, ArrayList<Date> horaInicio, 
                                     ArrayList<Date> horaFin , ArrayList<ArrayList<Aula>> aulasDisponibles, 
-                                    ArrayList<Integer> cantidadAlumnos, String docenteApellido,String docenteNombre, String actividad, PeriodoEnum periodo, String emailDato, Bedel b, TipoReserva tipoReserva) {
+                                    ArrayList<Integer> cantidadAlumnos, String docenteApellido,String docenteNombre,
+                                    String actividad, ArrayList<PeriodoEnum> periodo, String emailDato, Bedel b, TipoReserva tipoReserva) {
         initComponents();
         
         
@@ -69,14 +71,17 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
         GestorDocente gestorDocente = new GestorDocente();
         GestorActividad gestorActividad = new GestorActividad(); 
         GestorBedel gestorBedel = new GestorBedel();
-                
+        
+        this.periodo = new ArrayList();    
+            
         this.diasTexto = diasTexto;
         this.dias = dias;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.aulasDisponibles = aulasDisponibles;
         this.cantAlumnos = new ArrayList<>();
-        if(tipoReserva == TipoReserva.Periodica){
+        this.tipoReserva = tipoReserva;
+        if(this.tipoReserva == TipoReserva.Periodica){
             this.cantAlumnos.add(cantidadAlumnos.get(0));
         }else{
             for(int i=0;i<cantidadAlumnos.size();i++){
@@ -367,14 +372,14 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 i++;
             }
             
-            System.out.println(fila);
+            //System.out.println(fila);
             
             if(fila.size() != dias.size()){
                 topFrame.mensajeEmergente("Error","Falta seleccionar aula para alguna reserva");
             }else{
             //Recorro el array filas Y saco los datos para la realizar la reserva y el DiaReserva
             //Si el periodo es ninguno entonces es una reserva esporadica
-            if(this.periodo == PeriodoEnum.Ninguno){
+            if(this.tipoReserva == TipoReserva.Esporadica){
                 ReservaEsporadica reservaE = new ReservaEsporadica();
                 
                 reservaE.setDocente(this.docente);
@@ -410,7 +415,11 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                         idReserva.setHoraInicio(this.horaInicio.get(j));
                         idReserva.setHoraFin(this.horaFin.get(j));
                         idReserva.setReservaEsporadicaIdReservaEsporadica(gestorReserva.getIdReservaEsporadica());
-                    
+                        //if(periodo.get(j)== PeriodoEnum.PrimerCuatrimestre){
+                            diaReserva.setPeriodo(periodo.get(j));
+                        //}else
+                            
+                        
                         diaReserva.setAula(aulasDisponibles.get(j).get(indice));
                         diaReserva.setCantidadAlumnos(cantAlumnos.get(j));
                         diaReserva.setId(idReserva);
@@ -440,7 +449,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 reservaP.setActividadUniversitaria(this.actividad);
                 reservaP.setBedel(this.bedel);
                 reservaP.setCantidadAlumnos(cantAlumnos.get(0));
-                reservaP.setPeriodo(periodo);
+                reservaP.setPeriodo(periodo.get(0));
                 reservaP.setActivo((byte)1);
                 reservaP.setIdReservaPeriodica(2);
                                 

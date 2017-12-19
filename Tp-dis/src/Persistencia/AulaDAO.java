@@ -146,6 +146,8 @@ public class AulaDAO {
         session.close();
         return retorno;
     }*/
+    
+    //ESTA CONSULTA ANDA BIEN PARA VALIDAR NUEVAS RESERVAS ESPORADICAS
     public  List<Aula>  consultaEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
         
         java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
@@ -180,6 +182,68 @@ public class AulaDAO {
         return listaRetorno;
     }
     
+    public  List<Aula>  consultaEsporadica2 (Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula, PeriodoEnum periodo, int anio){
+        
+        //java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
+        java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
+        java.sql.Time sqlHoraFin = new java.sql.Time(horaFin.getTime());
+        
+        //De Date a String para el nombre del Día
+        String diaString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(dia);
+        String diaEnum = null;
+        switch(diaString){
+            case "lunes":
+                diaEnum = "'Monday'";
+                break;
+            case "martes":
+                diaEnum = "'Tuesday'";
+                break;
+            case "miércoles":
+                diaEnum = "'Wednesday'";
+                break;
+            case "jueves":
+                diaEnum = "'Thursday'";
+                break;
+            case "viernes":
+                diaEnum = "'Friday'";
+                break;
+            case "sábado":
+                diaEnum = "'Saturday'";
+                break;
+        }
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                    "SELECT DISTINCT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "(((r.activo = 1) AND "+
+                    "((DAYNAME(d.id.dia) != :variableDia OR (DAYNAME(d.id.dia) = :variableDia AND "+
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin))) "+
+                    "AND YEAR(d.id.dia) = :anio AND (d.periodo = :periodo OR d.periodo= 'Anual' OR d.periodo = 'Ninguno'))) OR "+
+                    "(r.activo = 0)) "+
+                    "AND a.capacidad >= :variableCapacidad "+
+                    "AND d.tipoAula = :variableTipoAula");
+        query.setParameter("variableDia", diaEnum);
+        query.setParameter("variableHoraInicio", sqlHoraInicio);
+        query.setParameter("variableHoraFin", sqlHoraFin);
+        query.setParameter("variableCapacidad", capacidad);
+        query.setParameter("variableTipoAula", tipoAula);
+        query.setParameter("anio", anio);
+        query.setParameter("periodo", periodo);
+        
+        List<Aula> listaRetorno = new ArrayList<>();
+        listaRetorno = query.list();
+        
+        session.close();
+       
+        return listaRetorno;
+    }
+    
+    //ESTA CONSULTA ANDA BIEN PARA VALIDAR NUEVAS RESERVAS ESPORADICAS PERIODICAS
     public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula, PeriodoEnum periodo){
         
         //java.sql.Date sqlDia = new java.sql.Date(dia.getTime());

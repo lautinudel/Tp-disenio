@@ -131,7 +131,7 @@ public class ObtenerDisponibilidadTest {
         String hora4 = "14:30:00";
         String hora5 = "12:58:00";
         String hora6 = "19:45:00";
-        String horaFin1 = "17:29:00";
+        String horaFin1 = "18:30:00";
         String horaFin2 = "22:08:00";
         String horaFin3 = "10:09:00";
         String horaFin4 = "18:00:00";
@@ -192,7 +192,7 @@ public class ObtenerDisponibilidadTest {
         ArrayList<Date> unDiaHF = new ArrayList<>();
         unDiaHF.add(timeFin1);
         
-        
+        /*
         GestorAula gestorAula = new GestorAula();
         ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(unDiaHF, horasInicio, horasFin, periodos, 10, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
@@ -200,7 +200,7 @@ public class ObtenerDisponibilidadTest {
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }
+        }*/
         
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
@@ -399,6 +399,157 @@ public class ObtenerDisponibilidadTest {
         
         System.out.println(id);*/
         
+        
+        
+        
+        
+        java.sql.Time sqlHoraInicio = new java.sql.Time(time1.getTime());
+        java.sql.Time sqlHoraFin = new java.sql.Time(timeFin1.getTime());
+        
+        //De Date a String para el nombre del Día
+        String diaString =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(date1);
+        String diaEnum = null;
+        switch(diaString){
+            case "lunes":
+                diaEnum = "'Monday'";
+                break;
+            case "martes":
+                diaEnum = "'Tuesday'";
+                break;
+            case "miércoles":
+                diaEnum = "'Wednesday'";
+                break;
+            case "jueves":
+                diaEnum = "'Thursday'";
+                break;
+            case "viernes":
+                diaEnum = "'Friday'";
+                break;
+            case "sábado":
+                diaEnum = "'Saturday'";
+                break;
+        }
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                     "SELECT DISTINCT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "(((r.activo = 1) AND "+
+                    "((DAYNAME(d.id.dia) != :variableDia OR (DAYNAME(d.id.dia) = :variableDia AND "+
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin))) "+
+                    "AND YEAR(d.id.dia) = :anio AND (d.periodo = :periodo OR d.periodo= 'Anual' OR d.periodo = 'Ninguno'))) OR "+
+                    "(r.activo = 0)) "+
+                    "AND a.capacidad >= :variableCapacidad "+
+                    "AND d.tipoAula = :variableTipoAula");
+        query.setParameter("variableDia", diaEnum);
+        query.setParameter("variableHoraInicio", sqlHoraInicio);
+        query.setParameter("variableHoraFin", sqlHoraFin);
+        query.setParameter("variableCapacidad", 10);
+        query.setParameter("variableTipoAula", TipoAula.SinRecursos);
+        query.setParameter("anio", 2018);
+        query.setParameter("periodo", PeriodoEnum.PrimerCuatrimestre);
+        
+        List<Aula> listaRetorno = new ArrayList<>();
+        listaRetorno = query.list();
+        
+        session.close();
+        for(Aula a:listaRetorno){
+            System.out.print(a.getNumeroAula()+"  ");
+        }
+        
+        java.sql.Time sqlHoraInicio2 = new java.sql.Time(time1.getTime());
+        java.sql.Time sqlHoraFin2 = new java.sql.Time(timeFin1.getTime());
+        
+        //De Date a String para el nombre del Día
+        String diaString2 =new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(date2);
+        String diaEnum2 = null;
+        switch(diaString2){
+            case "lunes":
+                diaEnum2 = "'Monday'";
+                break;
+            case "martes":
+                diaEnum2 = "'Tuesday'";
+                break;
+            case "miércoles":
+                diaEnum2 = "'Wednesday'";
+                break;
+            case "jueves":
+                diaEnum2 = "'Thursday'";
+                break;
+            case "viernes":
+                diaEnum2 = "'Friday'";
+                break;
+            case "sábado":
+                diaEnum2 = "'Saturday'";
+                break;
+        }
+        
+        SessionFactory sesion2 = NewHibernateUtil.getSessionFactory();
+        Session session2;
+        session2 = sesion2.openSession();
+        Query query2 = session2.createQuery(
+                    "SELECT DISTINCT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "(((r.activo = 1) AND "+
+                    "((DAYNAME(d.id.dia) != :variableDia OR (DAYNAME(d.id.dia) = :variableDia AND "+
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin))) "+
+                    "AND YEAR(d.id.dia) = :anio AND (d.periodo = :periodo OR d.periodo= 'Anual' OR d.periodo = 'Ninguno'))) OR "+
+                    "(r.activo = 0)) "+
+                    "AND a.capacidad >= :variableCapacidad "+
+                    "AND d.tipoAula = :variableTipoAula");
+        query2.setParameter("variableDia", diaEnum2);
+        query2.setParameter("variableHoraInicio", sqlHoraInicio2);
+        query2.setParameter("variableHoraFin", sqlHoraFin2);
+        query2.setParameter("variableCapacidad", 10);
+        query2.setParameter("variableTipoAula", TipoAula.SinRecursos);
+        query2.setParameter("anio", 2018);
+        query2.setParameter("periodo", PeriodoEnum.PrimerCuatrimestre);
+        
+        List<Aula> listaRetorno2 = new ArrayList<>();
+        listaRetorno2 = query2.list();
+        
+        session2.close();
+        for(Aula a:listaRetorno2){
+            System.out.print(a.getNumeroAula()+"  ");
+        }
+        /*
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                    "SELECT DISTINCT d "+
+                    "FROM DiaReservaEsporadica d "+
+                    "WHERE DAYNAME(d.id.dia) = 'Tuesday' ");
+        
+        List<DiaReservaEsporadica> listaRetorno = new ArrayList<>();
+        listaRetorno = query.list();
+        
+        session.close();
+        for(DiaReservaEsporadica a:listaRetorno){
+            System.out.print(a.getId().getReservaEsporadicaIdReservaEsporadica()+"  ");
+        }*/
+        /*
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createQuery(
+                    "SELECT DISTINCT d "+
+                    "FROM DiaReservaEsporadica d "+
+                    "WHERE YEAR(d.id.dia) = 2018 ");
+        
+        List<DiaReservaEsporadica> listaRetorno = new ArrayList<>();
+        listaRetorno = query.list();
+        
+        session.close();
+        for(DiaReservaEsporadica a:listaRetorno){
+            System.out.print(a.getId().getReservaEsporadicaIdReservaEsporadica()+"  ");
+        }*/
        exit(0);
     }
 }

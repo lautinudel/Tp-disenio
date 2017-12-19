@@ -24,6 +24,12 @@
         <property name="cantidadAlumnos" type="java.lang.Integer">
             <column name="cantidadAlumnos" />
         </property>
+        <property name="periodo" column="periodo">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">Modelo.PeriodoEnum</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
         <property name="tipoAula" column="tipoAula">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">Modelo.TipoAula</param>

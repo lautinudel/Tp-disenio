@@ -38,10 +38,11 @@ public class GestorAula {
     public ArrayList<ArrayList<Aula>> obtenerDisponibilidadDeAula(
             ArrayList<Date> dias, ArrayList<Date> horaInicio,
             ArrayList<Date> horaFin, ArrayList<PeriodoEnum> periodos,
-            int cantAlumnos, TipoAula tipoAula){
+            int cantAlumnos, TipoAula tipoAula, TipoReserva tipoReserva, int anio){
         AulaDAO aulaDao = new AulaDAO();
         ArrayList<ArrayList<Aula>> aulas = new ArrayList();
         List<Aula> listaAulasDisponiblesEsporadica = new ArrayList();
+        //List<Aula> listaAulasDisponiblesEsporadica2 = new ArrayList();
         List<Aula> listaAulasDisponiblesPeriodica = new ArrayList();
         ArrayList<Aula> copia1, copia2;
         boolean nohayEsporadicas = false, nohayPeriodicas = false;
@@ -53,33 +54,61 @@ public class GestorAula {
         for(int i=0; i<dias.size(); i++){
             
             //Busca las aulas disponibles según las reservas esporádicas:
-            listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
-            if(listaAulasDisponiblesEsporadica.isEmpty())
-                nohayEsporadicas=true;
-             else
-                nohayEsporadicas=false;
+            if(tipoReserva==TipoReserva.Esporadica){
+                listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
+                if(listaAulasDisponiblesEsporadica.isEmpty())
+                    nohayEsporadicas=true;
+                else
+                    nohayEsporadicas=false;
             
-            System.out.println("AULAS DISPONIBLES - CONSULTA ESPORADICAS - RESERVA "+i);
-            for(Aula a : listaAulasDisponiblesEsporadica)
-                System.out.print(a.getNumeroAula()+" ");
-            System.out.print("\n");
+                System.out.println("AULAS DISPONIBLES - CONSULTA ESPORADICAS - RESERVA "+i);
+                for(Aula a : listaAulasDisponiblesEsporadica)
+                    System.out.print(a.getNumeroAula()+" ");
+                System.out.print("\n");
+
+                //Busca las aulas disponibles según las reservas periódicas:
+                if(periodos.get(i)!=PeriodoEnum.Ninguno)
+                    listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
             
-            //Busca las aulas disponibles según las reservas periódicas:
-            if(periodos.get(i)!=PeriodoEnum.Ninguno)
+                if(listaAulasDisponiblesPeriodica.isEmpty())
+                    nohayPeriodicas=true;
+                else
+                    nohayPeriodicas=false;
+            
+                System.out.println("AULAS DISPONIBLES - CONSULTA PERIODICAS - RESERVA "+i);
+                for(Aula a : listaAulasDisponiblesPeriodica)
+                    System.out.print(a.getNumeroAula()+" ");
+                System.out.println();
+            
+                System.out.println("PERIODO RESERVA "+i);
+                System.out.println(periodos.get(i)+"\n");
+            }else{
+                listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica2(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i), anio);
+                if(listaAulasDisponiblesEsporadica.isEmpty())
+                    nohayEsporadicas=true;
+                else
+                    nohayEsporadicas=false;
+            
+                System.out.println("AULAS DISPONIBLES - CONSULTA ESPORADICAS - RESERVA "+i);
+                for(Aula a : listaAulasDisponiblesEsporadica)
+                    System.out.print(a.getNumeroAula()+" ");
+                System.out.print("\n");
+            
                 listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
             
-            if(listaAulasDisponiblesPeriodica.isEmpty())
-                nohayPeriodicas=true;
-             else
-                nohayPeriodicas=false;
+                if(listaAulasDisponiblesPeriodica.isEmpty())
+                    nohayPeriodicas=true;
+                else
+                    nohayPeriodicas=false;
             
-            System.out.println("AULAS DISPONIBLES - CONSULTA PERIODICAS - RESERVA "+i);
-            for(Aula a : listaAulasDisponiblesPeriodica)
-                System.out.print(a.getNumeroAula()+" ");
-            System.out.println();
+                System.out.println("AULAS DISPONIBLES - CONSULTA PERIODICAS - RESERVA "+i);
+                for(Aula a : listaAulasDisponiblesPeriodica)
+                    System.out.print(a.getNumeroAula()+" ");
+                System.out.println();
             
-            System.out.println("PERIODO RESERVA "+i);
-            System.out.println(periodos.get(i));
+                System.out.println("PERIODO RESERVA "+i);
+                System.out.println(periodos.get(i)+"\n");
+            }
             
             arregloEsporadicas.add(nohayEsporadicas);
             arregloPeriodicas.add(nohayPeriodicas);
