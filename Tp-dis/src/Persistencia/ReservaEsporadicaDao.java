@@ -34,7 +34,23 @@ public class ReservaEsporadicaDao {
       session.close();        
     }
             
-    
+    public int getId(){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "+
+                                            "FROM information_schema.TABLES " +
+                                            "WHERE TABLE_SCHEMA = 'ayrtonco_tp_disenio' " +
+                                            "AND TABLE_NAME = 'ReservaEsporadica'");
+        List<Object> ids = query.list();
+        
+        int id = Integer.parseInt(String.valueOf(ids.get(0)));
+        session.close();        
+        return (id-1);
+        
+    }
+            
+            
     public boolean unicaReserva(Date dia, Date horaInicio){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

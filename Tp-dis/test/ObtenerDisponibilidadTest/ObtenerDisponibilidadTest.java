@@ -8,13 +8,18 @@ package ObtenerDisponibilidadTest;
 import Gestores.GestorAula;
 import Interfaces.RegistrarReserva;
 import Modelo.Aula;
+import Modelo.Bedel;
+import Modelo.ClaveBedel;
+import Modelo.ClaveBedelId;
 import Modelo.DiaReservaEsporadica;
 import Modelo.PeriodoEnum;
 import Modelo.ReservaPeriodica;
 import Modelo.TipoAula;
 import Modelo.TipoReserva;
+import Modelo.TurnoEnum;
 import java.util.List;
 import Persistencia.AulaDAO;
+import Persistencia.BedelDAO;
 import Persistencia.NewHibernateUtil;
 import static java.lang.System.exit;
 import java.sql.Time;
@@ -33,6 +38,7 @@ import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -186,16 +192,16 @@ public class ObtenerDisponibilidadTest {
         ArrayList<Date> unDiaHF = new ArrayList<>();
         unDiaHF.add(timeFin6);
         
-        /*
-        GestorAula gestorAula = new GestorAula();
+        
+        /*GestorAula gestorAula = new GestorAula();
         ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(dias, horasInicio, horasFin, periodos, 35, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
             for(int j=0; j<aulasDisp.get(i).size();j++){
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }
-        */
+        }*/
+        
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
         prueba.add(0, dias);
@@ -362,14 +368,36 @@ public class ObtenerDisponibilidadTest {
        String diaLunes = "lunes";
        //Date datechiripiorca = null;
        
-       SimpleDateFormat dayFormat = new SimpleDateFormat("E", new Locale("es", "ES"));
+       /*SimpleDateFormat dayFormat = new SimpleDateFormat("E", new Locale("es", "ES"));
         Date datechiripiorca = dayFormat.parse(diaLunes);
         
         
-        System.out.println(datechiripiorca);
-        
+        System.out.println(datechiripiorca);*/
+        /*
         Date today = new Date();
         System.out.println(today);
+        
+        ClaveBedelId id = new ClaveBedelId("chiripiorca", "chiripiorca", today);
+        Bedel b = new Bedel("chiripiorca", "Garlopa", "Juan", TurnoEnum.Maniana);
+        BedelDAO bdao = new BedelDAO();
+        ClaveBedel c = new ClaveBedel(id, b);
+        bdao.guardarBedel(b, c);
+
+        */
+        
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "+
+                                            "FROM information_schema.TABLES " +
+                                            "WHERE TABLE_SCHEMA = 'ayrtonco_tp_disenio' " +
+                                            "AND TABLE_NAME = 'ReservaEsporadica'");
+        List<Object> ids = query.list();
+        
+        int id = Integer.parseInt(String.valueOf(ids.get(0)));
+        session.close();
+        
+        System.out.println(id);
         
        exit(0);
     }

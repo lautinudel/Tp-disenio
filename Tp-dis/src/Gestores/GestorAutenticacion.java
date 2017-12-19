@@ -30,7 +30,7 @@ public class GestorAutenticacion {
         if(BDAO.verificarExistencia(usuario)){
             Bedel b = BDAO.obtenerBedel(usuario);
             ClaveBedel cb=null;
-            ClaveBedel cAnterior=null;
+            //ClaveBedel cAnterior=null;
             //busco la contraseña mas actual
                     
             /*for(ClaveBedel c: b.getClaveBedels()){

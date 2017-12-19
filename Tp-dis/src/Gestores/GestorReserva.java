@@ -60,7 +60,10 @@ public class GestorReserva {
         
     }
             
-            
+    public int getId(){
+        ReservaEsporadicaDao reserva = new ReservaEsporadicaDao();
+        return reserva.getId();
+    }        
             
     public int validarTipoDeDatos(String docenteApellido, String docenteNombre, String catedraDato, String emailDato){
         GestorValidacion gestorVal = new GestorValidacion();

@@ -825,6 +825,8 @@ public class RegistrarReserva extends javax.swing.JPanel {
         ArrayList<Date> horaFin = new ArrayList();
         ArrayList<PeriodoEnum> periodos = new ArrayList();
         ArrayList<TipoAula> tipoAulas = new ArrayList();
+        ArrayList<Integer> cantAlumnosFila = new ArrayList();
+        ArrayList<Integer> cantAlumnosFilaPeriodica = new ArrayList();
         
         GestorAula gestorAula = new GestorAula(); 
         GestorReserva gestorReserva = new GestorReserva();
@@ -832,7 +834,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
         GestorDocente gestorDocente = new GestorDocente();
         GestorActividad gestorActividad = new GestorActividad();
         
-        int cantAlumnos = 0;
+        
         PeriodoEnum periodo = PeriodoEnum.Ninguno;
         FechasPeriodo fechasPeriodo = new FechasPeriodo();
         TipoReserva tipoReserva = null;
@@ -864,7 +866,10 @@ public class RegistrarReserva extends javax.swing.JPanel {
             if(!this.cantidadAlumnos.getText().isEmpty()){
                 if(gestorReserva.validarStringSoloConNumeros(this.cantidadAlumnos.getText())){
                     //Obtengo un String del jTextField y parseInt lo convierte en int
-                    cantAlumnos = Integer.parseInt((this.cantidadAlumnos.getText()));
+                    cantAlumnosFilaPeriodica.add(Integer.parseInt((this.cantidadAlumnos.getText())));
+                    
+                    
+                    
                 }else{
                     topFrame.mensajeEmergente("Datos Incorrectos", "Debe ingresar solo números en la cantidad de alumnos");
                 }
@@ -1108,11 +1113,13 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     
                     //Si la reserva es periodica
                     if( tipoReserva == TipoReserva.Periodica){
-                        //Busco disponibilidad de aulas                                                                                         
-                        ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnos, tipoAulaDato);
+                        //Busco disponibilidad de aulas                                                                                         //Si es periodica tiene una sola posiciòn
+                        ArrayList<ArrayList<Aula>> aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(dias, horaInicio, horaFin, periodos, cantAlumnosFilaPeriodica.get(0), tipoAulaDato);
                         ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDiaSemana(dias);
+                                
                         
-                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnos, docenteApellido,docenteNombre, catedraDato, periodo, emailDato, topFrame.getBedel());
+                        
+                        ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias,horaInicio, horaFin,aulasDisponibles,cantAlumnosFilaPeriodica, docenteApellido,docenteNombre, catedraDato, periodo, emailDato, topFrame.getBedel(), tipoReserva);
                         panelAulas.setImage("/Imagenes/fondoabs.jpg");
                         topFrame.add(panelAulas, BorderLayout.CENTER);
                         this.setVisible(false);
@@ -1127,7 +1134,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                             ArrayList<Date> horaFinFila = new ArrayList();
                             ArrayList<PeriodoEnum> periodoFila = new ArrayList();
                             TipoAula tipoAulaFila;
-                            int cantAlumnosFila;
+                            
                             
                             ArrayList<String> diasTexto = convertirArrayDeDateAArrayStringFormatoDia(dias);
                                                         
@@ -1136,10 +1143,11 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                 horaInicioFila.add(horaInicio.get(i));
                                 horaFinFila.add(horaFin.get(i));
                                 periodoFila.add(periodos.get(i));
-                                cantAlumnosFila = (int) this.tabla.getModel().getValueAt(i, 4);
+                                cantAlumnosFila.add((int) this.tabla.getModel().getValueAt(i, 4));
+                                
                                 tipoAulaFila = tipoAulas.get(i);
                                 //Voy a tener un solo dia y todas las aulas disponibles
-                                aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila, tipoAulaFila);
+                                aulasDisponibles = gestorAula.obtenerDisponibilidadDeAula(diaFila, horaInicioFila, horaFinFila, periodoFila, cantAlumnosFila.get(i), tipoAulaFila);
                                             //Agrego la unica posicion del array
                                 aulas.add(aulasDisponibles.get(0));
                                 aulasDisponibles.clear();
@@ -1167,13 +1175,23 @@ public class RegistrarReserva extends javax.swing.JPanel {
                                                         
                             //Si no hay dias con conflicto
                             if(diasConConflicto.isEmpty() && horaInicioConConflicto.isEmpty()){
-                                ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnos,docenteApellido,docenteNombre, catedraDato, PeriodoEnum.Ninguno, emailDato,topFrame.getBedel());
-                                panelAulas.setImage("/Imagenes/fondoabs.jpg");
-                                topFrame.add(panelAulas, BorderLayout.CENTER);
+                                /*if( tipoReserva == TipoReserva.Periodica){
+                                    ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnos,docenteApellido,docenteNombre, catedraDato, PeriodoEnum.Ninguno, emailDato,topFrame.getBedel(),tipoReserva);
+                                    panelAulas.setImage("/Imagenes/fondoabs.jpg");
+                                    topFrame.add(panelAulas, BorderLayout.CENTER);
                                 
-                                this.setVisible(false);
-                                topFrame.remove(this);
-                                topFrame.setSize(1100,500);
+                                    this.setVisible(false);
+                                    topFrame.remove(this);
+                                    topFrame.setSize(1100,500);
+                                }else{*/
+                                    ReservaAulasDisponibles panelAulas = new ReservaAulasDisponibles(diasTexto, dias, horaInicio, horaFin, aulas, cantAlumnosFila,docenteApellido,docenteNombre, catedraDato, PeriodoEnum.Ninguno, emailDato,topFrame.getBedel(),tipoReserva);
+                                    panelAulas.setImage("/Imagenes/fondoabs.jpg");
+                                    topFrame.add(panelAulas, BorderLayout.CENTER);
+                                
+                                    this.setVisible(false);
+                                    topFrame.remove(this);
+                                    topFrame.setSize(1100,500);
+                                //}
                             }else{
                                 //Sino Imprimo todos los dias y horarios solapados
                                 //Transformo el Array de dias en un string
@@ -1183,7 +1201,7 @@ public class RegistrarReserva extends javax.swing.JPanel {
                             }   
                         }
                     }    
-                        break;
+                    break;
             case 1: topFrame.mensajeEmergente("Datos Incorrectos", "El nombre y el apellido debe contener solo letras.");break;
             case 2: topFrame.mensajeEmergente("Docente no registrado", "El docente ingresado no se encuentra registrado. Por favor verifique que se halla ingresado correctamente los datos.");break;
             case 3: topFrame.mensajeEmergente("Actividad Incorrecta", "No se encuentra la actividad universitaria ingresada.");break;

@@ -11,8 +11,8 @@
             <key-property name="bedelUsername" type="string">
                 <column name="Bedel_username" length="32" />
             </key-property>
-            <key-property name="fecha" type="date">
-                <column name="fecha" length="10" />
+            <key-property name="fecha" type="timestamp">
+                <column name="fecha" length="19" />
             </key-property>
         </composite-id>
         <many-to-one name="bedel" class="Modelo.Bedel" update="false" insert="false" fetch="select">
