@@ -59,12 +59,10 @@ public class GestorAula {
              else
                 nohayEsporadicas=false;
             
+            System.out.println("AULAS DISPONIBLES - CONSULTA ESPORADICAS - RESERVA "+i);
             for(Aula a : listaAulasDisponiblesEsporadica)
                 System.out.print(a.getNumeroAula()+" ");
-            
-            System.out.println();
-            
-            System.out.println(periodos.get(i));
+            System.out.print("\n");
             
             //Busca las aulas disponibles según las reservas periódicas:
             if(periodos.get(i)!=PeriodoEnum.Ninguno)
@@ -75,11 +73,13 @@ public class GestorAula {
              else
                 nohayPeriodicas=false;
             
+            System.out.println("AULAS DISPONIBLES - CONSULTA PERIODICAS - RESERVA "+i);
             for(Aula a : listaAulasDisponiblesPeriodica)
                 System.out.print(a.getNumeroAula()+" ");
-            
             System.out.println();
             
+            System.out.println("PERIODO RESERVA "+i);
+            System.out.println(periodos.get(i));
             
             arregloEsporadicas.add(nohayEsporadicas);
             arregloPeriodicas.add(nohayPeriodicas);
@@ -95,6 +95,7 @@ public class GestorAula {
             listaAulasDisponiblesPeriodica.clear();
         }
        
+        System.out.println("ANTES DE CONSERVAR DUPLICADOS");
         for(int i = 0 ; i<aulas.size();i++){
             for(Aula al : aulas.get(i))
                 System.out.print(al.getNumeroAula()+" ");
@@ -110,6 +111,7 @@ public class GestorAula {
             }
         }
         
+        System.out.println("DESPUES DE CONSERVAR DUPLICADOS");
         for(int i = 0 ; i<aulas.size();i++){
             for(Aula al : aulas.get(i))
                 System.out.print(al.getNumeroAula()+" ");
@@ -124,6 +126,7 @@ public class GestorAula {
         for(int h=0; h<aulas.size(); h++)
             aulas.get(h).addAll(aulasSinReserva);
         
+        System.out.println("DESPUES DE AÑADIR AULAS SIN RESERVA");
         for(int i = 0 ; i<aulas.size();i++){
             for(Aula al : aulas.get(i))
                 System.out.print(al.getNumeroAula()+" ");
