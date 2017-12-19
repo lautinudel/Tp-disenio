@@ -146,7 +146,7 @@ public class AulaDAO {
         session.close();
         return retorno;
     }*/
-    public List<Aula> consultaEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
+    public  List<Aula>  consultaEsporadica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula){
         
         java.sql.Date sqlDia = new java.sql.Date(dia.getTime());
         java.sql.Time sqlHoraInicio = new java.sql.Time(horaInicio.getTime());
@@ -165,15 +165,19 @@ public class AulaDAO {
                     "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin)))) OR "+
                     "(r.activo = 0)) "+
                     "AND a.capacidad >= :variableCapacidad "+
-                    "AND r.tipoAula = :variableTipoAula");
+                    "AND d.tipoAula = :variableTipoAula");
         query.setParameter("variableDia", sqlDia);
         query.setParameter("variableHoraInicio", sqlHoraInicio);
         query.setParameter("variableHoraFin", sqlHoraFin);
         query.setParameter("variableCapacidad", capacidad);
         query.setParameter("variableTipoAula", tipoAula);
-        List<Aula> retorno = query.list();
+        
+        List<Aula> listaRetorno = new ArrayList<>();
+        listaRetorno = query.list();
+        
         session.close();
-        return retorno;
+       
+        return listaRetorno;
     }
     
     public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula, PeriodoEnum periodo){
@@ -206,7 +210,7 @@ public class AulaDAO {
                 break;
         }
         
-         List<Aula> retorno=null;
+         //List<Aula> retorno=null;
         
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
@@ -230,11 +234,16 @@ public class AulaDAO {
         query.setParameter("variableCapacidad", capacidad);
         query.setParameter("variableTipoAula", tipoAula);
         
-        retorno = query.list();
+        List<Aula> listaRetorno = query.list();
         
+         /*for(Aula a : listaRetorno)
+                System.out.print(a.getNumeroAula()+" ");
+         System.out.println();*/
+         
+         
         session.close();
         
-        return retorno;
+        return listaRetorno;
     }
     
     public List<Aula> consultaObtenerDisponibilidadSinReservas(int cantAlumnos, TipoAula tipoAula){

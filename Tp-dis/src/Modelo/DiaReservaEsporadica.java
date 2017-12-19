@@ -11,15 +11,36 @@ public class DiaReservaEsporadica  implements java.io.Serializable {
 
      private DiaReservaEsporadicaId id;
      private Aula aula;//
+     private TipoAula tipoAula;
+     private Integer cantidadAlumnos;
      private ReservaEsporadica reservaEsporadica;
 
     public DiaReservaEsporadica() {
     }
 
-    public DiaReservaEsporadica(DiaReservaEsporadicaId id, Aula aula, ReservaEsporadica reservaEsporadica) {
+    public Integer getCantidadAlumnos() {
+        return cantidadAlumnos;
+    }
+
+    public void setCantidadAlumnos(Integer cantidadAlumnos) {
+        this.cantidadAlumnos = cantidadAlumnos;
+    }
+    
+    
+
+    public DiaReservaEsporadica(DiaReservaEsporadicaId id, Aula aula, TipoAula tipo, ReservaEsporadica reservaEsporadica) {
        this.id = id;
        this.aula = aula;
+       this.tipoAula = tipo;
        this.reservaEsporadica = reservaEsporadica;
+    }
+
+    public TipoAula getTipoAula() {
+        return tipoAula;
+    }
+
+    public void setTipoAula(TipoAula tipoAula) {
+        this.tipoAula = tipoAula;
     }
    
     public DiaReservaEsporadicaId getId() {

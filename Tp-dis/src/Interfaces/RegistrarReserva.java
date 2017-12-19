@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1067,21 +1068,26 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     topFrame.mensajeEmergente("Falta datos", "Debe ingresar una duración para el día Sábado.");
                 }
             }
+            
+            
             for (int i=0; i< dias.size(); i++){
                 periodos.add(periodo);
             }
         }else{  //Si no es periodica es esporádica (no hay otra alternativa) y si tiene al menos una fila
             tablaVacia = false;
+            Date hoy = new Date();
             if(tabla.getRowCount()>0){
                 tipoReserva = TipoReserva.Esporadica;
                 GestorPeriodo gestorPeriodo = new GestorPeriodo();
-                fechasPeriodo = gestorPeriodo.getPeriodo();
-                
+                List<FechasPeriodo> lista = gestorPeriodo.fechasPeriodoActualYSiguiente();
+                Calendar cal = Calendar.getInstance();
+        
+                /*
                 Date inicioPrimerCuatrimestre = fechasPeriodo.getInicioPrimerCuatrimestre();
                 Date finPrimerCuatrimestre = fechasPeriodo.getFinPrimerCuatrimestre();
                 Date inicioSegundoCuatrimestre = fechasPeriodo.getInicioSegundoCuatrimestre();
                 Date finSegundoCuatrimestre = fechasPeriodo.getFinSegundoCuatrimestre();
-                
+                */
                                 
                 //Si la reserva es Esporadica la tabla ya está validada por lo que solo leo la tabla
                 for(int i=0; i<this.tabla.getRowCount();i++){
@@ -1089,13 +1095,28 @@ public class RegistrarReserva extends javax.swing.JPanel {
                     horaInicio.add(convertirStringADateFormatoHora(this.tabla.getModel().getValueAt(i, 1).toString()));
                     horaFin.add(sumarMinutosAHoraInicio(this.tabla.getModel().getValueAt(i, 1).toString(),this.tabla.getModel().getValueAt(i, 2).toString()));
                     tipoAulas.add((TipoAula)this.tabla.getModel().getValueAt(i, 3));
-                    if(dias.get(i).compareTo(inicioPrimerCuatrimestre)>=0 && dias.get(i).compareTo(finPrimerCuatrimestre)<=0){
-                        periodos.add(PeriodoEnum.PrimerCuatrimestre);
-                    }else{
-                        if(dias.get(i).compareTo(inicioSegundoCuatrimestre)>=0 && dias.get(i).compareTo(finSegundoCuatrimestre)<=0){
-                            periodos.add(PeriodoEnum.SegundoCuatrimestre);
+                    cal.setTime(dias.get(i));
+                    if(cal.get(Calendar.YEAR) < lista.get(1).getAnio()){
+                        if(dias.get(i).compareTo(lista.get(0).getInicioPrimerCuatrimestre())>=0 && dias.get(i).compareTo(lista.get(0).getFinPrimerCuatrimestre()) <=0){
+                            periodos.add(PeriodoEnum.PrimerCuatrimestre);
                         }else{
-                            periodos.add(PeriodoEnum.Ninguno);
+                            if(dias.get(i).compareTo(lista.get(0).getInicioSegundoCuatrimestre())>=0 && dias.get(i).compareTo(lista.get(0).getFinSegundoCuatrimestre())<=0){
+                                periodos.add(PeriodoEnum.SegundoCuatrimestre);
+                            }else{
+                                periodos.add(PeriodoEnum.Ninguno);
+                            }
+                        }   
+                    }else{
+                        if(cal.get(Calendar.YEAR) == lista.get(1).getAnio()){
+                            if(dias.get(i).compareTo(lista.get(1).getInicioPrimerCuatrimestre())>=0 && dias.get(i).compareTo(lista.get(1).getFinPrimerCuatrimestre()) <=0){
+                                periodos.add(PeriodoEnum.PrimerCuatrimestre);
+                            }else{
+                                if(dias.get(i).compareTo(lista.get(1).getInicioSegundoCuatrimestre())>=0 && dias.get(i).compareTo(lista.get(1).getFinSegundoCuatrimestre())<=0){
+                                    periodos.add(PeriodoEnum.SegundoCuatrimestre);
+                                }else{
+                                    periodos.add(PeriodoEnum.Ninguno);
+                                }
+                            } 
                         }
                     }
                 }

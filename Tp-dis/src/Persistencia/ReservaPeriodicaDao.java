@@ -10,6 +10,7 @@ import Modelo.ReservaPeriodica;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -36,6 +37,21 @@ public class ReservaPeriodicaDao {
       session.close();        
     }
     
+    public int getId(){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "+
+                                            "FROM information_schema.TABLES " +
+                                            "WHERE TABLE_SCHEMA = 'ayrtonco_tp_disenio' " +
+                                            "AND TABLE_NAME = 'ReservaPeriodica'");
+        List<Object> ids = query.list();
+        
+        int id = Integer.parseInt(String.valueOf(ids.get(0)));
+        session.close();        
+        return (id-1);
+        
+    }
     
     public boolean unicaReserva(Date dia, Date horaInicio){
         //Transformo los date en algo comparable con la bd

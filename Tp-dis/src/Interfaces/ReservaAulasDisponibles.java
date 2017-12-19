@@ -10,6 +10,7 @@ import Gestores.GestorAula;
 import Gestores.GestorBedel;
 import Gestores.GestorDiaReserva;
 import Gestores.GestorDocente;
+import Gestores.GestorPeriodo;
 import Gestores.GestorReserva;
 import Modelo.ActividadUniversitaria;
 import Modelo.Aula;
@@ -76,7 +77,6 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
         this.aulasDisponibles = aulasDisponibles;
         this.cantAlumnos = new ArrayList<>();
         if(tipoReserva == TipoReserva.Periodica){
-            System.out.println(cantidadAlumnos);
             this.cantAlumnos.add(cantidadAlumnos.get(0));
         }else{
             for(int i=0;i<cantidadAlumnos.size();i++){
@@ -331,156 +331,205 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
             Si es Periodica -> cantidadAlumnos, periodo, Bedel_username, ActividadUniversitaria_idActividad,Docente_apellido,Docente_dni, tipoAula
                 DiaReservaPeriodica -> id_reservaPeriodica, Aula_numeroAula, dia (String), horaInicio, horaFin, anio        
         */
-        JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+        if(this.jTable1.getRowCount()>0){
+            JFramePrincipal topFrame = (JFramePrincipal) SwingUtilities.getWindowAncestor(this);
+            GestorPeriodo gestorPeriodo = new GestorPeriodo();
+            GestorDiaReserva gestorDiaReserva = new GestorDiaReserva();
+            GestorReserva gestorReserva = new GestorReserva();
+            ArrayList<String> fechaTabla = new ArrayList();
+            ArrayList<String> horaInicioTabla = new ArrayList();
+            //Almaceno el numero de fila en donde están las fechas válidas
+            ArrayList<Integer> fila = new ArrayList();
         
-        GestorDiaReserva gestorDiaReserva = new GestorDiaReserva();
-        GestorReserva gestorReserva = new GestorReserva();
-        ArrayList<String> fechaTabla = new ArrayList();
-        ArrayList<String> horaInicioTabla = new ArrayList();
-        //Almaceno el numero de fila en donde están las fechas válidas
-        ArrayList<Integer> fila = new ArrayList();
+            TipoAula tipoAula;
+            int i = 0;
+            boolean hayRepetidos = false;
         
-        TipoAula tipoAula;
-        int i = 0;
-        boolean hayRepetidos = false;
-        
-        while(i<this.jTable1.getRowCount() && !hayRepetidos){
-            if((Boolean)jTable1.getModel().getValueAt(i, 0) && 
+            while(i<this.jTable1.getRowCount() && !hayRepetidos){
+                if((Boolean)jTable1.getModel().getValueAt(i, 0) && 
                     (!fechaTabla.contains(jTable1.getModel().getValueAt(i, 1).toString()) ||
                     (fechaTabla.contains(jTable1.getModel().getValueAt(i, 1).toString()) && 
                     !horaInicioTabla.contains(jTable1.getModel().getValueAt(i, 2).toString())))){
-                fila.add(i);
-                fechaTabla.add(jTable1.getModel().getValueAt(i, 1).toString());
-                horaInicioTabla.add(jTable1.getModel().getValueAt(i, 2).toString());
-            }else{
-                if((Boolean)jTable1.getModel().getValueAt(i, 0)){
-                    String mensaje = "Se ha seleccionado más de un aula para una misma reserva (Fila ";
-                    topFrame.mensajeEmergente("Error", mensaje.concat(String.valueOf(i+1)).concat(")."));
-                    fechaTabla.clear();
-                    horaInicioTabla.clear();
-                    fila.clear();
-                    hayRepetidos = true;
+                    
+                    fila.add(i);
+                    fechaTabla.add(jTable1.getModel().getValueAt(i, 1).toString());
+                    horaInicioTabla.add(jTable1.getModel().getValueAt(i, 2).toString());
+                }else{
+                    if((Boolean)jTable1.getModel().getValueAt(i, 0)){
+                        String mensaje = "Se ha seleccionado más de un aula para una misma reserva (Fila ";
+                        topFrame.mensajeEmergente("Error", mensaje.concat(String.valueOf(i+1)).concat(")."));
+                        fechaTabla.clear();
+                        horaInicioTabla.clear();
+                        fila.clear();
+                        hayRepetidos = true;
+                    }
                 }
+                i++;
             }
-            i++;
-        }
-        //Recorro el array filas Y saco los datos para la realizar la reserva y el DiaReserva
-        //Si el periodo es ninguno entonces es una reserva esporadica
-        if(this.periodo == PeriodoEnum.Ninguno){
-            ReservaEsporadica reservaE = new ReservaEsporadica();
-            DiaReservaEsporadica diaReserva = new DiaReservaEsporadica();
-            DiaReservaEsporadicaId idReserva = new DiaReservaEsporadicaId();
             
-            //Por cada fecha 
-            for(int j = 0; j < this.dias.size();j++){
-                //Me fijo que aula fue elegida
-                for(int k = 0; k<fila.size();k++){
-                    if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
-                        tipoAula = TipoAula.SinRecursos;
-                    }else{
-                        if(aulasDisponibles.get(j).get(k).getAulaMultimedio() != null){
-                            tipoAula = TipoAula.Multimedios;
-                        }else{
-                            tipoAula = TipoAula.Informatica;
-                        }
-                    }
-                    
-                    reservaE.setDocente(this.docente);
-                    reservaE.setTipoAula(tipoAula);
-                    reservaE.setActividadUniversitaria(this.actividad);
-                    reservaE.setBedel(this.bedel);
-                    
-                    reservaE.setCantidadAlumnos(cantAlumnos.get(j));
-                    
-                    reservaE.setIdReservaEsporadica(5);
-                    reservaE.setActivo((byte)1);
-                    
+            System.out.println(fila);
+            
+            if(fila.size() != dias.size()){
+                topFrame.mensajeEmergente("Error","Falta seleccionar aula para alguna reserva");
+            }else{
+            //Recorro el array filas Y saco los datos para la realizar la reserva y el DiaReserva
+            //Si el periodo es ninguno entonces es una reserva esporadica
+            if(this.periodo == PeriodoEnum.Ninguno){
+                ReservaEsporadica reservaE = new ReservaEsporadica();
                 
-                    System.out.println(this.cantAlumnos.get(j));
-                    
-                    
-                    
-                    reservaE.addDRE(diaReserva);
-                    
-                    
-                    gestorReserva.registrarReserva(reservaE);
-                            
-                    idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
-                    idReserva.setDia(this.dias.get(j));
-                    idReserva.setHoraInicio(this.horaInicio.get(j));
-                    idReserva.setHoraFin(this.horaFin.get(j));
-                    idReserva.setReservaEsporadicaIdReservaEsporadica(gestorReserva.getId());
-                    
-                    diaReserva.setAula(aulasDisponibles.get(j).get(k));
-                    diaReserva.setId(idReserva);
-                    diaReserva.setReservaEsporadica(reservaE);
-                    /*Obtener el id de la reserva recièn creada*/
-                    //gestorReserva.getId();
-                                        
-                    gestorDiaReserva.registrarDias(diaReserva);
-                }
-            }
-            //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
-        }else{
-           ReservaPeriodica reservaP = new ReservaPeriodica();
-           DiaReservaPeriodica diaReserva = new DiaReservaPeriodica();
-           DiaReservaPeriodicaId idReserva = new DiaReservaPeriodicaId();
-           
-            //Por cada fecha 
-            for(int j = 0; j < this.dias.size();j++){
-                //Me fijo que aula fue elegida
-                for(int k = 0; k<fila.size();k++){
-                    if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
-                        tipoAula = TipoAula.SinRecursos;
-                    }else{
-                        if(aulasDisponibles.get(j).get(k).getAulaMultimedio() != null){
-                            tipoAula = TipoAula.Multimedios;
+                reservaE.setDocente(this.docente);
+                reservaE.setActividadUniversitaria(this.actividad);
+                reservaE.setBedel(this.bedel);
+                reservaE.setIdReservaEsporadica(5);
+                reservaE.setActivo((byte)1);
+                
+                gestorReserva.registrarReserva(reservaE);
+                
+                int cantidadDeAulas = 0;
+                int indice = 0;
+                //Por cada fecha 
+                for(int j = 0; j < this.dias.size();j++){
+                    DiaReservaEsporadica diaReserva = new DiaReservaEsporadica();
+                    DiaReservaEsporadicaId idReserva = new DiaReservaEsporadicaId();
+                    indice = fila.get(j) - cantidadDeAulas;
+                    //Me fijo que aula fue elegida
+                        if(aulasDisponibles.get(j).get(indice).getAulaSinRecursosAdicionales() != null){
+                            tipoAula = TipoAula.SinRecursos;
                         }else{
-                            tipoAula = TipoAula.Informatica;
+                            if(aulasDisponibles.get(j).get(indice).getAulaMultimedio() != null){
+                                tipoAula = TipoAula.Multimedios;
+                            }else{
+                                tipoAula = TipoAula.Informatica;
+                            }
                         }
-                    }
-                    reservaP.setDocente(this.docente);
-                    reservaP.setTipoAula(tipoAula);
-                    reservaP.setActividadUniversitaria(this.actividad);
-                    reservaP.setBedel(this.bedel);
-                    reservaP.setCantidadAlumnos(cantAlumnos.get(0));
-                    reservaP.setPeriodo(periodo);
-                    reservaP.setActivo((byte)1);
-                    reservaP.setIdReservaPeriodica(2);
+                        
+                        //reservaE.addDRE(diaReserva);
+                        
+                        idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(indice).getNumeroAula());
+                        idReserva.setDia(this.dias.get(j));
+                        idReserva.setHoraInicio(this.horaInicio.get(j));
+                        idReserva.setHoraFin(this.horaFin.get(j));
+                        idReserva.setReservaEsporadicaIdReservaEsporadica(gestorReserva.getIdReservaEsporadica());
                     
-                    idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(k).getNumeroAula());
-                    switch(this.diasTexto.get(j)){
-                        case "lunes": idReserva.setDia(DiaSemana.Lunes);
-                        case "martes": idReserva.setDia(DiaSemana.Martes);
-                        case "miércoles": idReserva.setDia(DiaSemana.Miercoles);
-                        case "jueves": idReserva.setDia(DiaSemana.Jueves);
-                        case "viernes": idReserva.setDia(DiaSemana.Viernes);
-                        case "sabado": idReserva.setDia(DiaSemana.Sabado);
-                    }
+                        diaReserva.setAula(aulasDisponibles.get(j).get(indice));
+                        diaReserva.setCantidadAlumnos(cantAlumnos.get(j));
+                        diaReserva.setId(idReserva);
+                        diaReserva.setTipoAula(tipoAula);
+                        diaReserva.setReservaEsporadica(reservaE);
+                        //Obtener el id de la reserva recièn creada
+                        //gestorReserva.getId();
+                        
+                    //System.out.println(idReserva.getAulaNumeroAula()+" "+diaReserva.getTipoAula()+"  "+cantidadDeAulas+" "+indice);
+                    
+                    gestorDiaReserva.registrarDias(diaReserva);
+                    cantidadDeAulas = cantidadDeAulas + aulasDisponibles.get(j).size();
+                }
+                //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
+                topFrame.mensajeEmergente("Registro exitoso","Se ha realizado correctamente el registro.");
+                MenuPrincipalBedel panelMenuBedel = new MenuPrincipalBedel();
+                panelMenuBedel.setImage("/Imagenes/fondoabs.jpg");
+                topFrame.add(panelMenuBedel, BorderLayout.CENTER);
+                this.setVisible(false);
+                topFrame.remove(this);
+                topFrame.setSize(700,600); 
+            
+            }else{
+                ReservaPeriodica reservaP = new ReservaPeriodica();
+                
+                reservaP.setDocente(this.docente);
+                reservaP.setActividadUniversitaria(this.actividad);
+                reservaP.setBedel(this.bedel);
+                reservaP.setCantidadAlumnos(cantAlumnos.get(0));
+                reservaP.setPeriodo(periodo);
+                reservaP.setActivo((byte)1);
+                reservaP.setIdReservaPeriodica(2);
+                                
+                if(aulasDisponibles.get(0).get(0).getAulaSinRecursosAdicionales() != null){
+                            tipoAula = TipoAula.SinRecursos;
+                        }else{
+                            if(aulasDisponibles.get(0).get(0).getAulaMultimedio() != null){
+                                tipoAula = TipoAula.Multimedios;
+                            }else{
+                                tipoAula = TipoAula.Informatica;
+                            }
+                        }
+                reservaP.setTipoAula(tipoAula);
+                
+                gestorReserva.registrarReserva(reservaP);
+                
+                int cantidadDeAulas = 0;
+                int indice = 0;
+                //Por cada fecha 
+                for(int j = 0; j < this.dias.size();j++){
+                    //Me fijo que aula fue elegida
+                        
+                        DiaReservaPeriodica diaReserva = new DiaReservaPeriodica();
+                        DiaReservaPeriodicaId idReserva = new DiaReservaPeriodicaId();
+                        /*
+                        if(aulasDisponibles.get(j).get(k).getAulaSinRecursosAdicionales() != null){
+                            tipoAula = TipoAula.SinRecursos;
+                        }else{
+                            if(aulasDisponibles.get(j).get(k).getAulaMultimedio() != null){
+                                tipoAula = TipoAula.Multimedios;
+                            }else{
+                                tipoAula = TipoAula.Informatica;
+                            }
+                        }
+                        
+                        reservaP.setTipoAula(tipoAula);*/
+                        
                     
                     
-                    //No puedo sacarlo del array de dia porque tengo solo el nombre del dia
-                    Date diaActualParaSacarAnio = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-                    String anio = sdf.format(diaActualParaSacarAnio);
-        
-                    idReserva.setAnio(Integer.parseInt(anio));
+                        //reservaP.addDRP(diaReserva);
+                        /*
+                        //No puedo sacarlo del array de dia porque tengo solo el nombre del dia
+                        Date diaActualParaSacarAnio = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+                        String anio = sdf.format(diaActualParaSacarAnio);*/
+                        
+                        indice = fila.get(j) - cantidadDeAulas;
+                        
+                        
+                        //Comparar con el periodo
+                        idReserva.setAnio(gestorPeriodo.validarAnioReservaPeriodica());
+                        idReserva.setAulaNumeroAula(aulasDisponibles.get(j).get(indice).getNumeroAula());
+                        
+                        //System.out.println(this.diasTexto.get(j));
+                        
+                        
+                        switch(this.diasTexto.get(j)){
+                            case "lunes": idReserva.setDia(DiaSemana.Lunes);break;
+                            case "martes": idReserva.setDia(DiaSemana.Martes);break;
+                            case "miércoles": idReserva.setDia(DiaSemana.Miercoles);break;
+                            case "jueves": idReserva.setDia(DiaSemana.Jueves);break;
+                            case "viernes": idReserva.setDia(DiaSemana.Viernes);break;
+                            case "sabado": idReserva.setDia(DiaSemana.Sabado);break;
+                        }
                     idReserva.setHoraInicio(this.horaInicio.get(j));
                     idReserva.setHoraFin(this.horaFin.get(j));
-                    idReserva.setReservaPeriodicaIdReservaPeriodica(2);
+                    idReserva.setReservaPeriodicaIdReservaPeriodica(gestorReserva.getIdReservaPeriodica());
                     
                     
-                    diaReserva.setAula(aulasDisponibles.get(j).get(k));
+                    diaReserva.setAula(aulasDisponibles.get(j).get(indice));
                     diaReserva.setId(idReserva);
                     diaReserva.setReservaPeriodica(reservaP);
-                    reservaP.addDRP(diaReserva);
                     
-                    gestorReserva.registrarReserva(reservaP);
+                                        
                     gestorDiaReserva.registrarDias(diaReserva);
+                    
+                    cantidadDeAulas = cantidadDeAulas + aulasDisponibles.get(j).size();
                 }
+                //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
+                topFrame.mensajeEmergente("Registro exitoso","Se ha realizado correctamente el registro.");
+                MenuPrincipalBedel panelMenuBedel = new MenuPrincipalBedel();
+                panelMenuBedel.setImage("/Imagenes/fondoabs.jpg");
+                topFrame.add(panelMenuBedel, BorderLayout.CENTER);
+                this.setVisible(false);
+                topFrame.remove(this);
+                topFrame.setSize(700,600); 
+            }
             }
         }
-        //AGREGAR MENSAJE DE EXITO Y PROSEGUIR A OTRO LADO
     }//GEN-LAST:event_ConfirmarActionPerformed
 
     //codigo de la imagen de fondo ----------------------------------------

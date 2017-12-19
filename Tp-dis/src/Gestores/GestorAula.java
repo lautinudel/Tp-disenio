@@ -44,17 +44,45 @@ public class GestorAula {
         List<Aula> listaAulasDisponiblesEsporadica = new ArrayList();
         List<Aula> listaAulasDisponiblesPeriodica = new ArrayList();
         ArrayList<Aula> copia1, copia2;
+        boolean nohayEsporadicas = false, nohayPeriodicas = false;
+        ArrayList<Boolean> arregloEsporadicas = new ArrayList<>();
+        ArrayList<Boolean> arregloPeriodicas = new ArrayList<>();
         
-                
+        
+        
         for(int i=0; i<dias.size(); i++){
             
             //Busca las aulas disponibles según las reservas esporádicas:
             listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula);
+            if(listaAulasDisponiblesEsporadica.isEmpty())
+                nohayEsporadicas=true;
+             else
+                nohayEsporadicas=false;
+            
+            for(Aula a : listaAulasDisponiblesEsporadica)
+                System.out.print(a.getNumeroAula()+" ");
+            
+            System.out.println();
+            
+            System.out.println(periodos.get(i));
             
             //Busca las aulas disponibles según las reservas periódicas:
             if(periodos.get(i)!=PeriodoEnum.Ninguno)
                 listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
             
+            if(listaAulasDisponiblesPeriodica.isEmpty())
+                nohayPeriodicas=true;
+             else
+                nohayPeriodicas=false;
+            
+            for(Aula a : listaAulasDisponiblesPeriodica)
+                System.out.print(a.getNumeroAula()+" ");
+            
+            System.out.println();
+            
+            
+            arregloEsporadicas.add(nohayEsporadicas);
+            arregloPeriodicas.add(nohayPeriodicas);
             
             copia1 = new ArrayList<>(listaAulasDisponiblesEsporadica);
             copia2 = new ArrayList<>(listaAulasDisponiblesPeriodica);
@@ -62,17 +90,31 @@ public class GestorAula {
             aulas.add(i, copia1);
             aulas.get(i).addAll(copia2);
             
+                       
             listaAulasDisponiblesEsporadica.clear();
             listaAulasDisponiblesPeriodica.clear();
         }
        
+        for(int i = 0 ; i<aulas.size();i++){
+            for(Aula al : aulas.get(i))
+                System.out.print(al.getNumeroAula()+" ");
+            
+            System.out.print("\n");
+        }
         
         //CONSERVAR SOLO DUPLICADOS
         for(int i=0;i<aulas.size();i++){
-            if(periodos.get(i)!=PeriodoEnum.Ninguno){
+            if(!arregloEsporadicas.get(i) && !arregloPeriodicas.get(i)){
                 this.mantenerRepetidos(aulas.get(i));
                 this.eliminarRepetidosPos(aulas.get(i));
             }
+        }
+        
+        for(int i = 0 ; i<aulas.size();i++){
+            for(Aula al : aulas.get(i))
+                System.out.print(al.getNumeroAula()+" ");
+            
+            System.out.print("\n");
         }
         
         //Consulta aulas sin reserva:
@@ -81,6 +123,14 @@ public class GestorAula {
         //Aulas sin reserva
         for(int h=0; h<aulas.size(); h++)
             aulas.get(h).addAll(aulasSinReserva);
+        
+        for(int i = 0 ; i<aulas.size();i++){
+            for(Aula al : aulas.get(i))
+                System.out.print(al.getNumeroAula()+" ");
+            
+            System.out.print("\n");
+        }
+        
         
         return aulas;
     }

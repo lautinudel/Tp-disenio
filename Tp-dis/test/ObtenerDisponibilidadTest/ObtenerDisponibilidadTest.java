@@ -98,8 +98,8 @@ public class ObtenerDisponibilidadTest {
               //--------------------------------------------------------------
         //--------------------------------------------------------------
         //Probando metodo ObtenerDisponibilidad
-        String dia1 = "2018-01-12"; //Viernes
-        String dia2 = "2018-02-13"; //Martes
+        String dia1 = "2018-06-04"; //Lunes
+        String dia2 = "2018-05-05"; //Sabado
         String dia3 = "2017-12-21"; //Jueves
         String dia4 = "2018-03-05"; //Lunes
         String dia5 = "2018-05-07"; //Lunes
@@ -125,8 +125,8 @@ public class ObtenerDisponibilidadTest {
         dias.add(date5);
         dias.add(date6);
         
-        String hora1 = "15:29:00";
-        String hora2 = "21:08:00";
+        String hora1 = "15:30:00";
+        String hora2 = "15:30:00";
         String hora3 = "07:09:00";
         String hora4 = "14:30:00";
         String hora5 = "12:58:00";
@@ -186,21 +186,21 @@ public class ObtenerDisponibilidadTest {
         System.out.println(horasFin);
         
         ArrayList<Date> unDia = new ArrayList<>();
-        unDia.add(date6);
+        unDia.add(date1);
         ArrayList<Date> unDiaHI = new ArrayList<>();
-        unDiaHI.add(time6);
+        unDiaHI.add(time1);
         ArrayList<Date> unDiaHF = new ArrayList<>();
-        unDiaHF.add(timeFin6);
+        unDiaHF.add(timeFin1);
         
         
-        /*GestorAula gestorAula = new GestorAula();
-        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(dias, horasInicio, horasFin, periodos, 35, TipoAula.SinRecursos);
+        GestorAula gestorAula = new GestorAula();
+        ArrayList<ArrayList<Aula>>aulasDisp = gestorAula.obtenerDisponibilidadDeAula(unDiaHF, horasInicio, horasFin, periodos, 10, TipoAula.SinRecursos);
         for(int i = 0; i<aulasDisp.size();i++){
             for(int j=0; j<aulasDisp.get(i).size();j++){
                 System.out.print(aulasDisp.get(i).get(j).getNumeroAula()+" ");
             }
             System.out.print("\n");
-        }*/
+        }
         
         /*
         ArrayList<ArrayList<Date>> prueba = new ArrayList<>();
@@ -384,7 +384,7 @@ public class ObtenerDisponibilidadTest {
         bdao.guardarBedel(b, c);
 
         */
-        
+        /*
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -397,7 +397,7 @@ public class ObtenerDisponibilidadTest {
         int id = Integer.parseInt(String.valueOf(ids.get(0)));
         session.close();
         
-        System.out.println(id);
+        System.out.println(id);*/
         
        exit(0);
     }

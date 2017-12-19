@@ -7,6 +7,7 @@ package Gestores;
 
 import Modelo.FechasPeriodo;
 import Persistencia.FechaPeriodoDAO;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,5 +37,46 @@ public class GestorPeriodo {
                 retorno=f;
         }
         return retorno;
+    }
+    
+    public List<FechasPeriodo> fechasPeriodoActualYSiguiente(){
+        List<FechasPeriodo> lista = new ArrayList<>();
+        FechasPeriodo actual = this.getPeriodo();
+        lista.add(actual);
+        
+        FechaPeriodoDAO fechaDao = new FechaPeriodoDAO();
+        
+        List<FechasPeriodo> listaFechas = fechaDao.getFechasPeriodos();
+        
+        for(FechasPeriodo f: listaFechas){
+            if(f.getAnio()==actual.getAnio()+1){
+                lista.add(f);
+                break;
+            }
+        }
+        
+        return lista;
+    }
+    
+    public int validarAnioReservaPeriodica(){
+        Date date = new Date(); // your date
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int yearActual = cal.get(Calendar.YEAR);
+        
+        FechaPeriodoDAO fechaDao = new FechaPeriodoDAO();        
+        List<FechasPeriodo> listaFechas = fechaDao.getFechasPeriodos();
+        
+        for(FechasPeriodo f: listaFechas){
+            if(f.getAnio()==yearActual){
+                if(f.getFinSegundoCuatrimestre().compareTo(date)<0){
+                    return yearActual+1;
+                }else{
+                    return yearActual;
+                }
+            }
+        }
+                
+        return 0;
     }
 }

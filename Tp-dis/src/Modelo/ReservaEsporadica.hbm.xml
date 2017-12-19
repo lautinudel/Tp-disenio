@@ -18,15 +18,8 @@
             <column name="Docente_dni" not-null="true" />
             <column name="Docente_apellido" length="45" not-null="true" />
         </many-to-one>
-        <property name="cantidadAlumnos" type="java.lang.Integer">
-            <column name="cantidadAlumnos" />
-        </property>
-        <property name="tipoAula" column="tipoAula">
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">Modelo.TipoAula</param>
-                <param name="useNamed">true</param>
-            </type>
-        </property>
+        
+        
         <property name="activo" type="java.lang.Byte">
             <column name="activo" />
         </property>

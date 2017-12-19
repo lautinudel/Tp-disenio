@@ -15,8 +15,6 @@ public class ReservaEsporadica  implements java.io.Serializable {
      private ActividadUniversitaria actividadUniversitaria;//
      private Bedel bedel;//
      private Docente docente;//
-     private Integer cantidadAlumnos;//
-     private TipoAula tipoAula;//
      private Set diaReservaEsporadicas = new HashSet(0);
      private Byte activo;//
      
@@ -30,13 +28,11 @@ public class ReservaEsporadica  implements java.io.Serializable {
         this.bedel = bedel;
         this.docente = docente;
     }
-    public ReservaEsporadica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Integer cantidadAlumnos, Set diaReservaEsporadicas, TipoAula tipo, Byte activo) {
+    public ReservaEsporadica(ActividadUniversitaria actividadUniversitaria, Bedel bedel, Docente docente, Set diaReservaEsporadicas, Byte activo) {
        this.actividadUniversitaria = actividadUniversitaria;
        this.bedel = bedel;
        this.docente = docente;
-       this.cantidadAlumnos = cantidadAlumnos;
        this.diaReservaEsporadicas = diaReservaEsporadicas;
-       this.tipoAula = tipo;
        this.activo=activo;
     }
 
@@ -48,13 +44,7 @@ public class ReservaEsporadica  implements java.io.Serializable {
         this.activo = activo;
     }
 
-    public TipoAula getTipoAula() {
-        return tipoAula;
-    }
-
-    public void setTipoAula(TipoAula tipoAula) {
-        this.tipoAula = tipoAula;
-    }
+    
    
     public Integer getIdReservaEsporadica() {
         return this.idReservaEsporadica;
@@ -87,13 +77,7 @@ public class ReservaEsporadica  implements java.io.Serializable {
     public void setDocente(Docente docente) {
         this.docente = docente;
     }
-    public Integer getCantidadAlumnos() {
-        return this.cantidadAlumnos;
-    }
     
-    public void setCantidadAlumnos(Integer cantidadAlumnos) {
-        this.cantidadAlumnos = cantidadAlumnos;
-    }
     public Set<DiaReservaEsporadica> getDiaReservaEsporadicas() {
         return this.diaReservaEsporadicas;
     }
