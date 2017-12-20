@@ -212,7 +212,7 @@ public class AulaDAO {
                 break;
         }
         
-        List<Aula> listaRetorno = null;
+        List<Aula> listaRetorno = new ArrayList<>();
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -220,7 +220,7 @@ public class AulaDAO {
             Query query = session.createQuery(
                     "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
-                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "WHERE a.activo = 1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
                     "((r.activo = 1) AND YEAR(d.id.dia) = :anio AND "+
                     "(d.periodo = 'Ninguno' OR "+
@@ -246,7 +246,7 @@ public class AulaDAO {
             Query query = session.createQuery(
                     "SELECT DISTINCT a "+
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
-                    "WHERE a.activo=1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "WHERE a.activo = 1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
                     "((((r.activo = 1) AND YEAR(d.id.dia) = :anio AND "+
                     "(d.periodo = 'Ninguno' OR "+
@@ -269,8 +269,86 @@ public class AulaDAO {
             
         }
         
+        List<Aula> listaRetornoFinal = new ArrayList<>();
+        for(Aula a: listaRetorno){
+            if(this.consultaAulaSinSolapamientoConEsporadicas(diaEnum, sqlHoraInicio, sqlHoraFin, a, periodo, anio))
+                listaRetornoFinal.add(a);
+        }
         
-       return listaRetorno;
+       return listaRetornoFinal;
+    }
+    
+    //Retorna true cuando es valida el aula
+    public Boolean consultaAulaSinSolapamientoConEsporadicas (String diaEnum, java.sql.Time sqlHoraInicio, java.sql.Time sqlHoraFin, Aula a, PeriodoEnum periodo, int anio){
+        Boolean retorno = false;
+        
+        List<Aula> listaRetorno = new ArrayList<>();
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        if(periodo==PeriodoEnum.PrimerCuatrimestre || periodo==PeriodoEnum.SegundoCuatrimestre){
+            /*Query query = session.createQuery(
+                    "SELECT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo = 1 AND a.numeroAula = :numeroAula AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "r.activo = 1 AND YEAR(d.id.dia) = :anio AND "+
+                    "(d.periodo = :periodo OR d.periodo = 'Anual') "+
+                    "AND DAYNAME(d.id.dia) = :variableDia AND "+
+                    "NOT (:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin) ");*/
+            
+            Query query = session.createSQLQuery("SELECT a.* " +
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r " +
+                    "WHERE a.activo = 1 AND a.numeroAula = :numeroAula " +
+                    "AND a.numeroAula = d.Aula_numeroAula AND d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica " +
+                    "AND r.activo = 1 AND YEAR(d.dia) = :anio AND " +
+                    "(d.periodo = :periodo OR d.periodo = 'Anual') AND DAYNAME(d.dia) = :variableDia " +
+                    "AND NOT (:variableHoraInicio >= d.horaFin OR d.horaInicio >= :variableHoraFin);");
+            query.setParameter("variableDia", diaEnum);
+            query.setParameter("variableHoraInicio", sqlHoraInicio);
+            query.setParameter("variableHoraFin", sqlHoraFin);
+            query.setParameter("anio", anio);
+            query.setParameter("periodo", periodo);
+            query.setParameter("numeroAula", a.getNumeroAula());
+            
+            
+            listaRetorno = query.list();
+            if(listaRetorno.isEmpty())
+                retorno=true;
+            session.close();
+        }else if(periodo==PeriodoEnum.Anual){
+            /*Query query = session.createQuery(
+                    "SELECT a "+
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
+                    "WHERE a.activo = 1 AND a.numeroAula = :numeroAula AND a.numeroAula = d.id.aulaNumeroAula AND "+
+                    "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
+                    "r.activo = 1 AND YEAR(d.id.dia) = :anio AND "+
+                    "(d.periodo = 'Anual' OR d.periodo = 'PrimerCuatrimestre' OR d.periodo = 'SegundoCuatrimestre') "+
+                    "AND DAYNAME(d.id.dia) = :variableDia AND "+
+                    "NOT (:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin) ");*/
+            Query query = session.createSQLQuery("SELECT a.* " +
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r " +
+                    "WHERE a.activo = 1 AND a.numeroAula = :numeroAula " +
+                    "AND a.numeroAula = d.Aula_numeroAula AND d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica " +
+                    "AND r.activo = 1 AND YEAR(d.dia) = :anio AND " +
+                    "(d.periodo = 'Anual' OR d.periodo = 'PrimerCuatrimestre' OR d.periodo = 'SegundoCuatrimestre') "+
+                    "AND DAYNAME(d.dia) = :variableDia " +
+                    "AND NOT (:variableHoraInicio >= d.horaFin OR d.horaInicio >= :variableHoraFin);");
+            query.setParameter("variableDia", diaEnum);
+            query.setParameter("variableHoraInicio", sqlHoraInicio);
+            query.setParameter("variableHoraFin", sqlHoraFin);
+            query.setParameter("anio", anio);
+            query.setParameter("periodo", periodo);
+            query.setParameter("numeroAula", a.getNumeroAula());
+            
+            listaRetorno = query.list();            
+            if(listaRetorno.isEmpty())
+                retorno=true;
+            session.close();
+        }
+        
+        
+        return retorno;
     }
     
     //ESTA CONSULTA ANDA BIEN PARA VALIDAR NUEVAS RESERVAS ESPORADICAS PERIODICAS
