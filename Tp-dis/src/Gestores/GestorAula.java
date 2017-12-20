@@ -42,13 +42,13 @@ public class GestorAula {
         AulaDAO aulaDao = new AulaDAO();
         ArrayList<ArrayList<Aula>> aulas = new ArrayList();
         List<Aula> listaAulasDisponiblesEsporadica = new ArrayList();
-        //List<Aula> listaAulasDisponiblesEsporadica2 = new ArrayList();
+        List<Aula> auxiliar = new ArrayList();
         List<Aula> listaAulasDisponiblesPeriodica = new ArrayList();
+        List<Aula> listaAulasReservasNinguno = new ArrayList();
         ArrayList<Aula> copia1, copia2;
         boolean nohayEsporadicas = false, nohayPeriodicas = false;
         ArrayList<Boolean> arregloEsporadicas = new ArrayList<>();
         ArrayList<Boolean> arregloPeriodicas = new ArrayList<>();
-        
         
         
         for(int i=0; i<dias.size(); i++){
@@ -69,7 +69,9 @@ public class GestorAula {
                 //Busca las aulas disponibles según las reservas periódicas:
                 if(periodos.get(i)!=PeriodoEnum.Ninguno)
                     listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
-            
+                else
+                    listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica2(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
+                
                 if(listaAulasDisponiblesPeriodica.isEmpty())
                     nohayPeriodicas=true;
                 else
@@ -84,6 +86,7 @@ public class GestorAula {
                 System.out.println(periodos.get(i)+"\n");
             }else{
                 listaAulasDisponiblesEsporadica = aulaDao.consultaEsporadica2(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i), anio);
+                      
                 if(listaAulasDisponiblesEsporadica.isEmpty())
                     nohayEsporadicas=true;
                 else
@@ -95,7 +98,7 @@ public class GestorAula {
                 System.out.print("\n");
             
                 listaAulasDisponiblesPeriodica = aulaDao.consultaPeriodica(dias.get(i), horaInicio.get(i), horaFin.get(i),cantAlumnos,tipoAula, periodos.get(i));
-            
+                
                 if(listaAulasDisponiblesPeriodica.isEmpty())
                     nohayPeriodicas=true;
                 else
@@ -108,6 +111,23 @@ public class GestorAula {
             
                 System.out.println("PERIODO RESERVA "+i);
                 System.out.println(periodos.get(i)+"\n");
+                
+                if(nohayEsporadicas==false && nohayPeriodicas==false){
+                    for(Aula a: listaAulasDisponiblesEsporadica){
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
+                            auxiliar.add(a);
+                    }
+                    listaAulasDisponiblesEsporadica.clear();
+                    listaAulasDisponiblesEsporadica=auxiliar;
+                
+                    for(Aula a: listaAulasDisponiblesPeriodica){
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
+                            auxiliar.add(a);
+                    }
+                    listaAulasDisponiblesPeriodica.clear();
+                    listaAulasDisponiblesPeriodica=auxiliar;
+                    auxiliar.clear();
+                }
             }
             
             arregloEsporadicas.add(nohayEsporadicas);
@@ -123,6 +143,7 @@ public class GestorAula {
             listaAulasDisponiblesEsporadica.clear();
             listaAulasDisponiblesPeriodica.clear();
         }
+        
        
         System.out.println("ANTES DE CONSERVAR DUPLICADOS");
         for(int i = 0 ; i<aulas.size();i++){
@@ -131,7 +152,7 @@ public class GestorAula {
             
             System.out.print("\n");
         }
-        
+                
         //CONSERVAR SOLO DUPLICADOS
         for(int i=0;i<aulas.size();i++){
             if(!arregloEsporadicas.get(i) && !arregloPeriodicas.get(i)){
@@ -139,6 +160,28 @@ public class GestorAula {
                 this.eliminarRepetidosPos(aulas.get(i));
             }
         }
+
+        /*
+        Boolean flag=false;
+        if(tipoReserva==TipoReserva.Periodica){
+            ArrayList<ArrayList<Aula>> aulasFinal = new ArrayList<>();
+            for(int p = 0; p<aulas.size(); p++){
+                if(!aulas.get(p).isEmpty()){
+                    aulasFinal.add(new ArrayList<>());
+                    for(int q=0; q<aulas.get(p).size(); q++){
+                        if(aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(p), horaInicio.get(p), horaFin.get(p), aulas.get(p).get(q), periodos.get(p), anio))
+                            aulasFinal.get(p).add(aulas.get(p).get(q));
+                    }
+                    flag=true;
+                }
+            }
+            
+            if(flag){
+                aulas.clear();
+                aulas=aulasFinal;
+            }
+        }
+        */
         
         System.out.println("DESPUES DE CONSERVAR DUPLICADOS");
         for(int i = 0 ; i<aulas.size();i++){
@@ -147,6 +190,19 @@ public class GestorAula {
             
             System.out.print("\n");
         }
+        
+        //consulta aulas en periodo ninguno:
+        if(tipoReserva==TipoReserva.Periodica){
+            listaAulasReservasNinguno = aulaDao.reservasNingúnPeriodo(anio);
+            for(int t=0; t<listaAulasReservasNinguno.size(); t++){
+                 if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(t), horaInicio.get(t), horaFin.get(t), listaAulasReservasNinguno.get(t), periodos.get(t), anio))
+                     auxiliar.add(listaAulasReservasNinguno.get(t));
+            }
+            
+            listaAulasReservasNinguno.clear();
+            listaAulasReservasNinguno = auxiliar;
+        }
+        
         
         //Consulta aulas sin reserva:
         List<Aula> aulasSinReserva=aulaDao.consultaObtenerDisponibilidadSinReservas(cantAlumnos, tipoAula);

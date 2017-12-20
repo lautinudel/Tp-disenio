@@ -595,7 +595,7 @@ public class ObtenerDisponibilidadTest {
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
-        List<Aula> listaRetorno = new ArrayList<>();
+        List<Object> listaRetorno = new ArrayList<>();
             Query query = session.createSQLQuery("SELECT a.* " +
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r " +
                     "WHERE a.activo = 1 AND a.numeroAula = :numeroAula " +
@@ -603,11 +603,11 @@ public class ObtenerDisponibilidadTest {
                     "AND r.activo = 1 AND YEAR(d.dia) = :anio AND " +
                     "(d.periodo = :periodo OR d.periodo = 'Anual') AND DAYNAME(d.dia) = :variableDia " +
                     "AND NOT (:variableHoraInicio >= d.horaFin OR d.horaInicio >= :variableHoraFin);");
-            query.setParameter("variableDia", "'Tuesday'");
+            query.setParameter("variableDia", "Tuesday");
             query.setParameter("variableHoraInicio", sqlHoraInicio);
             query.setParameter("variableHoraFin", sqlHoraFin);
             query.setParameter("anio", 2018);
-            query.setParameter("periodo", PeriodoEnum.PrimerCuatrimestre);
+            query.setParameter("periodo", "PrimerCuatrimestre");
             query.setParameter("numeroAula", 3);
             
             
