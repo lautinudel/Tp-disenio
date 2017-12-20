@@ -462,6 +462,51 @@ public class AulaDAO {
         return retorno;
     }
 
+    public List<Aula> reservasEsporadicasSoloConNinguno(int anio, PeriodoEnum periodo){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        
+        Query query = session.createQuery("SELECT a.* " +
+                                          "FROM DiaReservaEsporadica d , ReservaEsporadica r, Aula a " +
+                                          "WHERE d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica " +
+                                                "and r.activo = 1 AND d.periodo = 'Ninguno' AND "+
+                                                "d.Aula_numeroAula = a.numeroAula AND " +
+                                                "d.Aula_numeroAula NOT IN(SELECT d.Aula_numeroAula " +
+                                                                        "FROM DiaReservaEsporadica d , ReservaEsporadica r " +
+                                                                        "WHERE d.periodo = :periodo AND " +
+                                                                              "d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica);");
+        query.setParameter("anio", anio);
+        query.setParameter("periodo", periodo);
+        List<Aula> listaRetorno = query.list();
+        
+        session.close();
+        return listaRetorno;    
+    
+    } 
+    
+    public List<Aula> reservasEsporadicasSoloConPrimerCuatrimestre(int anio, PeriodoEnum periodo){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        
+        Query query = session.createQuery("SELECT a.* " +
+                                          "FROM DiaReservaEsporadica d , ReservaEsporadica r, Aula a " +
+                                          "WHERE d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica " +
+                                                "and r.activo = 1 AND d.periodo = 'PrimerCuatrimestre' AND "+
+                                                "d.Aula_numeroAula = a.numeroAula AND " +
+                                                "d.Aula_numeroAula NOT IN(SELECT d.Aula_numeroAula " +
+                                                                        "FROM DiaReservaEsporadica d , ReservaEsporadica r " +
+                                                                        "WHERE d.periodo = :periodo AND " +
+                                                                              "d.ReservaEsporadica_id_reservaEsporadica = r.id_reservaEsporadica);");
+        query.setParameter("anio", anio);
+        query.setParameter("periodo", periodo);
+        List<Aula> listaRetorno = query.list();
+        
+        session.close();
+        return listaRetorno;    
+    
+    } 
     //ESTA CONSULTA ANDA BIEN PARA VALIDAR NUEVAS RESERVAS ESPORADICAS PERIODICAS
     public List<Aula> consultaPeriodica(Date dia, Date horaInicio, Date horaFin, int capacidad, TipoAula tipoAula, PeriodoEnum periodo){
         
