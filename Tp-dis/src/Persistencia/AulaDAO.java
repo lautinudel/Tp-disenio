@@ -267,7 +267,6 @@ public class AulaDAO {
             query.setParameter("variableCapacidad", capacidad);
             query.setParameter("variableTipoAula", tipoAula);
             query.setParameter("anio", anio);
-            query.setParameter("periodo", periodo);
             
             listaRetorno = query.list();
             session.close();
@@ -451,7 +450,6 @@ public class AulaDAO {
             query.setParameter("variableHoraInicio", sqlHoraInicio);
             query.setParameter("variableHoraFin", sqlHoraFin);
             query.setParameter("anio", anio);
-            query.setParameter("periodo", periodo);
             query.setParameter("numeroAula", a.getNumeroAula());
             
             listaRetorno = query.list();            
