@@ -440,7 +440,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 topFrame.add(panelMenuBedel, BorderLayout.CENTER);
                 this.setVisible(false);
                 topFrame.remove(this);
-                topFrame.setSize(700,600); 
+                topFrame.setSize(500,500); 
             
             }else{
                 ReservaPeriodica reservaP = new ReservaPeriodica();
@@ -535,7 +535,7 @@ public class ReservaAulasDisponibles extends javax.swing.JPanel {
                 topFrame.add(panelMenuBedel, BorderLayout.CENTER);
                 this.setVisible(false);
                 topFrame.remove(this);
-                topFrame.setSize(700,600); 
+                topFrame.setSize(500,500); 
             }
             }
         }

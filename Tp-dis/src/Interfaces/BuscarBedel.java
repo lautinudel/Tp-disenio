@@ -75,7 +75,7 @@ public class BuscarBedel extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Apellido");
 
-        jTextFieldApellido.setToolTipText("2 a 32 caracteres. Mayúsculas y minúsculas");
+        jTextFieldApellido.setToolTipText("32 caracteres. Mayúsculas y minúsculas");
 
         jCheckBoxTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +220,7 @@ public class BuscarBedel extends javax.swing.JPanel {
         if(this.jCheckBoxApellido.isSelected() && this.jCheckBoxTurno.isSelected()){
             
             //valido apellido
-            if(GV.validarApellido(this.jTextFieldApellido.getText())){
+            if(GV.validarApellidoCaracEspeciales(this.jTextFieldApellido.getText())){
                  
                  //busco segun turno y apellido
                  if(this.jComboBoxTurno.getSelectedItem().toString().equals("Mañana")){
@@ -261,7 +261,7 @@ public class BuscarBedel extends javax.swing.JPanel {
             //solo apellido
             if(this.jCheckBoxApellido.isSelected()){
                 //valido
-               if(GV.validarApellido(this.jTextFieldApellido.getText())){
+               if(GV.validarApellidoCaracEspeciales(this.jTextFieldApellido.getText())){
                    bedeles = GB.buscarBedelApellido(this.jTextFieldApellido.getText());
                    if(!bedeles.isEmpty()){
                        //muestro en tabla

@@ -199,21 +199,36 @@ public class GestorValidacion {
         retorno[1]=1;
         retorno[2]=1;
         
-        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") || nombre.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") || this.caracteres(nombre)/*nombre.matches("(.*)[%+-;&$=*#!¡](.*)")*/)
             retorno[0]=0;
         
-        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || this.caracteres(apellido)/*apellido.matches("(.*)[%+-;&$=*#!¡](.*)")*/)
             retorno[1]=0;
         
-        if(usuario.length()<6 || usuario.length()>32 || usuario.matches(".*\\d.*") || usuario.matches("[\\p{Punct}]") || usuario.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(usuario.length()<6 || usuario.length()>32 || usuario.matches(".*\\d.*") || usuario.matches("[\\p{Punct}]") || this.caracteres(usuario)/*usuario.matches("(.*)[%+-;&$=*#!¡](.*)")*/)
             retorno[2]=0;
         
        return retorno; 
     }
+    private boolean caracteres(String password){
+       char clave;
+       int i=0;
+       boolean tiene_carac = false;
+       while (i < password.length() && tiene_carac== false){
+            clave = password.charAt(i);
+            String passValue = String.valueOf(clave);
+            /*\\p{Punct}	Punctuation: One of !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~*/
+            if (passValue.matches("\\p{Punct}")) {
+                    tiene_carac = true;
+            }
+            i++;
+       }
+       return tiene_carac;
+    }
     
     public boolean validarApellido (String apellido){
         
-        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(apellido.length()<2 || apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || this.caracteres(apellido)/*apellido.matches("(.*)[%+-;&$=*#!¡](.*)")*/)
             return false;
         else return true;
         
@@ -221,14 +236,14 @@ public class GestorValidacion {
     
     public boolean validarApellidoCaracEspeciales (String apellido){
         
-        if(/*apellido.length()<2 || apellido.length()>32 ||*/ apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || apellido.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(/*apellido.length()<2 || */apellido.length()>32 || apellido.matches(".*\\d.*") || apellido.matches("[\\p{Punct}]") || /*apellido.matches("(.*)[%+-;&$=*#!¡](.*)")*/this.caracteres(apellido))
             return false;
         else return true;
         
     }
     
     public boolean validarNombre(String nombre){
-        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") || nombre.matches("(.*)[%+-;&$=*#!¡](.*)"))
+        if(nombre.length()<2 || nombre.length()>32 || nombre.matches(".*\\d.*") || nombre.matches("[\\p{Punct}]") ||/* nombre.matches("(.*)[%+-;&$=*#!¡](.*)")*/this.caracteres(nombre))
             return false;
         else return true;
     }
