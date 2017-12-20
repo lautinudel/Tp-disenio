@@ -6,6 +6,7 @@
 package Gestores;
 
 
+import Modelo.TipoAula;
 import Persistencia.ReservaEsporadicaDao;
 import Persistencia.ReservaPeriodicaDao;
 import java.text.ParseException;
@@ -103,7 +104,7 @@ public class GestorValidacion {
         
     }*/
  
-    public Boolean valUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
+    public Boolean valUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio, TipoAula tipo, ArrayList<TipoAula> tiposAula){
  
         boolean esUnico = false;
  
@@ -113,7 +114,7 @@ public class GestorValidacion {
  
         //Si los array están vacios es unico
  
-        if(!fechas.isEmpty() && !horariosInicio.isEmpty()){
+        if(!fechas.isEmpty() && !horariosInicio.isEmpty() && !tiposAula.isEmpty()){
  
             //Si no contiene a la fecha es unico 
  
@@ -149,6 +150,10 @@ public class GestorValidacion {
  
                     return true;
  
+                }else{
+                    if(horariosInicio.get(fila).equalsIgnoreCase(horaAValidar) && (!tiposAula.get(fila).equals(tipo))){
+                        return true;
+                    }
                 }
  
             }

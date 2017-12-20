@@ -229,10 +229,10 @@ public class AulaDAO {
                     "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r "+
                     "WHERE a.activo = 1 AND a.numeroAula = d.id.aulaNumeroAula AND "+
                     "d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica AND "+
-                    "((r.activo = 1) AND YEAR(d.id.dia) = :anio AND "+
-                    "((d.periodo = :periodo OR d.periodo = 'Anual') "+
+                    "(((r.activo = 1) AND YEAR(d.id.dia) = :anio AND "+
+                    "(d.periodo = :periodo "+
                     "AND (DAYNAME(d.id.dia) != :variableDia OR (DAYNAME(d.id.dia) = :variableDia AND "+
-                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin))) ) OR "+
+                    "(:variableHoraInicio >= d.id.horaFin OR d.id.horaInicio >= :variableHoraFin))) )) OR "+
                     "(r.activo = 0)) "+
                     "AND a.capacidad >= :variableCapacidad "+
                     "AND d.tipoAula = :variableTipoAula");
@@ -589,7 +589,7 @@ public class AulaDAO {
         
     } 
     
-    public List<Aula> reservasNingúnPeriodo(int anio){
+    public List<Aula> reservasNingunPeriodo(int anio){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
@@ -606,6 +606,44 @@ public class AulaDAO {
         session.close();
         return listaRetorno;
     }
+    
+    public List<Aula> reservasPrimerCuatrimestre(int anio){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        
+        Query query = session.createQuery("SELECT DISTINCT a " +
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r " +
+                    "WHERE a.activo = 1 AND a.numeroAula = d.id.aulaNumeroAula " +
+                    "AND a.numeroAula = d.id.aulaNumeroAula AND d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica " +
+                    "AND r.activo = 1 AND YEAR(d.id.dia) = :anio AND " +
+                    "(d.periodo = 'Primercuatrimestre' OR d.periodo = 'Anual' )");
+        query.setParameter("anio", anio);
+        List<Aula> listaRetorno = query.list();
+        
+        session.close();
+        return listaRetorno;
+    }
+        
+        public List<Aula> reservasSegundoCuatrimestre(int anio){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        
+        Query query = session.createQuery("SELECT DISTINCT a " +
+                    "FROM Aula a, DiaReservaEsporadica d, ReservaEsporadica r " +
+                    "WHERE a.activo = 1 AND a.numeroAula = d.id.aulaNumeroAula " +
+                    "AND a.numeroAula = d.id.aulaNumeroAula AND d.id.reservaEsporadicaIdReservaEsporadica = r.idReservaEsporadica " +
+                    "AND r.activo = 1 AND YEAR(d.id.dia) = :anio AND " +
+                    "(d.periodo = 'SegundoCuatrimestre' OR d.periodo = 'Anual' )");
+        query.setParameter("anio", anio);
+        List<Aula> listaRetorno = query.list();
+        
+        session.close();
+        return listaRetorno;
+    }
+        
+        
     public List<Aula> consultaObtenerDisponibilidadSinReservas(int cantAlumnos, TipoAula tipoAula){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

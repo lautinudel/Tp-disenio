@@ -1477,12 +1477,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
             topFrame.mensajeEmergente("Falta datos", "Debe ingresar la cantidad de alumnos");
         }
         ArrayList<String> fechas = new ArrayList<String>(); 
-        ArrayList<String> horasInicio = new ArrayList<String>(); 
+        ArrayList<String> horasInicio = new ArrayList<String>();
+        ArrayList<TipoAula> tiposAulas = new ArrayList<>(); 
          
         llenarFechas(fechas); 
-        llenarHorasInicio(horasInicio); 
+        llenarHorasInicio(horasInicio);
+        llenarTiposAula(tiposAulas);
          
-        boolean unico = gestorReserva.validarUnicidad(this.fecha.getText(),this.horaInicio.getText(), fechas, horasInicio);
+        boolean unico = gestorReserva.validarUnicidad(this.fecha.getText(),this.horaInicio.getText(), fechas, horasInicio, aula, tiposAulas);
         
         if( unico && diasPosteriores && fechaDato != null && horaInicioDato != null && duracionDato != 0 && cantAlumnos != 0 && this.tabla.getRowCount() < 6){ 
             Object row[] = {this.fecha.getText(),this.horaInicio.getText(),duracion.getSelectedItem().toString(),aula,cantAlumnos}; 
@@ -1507,6 +1509,14 @@ public class RegistrarReserva extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
+    private void llenarTiposAula (ArrayList<TipoAula> aulas){ 
+        for(int i=0; i<tabla.getRowCount() ; i++){ 
+            //Por cada fila guardo el tipoAula
+            
+            aulas.add((TipoAula)this.tabla.getModel().getValueAt(i, 3)); 
+        } 
+    }
+    
     private void llenarHorasInicio (ArrayList<String> fechas){ 
         for(int i=0; i<tabla.getRowCount() ; i++){ 
             //Por cada fila guardo el horario de inicio 

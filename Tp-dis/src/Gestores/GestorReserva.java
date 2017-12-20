@@ -10,6 +10,7 @@ import Modelo.Docente;
  
 import Modelo.ReservaEsporadica;
 import Modelo.ReservaPeriodica;
+import Modelo.TipoAula;
 import Persistencia.ActividadUniversitariaDAO;
 import Persistencia.DocenteDao;
 import Persistencia.NewHibernateUtil;
@@ -40,11 +41,11 @@ public class GestorReserva {
     }*/
     
     
-    public boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio){
+    public boolean validarUnicidad(String fechaAValidar, String horaAValidar, ArrayList<String> fechas, ArrayList<String> horariosInicio, TipoAula aula, ArrayList<TipoAula> tiposAula ){
  
         GestorValidacion gestorVal = new GestorValidacion();
  
-        return gestorVal.valUnicidad(fechaAValidar, horaAValidar, fechas, horariosInicio);
+        return gestorVal.valUnicidad(fechaAValidar, horaAValidar, fechas, horariosInicio, aula, tiposAula);
  
     }
     

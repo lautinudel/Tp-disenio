@@ -45,6 +45,8 @@ public class GestorAula {
         List<Aula> auxiliar = new ArrayList();
         List<Aula> listaAulasDisponiblesPeriodica = new ArrayList();
         List<Aula> listaAulasReservasNinguno = new ArrayList();
+        List<Aula> listaAulasReservasPrimero = new ArrayList();
+        List<Aula> listaAulasReservasSegundo = new ArrayList();
         ArrayList<Aula> copia1, copia2;
         boolean nohayEsporadicas = false, nohayPeriodicas = false;
         ArrayList<Boolean> arregloEsporadicas = new ArrayList<>();
@@ -114,18 +116,24 @@ public class GestorAula {
                 
                 if(nohayEsporadicas==false && nohayPeriodicas==false){
                     for(Aula a: listaAulasDisponiblesEsporadica){
-                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio)){
                             auxiliar.add(a);
+                            System.out.println("Aula agregada: "+ a.getNumeroAula());
+                        }
                     }
                     listaAulasDisponiblesEsporadica.clear();
-                    listaAulasDisponiblesEsporadica=auxiliar;
-                
+                    listaAulasDisponiblesEsporadica=new ArrayList(auxiliar);
+                    auxiliar.clear();
+                }
+                if(nohayPeriodicas==false && nohayEsporadicas==false){
                     for(Aula a: listaAulasDisponiblesPeriodica){
-                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio)){
                             auxiliar.add(a);
+                            
+                        }
                     }
                     listaAulasDisponiblesPeriodica.clear();
-                    listaAulasDisponiblesPeriodica=auxiliar;
+                    listaAulasDisponiblesPeriodica=new ArrayList(auxiliar);
                     auxiliar.clear();
                 }
             }
@@ -192,16 +200,64 @@ public class GestorAula {
         }
         
         //consulta aulas en periodo ninguno:
-        if(tipoReserva==TipoReserva.Periodica){
-            listaAulasReservasNinguno = aulaDao.reservasNingúnPeriodo(anio);
-            for(int t=0; t<listaAulasReservasNinguno.size(); t++){
-                 if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(t), horaInicio.get(t), horaFin.get(t), listaAulasReservasNinguno.get(t), periodos.get(t), anio))
-                     auxiliar.add(listaAulasReservasNinguno.get(t));
-            }
+        for(int r=0; r<aulas.size(); r++){
+            if(tipoReserva==TipoReserva.Periodica && periodos.get(0)==PeriodoEnum.Anual){
+                auxiliar.clear();
+                listaAulasReservasNinguno = aulaDao.reservasNingunPeriodo(anio);
+                for(int t=0; t<listaAulasReservasNinguno.size(); t++){
+                    if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(r), horaInicio.get(r), horaFin.get(r), listaAulasReservasNinguno.get(r), periodos.get(r), anio))
+                        auxiliar.add(listaAulasReservasNinguno.get(t));
+                }
             
-            listaAulasReservasNinguno.clear();
-            listaAulasReservasNinguno = auxiliar;
+                listaAulasReservasNinguno.clear();
+                listaAulasReservasNinguno = new ArrayList(auxiliar);
+            }
+            /*
+            else if (tipoReserva==TipoReserva.Periodica && periodos.get(0)==PeriodoEnum.SegundoCuatrimestre){
+                auxiliar.clear();
+                listaAulasReservasNinguno = aulaDao.reservasNingunPeriodo(anio);
+                for(int t=0; t<listaAulasReservasNinguno.size(); t++){
+                    if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(r), horaInicio.get(r), horaFin.get(r), listaAulasReservasNinguno.get(r), periodos.get(r), anio))
+                        auxiliar.add(listaAulasReservasNinguno.get(t));
+                }
+            
+                listaAulasReservasNinguno.clear();
+                listaAulasReservasNinguno = new ArrayList(auxiliar);
+
+                auxiliar.clear();
+                listaAulasReservasPrimero = aulaDao.reservasPrimerCuatrimestre(anio);
+                for(int t=0; t<listaAulasReservasPrimero.size(); t++){
+                    if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(r), horaInicio.get(r), horaFin.get(r), listaAulasReservasPrimero.get(r), periodos.get(r), anio))
+                        auxiliar.add(listaAulasReservasPrimero.get(t));
+                }
+            
+                listaAulasReservasPrimero.clear();
+                listaAulasReservasPrimero = new ArrayList(auxiliar);
+
+            }else if(tipoReserva==TipoReserva.Periodica && periodos.get(0)==PeriodoEnum.PrimerCuatrimestre){
+                auxiliar.clear();
+                listaAulasReservasNinguno = aulaDao.reservasNingunPeriodo(anio);
+                for(int t=0; t<listaAulasReservasNinguno.size(); t++){
+                    if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(r), horaInicio.get(r), horaFin.get(r), listaAulasReservasNinguno.get(r), periodos.get(r), anio))
+                        auxiliar.add(listaAulasReservasNinguno.get(t));
+                }
+            
+                listaAulasReservasNinguno.clear();
+                listaAulasReservasNinguno = new ArrayList(auxiliar);
+
+                auxiliar.clear();
+                listaAulasReservasSegundo = aulaDao.reservasSegundoCuatrimestre(anio);
+                for(int t=0; t<listaAulasReservasSegundo.size(); t++){
+                    if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(r), horaInicio.get(r), horaFin.get(r), listaAulasReservasPrimero.get(r), periodos.get(r), anio))
+                        auxiliar.add(listaAulasReservasSegundo.get(t));
+                }
+            
+                listaAulasReservasSegundo.clear();
+                listaAulasReservasSegundo = new ArrayList(auxiliar);
+            }
+             */
         }
+        
         
         
         //Consulta aulas sin reserva:

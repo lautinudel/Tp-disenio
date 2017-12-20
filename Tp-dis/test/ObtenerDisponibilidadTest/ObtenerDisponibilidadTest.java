@@ -98,7 +98,7 @@ public class ObtenerDisponibilidadTest {
               //--------------------------------------------------------------
         //--------------------------------------------------------------
         //Probando metodo ObtenerDisponibilidad
-        String dia1 = "2018-06-04"; //Lunes
+        String dia1 = "2018-04-03"; //Martes
         String dia2 = "2018-05-05"; //Sabado
         String dia3 = "2017-12-21"; //Jueves
         String dia4 = "2018-03-05"; //Lunes
@@ -588,7 +588,7 @@ public class ObtenerDisponibilidadTest {
                 retorno=true;
             session.close();*/
         
-        
+        /*
          java.sql.Time sqlHoraInicio = new java.sql.Time(time1.getTime());
         java.sql.Time sqlHoraFin = new java.sql.Time(timeFin1.getTime());
         
@@ -615,7 +615,16 @@ public class ObtenerDisponibilidadTest {
             
             System.out.println(listaRetorno);
                 
-            session.close();
+            session.close();*/
+        
+        /*
+        AulaDAO aulaDao  = new AulaDAO();
+        
+        ArrayList<Aula> auxiliar = new ArrayList<>();
+        if(aulaDao.consultaAulaSinSolapamientoConEsporadicas2(date1, time1, timeFin1,a, PeriodoEnum.PrimerCuatrimestre, an2018io))
+                            auxiliar.add(a);
+        
+        */
        exit(0);
     }
 }
