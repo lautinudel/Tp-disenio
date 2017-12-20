@@ -116,24 +116,18 @@ public class GestorAula {
                 
                 if(nohayEsporadicas==false && nohayPeriodicas==false){
                     for(Aula a: listaAulasDisponiblesEsporadica){
-                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio)){
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
                             auxiliar.add(a);
-                            System.out.println("Aula agregada: "+ a.getNumeroAula());
-                        }
                     }
                     listaAulasDisponiblesEsporadica.clear();
-                    listaAulasDisponiblesEsporadica=new ArrayList(auxiliar);
-                    auxiliar.clear();
-                }
-                if(nohayPeriodicas==false && nohayEsporadicas==false){
+                    listaAulasDisponiblesEsporadica=auxiliar;
+                }if(nohayEsporadicas==false && nohayPeriodicas==false){
                     for(Aula a: listaAulasDisponiblesPeriodica){
-                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio)){
+                        if(!aulaDao.consultaAulaSinSolapamientoConEsporadicas2(dias.get(i), horaInicio.get(i), horaFin.get(i), a, periodos.get(i), anio))
                             auxiliar.add(a);
-                            
-                        }
                     }
                     listaAulasDisponiblesPeriodica.clear();
-                    listaAulasDisponiblesPeriodica=new ArrayList(auxiliar);
+                    listaAulasDisponiblesPeriodica=auxiliar;
                     auxiliar.clear();
                 }
             }
@@ -201,7 +195,7 @@ public class GestorAula {
         
         //consulta aulas en periodo ninguno:
         for(int r=0; r<aulas.size(); r++){
-            if(tipoReserva==TipoReserva.Periodica && periodos.get(0)==PeriodoEnum.Anual){
+            if(tipoReserva==TipoReserva.Periodica){
                 auxiliar.clear();
                 listaAulasReservasNinguno = aulaDao.reservasNingunPeriodo(anio);
                 for(int t=0; t<listaAulasReservasNinguno.size(); t++){
